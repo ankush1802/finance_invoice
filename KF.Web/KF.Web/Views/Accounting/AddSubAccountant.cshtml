@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "AddSubAccountant";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Test Page",
+    HeaderSubtitle = "Index",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Index",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <h2>Dashboard</h2>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

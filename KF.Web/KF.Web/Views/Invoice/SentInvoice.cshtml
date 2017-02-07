@@ -1,0 +1,173 @@
+﻿@model KF.Web.Models.ReceivedInvoiceListViewModel
+@{
+    ViewBag.Title = "SentInvoice";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+
+@{
+    long SelectedActiveUser = 0;
+    int userid = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+    }
+}
+
+@section scripts
+{
+<link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+<script src="~/ThemeAssets/jquertable/Scripts/newgrid.js"></script>
+<script src="~/ThemeAssets/Gridjs/ActiverSentInvoiceListGrid.js"></script>
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            if (window.location.href.indexOf("SentInvoice/0") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#sentinvoice").addClass("active");
+                $("#sentinvoice").css("color", "#1CAF9A");
+                $("#mains2recinvpro").css("display", "block");
+            }
+
+            setInterval(function () {
+            }, 10);
+        });
+    </script>
+}
+@{
+    if ((string)TempData["PdfResult"] != null)
+    {
+
+        <script>
+
+            window.open("@TempData["PdfResult"].ToString()", '_blank');
+
+        </script>
+    }
+
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "SENT INVOICE",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Sent Invoice",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-sm-12">
+
+                <button class="btn btn-primary btn-block top-back-button" onclick="goBack()">Back</button>
+
+
+                @Html.Partial("~/Views/Shared/_PageHeader.cshtml")
+            </div>
+        </div>
+
+        <br />
+        <!--User's List-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+
+                    <!-- /.row -->
+                    @{
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Save")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Save Successfully.</p></div></div>
+                            <br />
+                        }
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Send")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Sent Successfully.</p></div></div>
+                            <br />
+                        }
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Delete")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Deleted Successfully.</p></div></div>
+                            <br />
+                        }
+                    }
+                    <br />
+
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 class="sub-heading">Sent Invoice Details</h5>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="tableScroll-container customer-list-table">
+                                @{
+                                    var selectedUser = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+                                    if (selectedUser == null)
+                                    {
+                                        //var selectedUser2 = KF.Web.Models.UserData.GetCurrentUserData();
+                                        var selectedUser2 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                                        userid = Convert.ToInt32(selectedUser2.Id);
+                                    }
+                                    else
+                                    {
+                                        var selectedUser1 = KF.Web.Models.UserData.GetCurrentUserData();
+                                        userid = Convert.ToInt32(selectedUser1.Id);
+                                        //using (var db = new KF.Entity.KFentities())
+                                        //{
+                                        //    userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.Email).Select(s => s.Id).FirstOrDefault());
+                                        //}
+                                    }
+                                    //var selectedUser = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+                                    //if (selectedUser == null)
+                                    //{
+                                    //    var selectedUser2 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                                    //    userid = Convert.ToInt32(selectedUser2.Id);
+                                    //}
+                                    //else
+                                    //{
+                                    //    using (var db = new KF.Entity.KFentities())
+                                    //    {
+                                    //        userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.Email).Select(s => s.Id).FirstOrDefault());
+                                    //    }
+                                    //}
+                                    string EmailToo = string.Empty;
+                                    <table id="ActiverSentInvoiceListGrid" class="active-user-table" data-source="@Url.Action("SentInvoiceList", "Invoice", new { Id = userid })"></table>
+                                }
+                                <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+                                <script>
+
+                                    setInterval(function () {
+
+                                        $('#ActiverSentInvoiceListGrid tr').each(function () {
+                                            $(this).find("th").eq(7).hide();
+                                            $(this).find("td").eq(7).hide();
+                                        });
+                                    }, 10);
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

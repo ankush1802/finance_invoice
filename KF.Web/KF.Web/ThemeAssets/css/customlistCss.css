@@ -1,0 +1,40 @@
+﻿.picTitle h3 {display: block;font-size: 18px;font-weight: bold;width: 100%;}
+.downloadIcon{float:left;background-size:25px;background-repeat:no-repeat;}
+.deleteIcon{background-size:25px;background-repeat:no-repeat;}
+
+.form-group.btn-padding button {margin-top: 5px;}
+  .panel-listing ul {list-style: none;padding:0;}
+    .panel-listing li {border-bottom: 1px dashed #bce8f1;}
+    .panel-listing li:last-child {border-bottom:0px;}
+    .panel-listing a {text-decoration: none;color: #333;text-transform:uppercase;padding:10px 5px;display:inline-block;}
+    .panel-listing a::before {content: "\bb";padding-right: 5px;}
+    .panel-body.panel-listing li:nth-child(2n){background: #f0f0f0;}
+
+
+    .searchBar{float: left;margin: 15px 0;width: 100%;border-bottom: 1px solid #ccc;padding-bottom: 15px;}
+.searchIcon{background:url(../images/searchIcon.png) no-repeat;background-position:right 5px center;padding-right:35px;}
+
+.box-area{margin-top:10px;float:left;width:100%;}
+.picArea{background:url(../images/noUser.png) no-repeat;width:100%;height:auto;min-height:400px;background-position:center center;position:relative;background-size:cover;}
+.folderArea{background:url(../images/folder.png) no-repeat;width:100%;height:auto;min-height:400px;background-position:center center;position:relative;background-size:cover;}
+
+.picTitle{position:absolute;bottom:0;width:100%;padding:10px;background:#000;background:rgba(0,0,0,.5);color:#fff;}
+.picTitle h3{font-size:18px;font-weight:bold;}
+.astrickIcon{color:#f00;font-size:35px;padding:10px;}
+.headingTitle{float:left;}
+.deleteIcon{background:url(../images/delete.png) no-repeat;width:40px;height:40px;background-size:100%;float:right;margin:0;margin-top:5px;background-position:center;}
+.downloadIcon{background:url(../images/download.png) no-repeat;width:40px;height:40px;background-size:100%;float:right;margin:0;margin-top:5px;background-position:center;background-color:#fff;}
+
+.searchBar h3 {font-size:35px;font-weight:bold;text-transform:uppercase;margin:0;color:#428bca;}
+h3.headingTitle a {color:#4891f6;}
+h3.headingTitle a:hover {color:#fff;text-decoration:none;}
+
+/*custom box css*/
+.custom-picContainer {position:relative;}
+
+
+@media(max-width:767px)
+{
+	.picArea{width:100%;background-position:center;background-size:cover;margin-bottom:20px;}
+	.folderArea{width:100%;background-position:center;background-size:cover;margin-bottom:20px;}
+}

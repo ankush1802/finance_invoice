@@ -1,0 +1,51 @@
+﻿@model Tuple<KF.Entity.UserRegistration,Int32>
+
+
+
+<style>
+    .date-sec::before {
+        content: "" !important;
+    }
+
+    .date-sec {
+    background: rgb(50, 118, 177) none repeat scroll 0 0;
+    color: #fff;
+    margin: -8px -15px;
+    padding: 8px;
+    float: right;
+    border-radius: 4px;
+    min-width: 200px;
+}
+
+
+</style>
+
+
+    @if (Model.Item2 > 0)
+    {
+        var selectedUser = KF.Web.Models.UserData.GetUserData(Model.Item2);
+        <ol class="breadcrumb">
+            <li class="text-success">
+                <i class="fa fa-users"></i> Currently selected user is @selectedUser.Email / @selectedUser.FirstName  @selectedUser.LastName
+            </li>
+            <li class="date-sec" style="min-width:200px;">
+                <i class="fa fa-calendar" aria-hidden="true"> &nbsp;</i>  @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) @DateTime.Now.Day, @DateTime.Now.Year
+            </li>
+        </ol>
+    }
+    else
+    {
+        if (Model.Item1.RoleId != 1)
+        {
+            <ol class="breadcrumb">
+                <li class="text-success">
+                    <i class="fa fa-users"></i> Welcome @Model.Item1.Email / @Model.Item1.FirstName  @Model.Item1.LastName
+                </li>
+                <li class="date-sec">
+                    <i class="fa fa-calendar" aria-hidden="true"> &nbsp;</i>  @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) @DateTime.Now.Day, @DateTime.Now.Year
+                </li>
+            </ol>
+        }
+    }
+
+

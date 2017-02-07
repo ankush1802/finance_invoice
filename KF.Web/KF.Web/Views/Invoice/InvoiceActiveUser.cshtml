@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "InvoiceActiveUser";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+}
+
+
+
+@section scripts
+{
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input:file').change(
+                function () {
+                    var extension = $(this).val().substr(($(this).val().lastIndexOf('.') + 1));
+                    if (extension == "xlsx" || extension == "xls") {
+                        $("#lblError").text("");
+                        $("#btnUpload").removeAttr('disabled');
+                    }
+                    else {
+                        $("#lblError").text("Please select a valid excel file.");
+                        $("#btnUpload").attr('disabled', true);
+                    }
+
+                });
+        });
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoiceActiveUser") > -1) {
+                $("#ulsubitems").addClass("collapse in");
+                $("#createinvoice").addClass("active");
+            }
+            setInterval(function () {
+                
+            }, 10);
+        });
+    </script>
+}
+<style>
+    .fullwidth {
+        display: block;
+    }
+    .btn-padding button {
+        padding: 6px 10px !important;
+    }
+</style>
+
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Active User's <small>/ Overview</small>
+                </h1>
+                @Html.Partial("~/Views/Shared/_PageHeaderInvoice.cshtml")
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+
+
+

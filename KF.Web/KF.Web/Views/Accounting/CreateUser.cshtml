@@ -1,0 +1,402 @@
+﻿@model KF.Web.Models.UserWithAnAccountantViewModel
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+    <style>
+        .selectBox > #AreaCode {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            color: #555555;
+            display: block;
+            font-size: 14px;
+            height: 34px;
+            line-height: 1.42857;
+            padding: 6px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            vertical-align: middle;
+            margin-right: 9px;
+            display: inline-block;
+            width: 44%;
+        }
+
+        .selectBox .form-control {
+            display: inline-block;
+            width: 50%;
+        }
+
+        .clearLeft {
+            clear: left;
+        }
+
+        .field-validation-error {
+            font-size: 11px;
+        }
+
+        form .form-group{
+            margin-bottom: 15px !important;
+        }
+    </style>
+    <link href="~/ThemeAssets/css/sb_23Feb.css" rel="stylesheet" />
+    <script>
+    $('#IndustryId').change(function () {
+        $("#GetSubIndustryDiv").html("");
+        var industryID = $(this).val();
+        if (industryID > 0) {
+            var url = "/Kippin/Finance/Accounting/GetSubIndustryForAccountant?industryId=" + industryID;//Development
+           // var url = "/Accounting/GetSubIndustryForAccountant?industryId=" + industryID; //Local
+            $("#GetSubIndustryDiv").load(url);
+        }
+        else {
+            $("#GetSubIndustryDiv").html("");
+        }
+
+    });
+
+    </script>
+
+}
+
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Create User",
+    HeaderParentPageName = "Active User",
+    HeaderChildPageName = "Create User",
+    HeaderFontAwsomeIcon = "fa-user"
+})
+
+<!--Internal Page Header Section Start-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title text-center">Create User panel</div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form id="signupform" action="@Url.Action("CreateUser", "Accounting")" class="form-horizontal createUserForm" role="form" method="post">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="email" class="control-label">Email</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.Email, new { @id = "email", @class = "form-control", @required = "required", @placeholder = "Enter your Email" })
+                                            @Html.ValidationMessageFor(i => i.Email)
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="firstname" class="control-label">First Name</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.FirstName, new { @id = "firstName", @class = "form-control", @required = "required", @placeholder = "Enter your FirstName" })
+                                            @Html.ValidationMessageFor(i => i.FirstName)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="lastname" class="control-label">Last Name</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.LastName, new { @id = "lastName", @class = "form-control", @required = "required", @placeholder = "Enter your LastName" })
+                                            @Html.ValidationMessageFor(i => i.LastName)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Mobile Number</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            <div class="selectBox">
+                                                @Html.TextBoxFor(x => x.AreaCode, new { @id = "AreaCode", @class = "form-control", @required = "required", maxlength = "3", @placeholder = "Area Code" })
+                                                @Html.TextBoxFor(x => x.MobileNumber, new { @id = "mobileNumber", @class = "form-control", @required = "required", maxlength = "7", @placeholder = "Mobile Number" })
+                                                @Html.ValidationMessageFor(i => i.AreaCode)
+                                                @Html.ValidationMessageFor(i => i.MobileNumber)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="lastname" class="control-label">Company</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", @required = "required", @placeholder = "Enter your Company Name" })
+                                            @Html.ValidationMessageFor(i => i.CompanyName)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="corporationAddress" class="control-label">Corporation Address</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.CorporationAddress, new { @id = "corporationAddress", @required = "required", @class = "form-control", @placeholder = "Enter your CorporationAddress", style = "cursor:text;background-color:#fff;" })
+                                            @Html.ValidationMessageFor(i => i.CorporationAddress)
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="lastname" class="control-label">City</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.City, new { @id = "city", @class = "form-control", @required = "required", @placeholder = "Enter your City" })
+                                            @Html.ValidationMessageFor(i => i.City)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="lastname" class="control-label">Province</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(x => x.ProvinceId, Model.ProvinceList, "Select province", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(i => i.ProvinceId)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="lastname" class="control-label">Postal Code</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.PostalCode, new { @id = "postalCode", @class = "form-control", @required = "required", maxlength = "6", @placeholder = "Enter your PostalCode" })
+                                            @Html.ValidationMessageFor(i => i.PostalCode)
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="gstNumber" class="control-label">GST/HST Number</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.GSTNumber, new { @id = "gstNumber", @class = "form-control", @required = "required", maxlength = "10", @placeholder = "Enter your GSTNumber" })
+                                            @Html.ValidationMessageFor(i => i.GSTNumber)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="businessNumber" class="control-label">Business Number</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.TextBoxFor(x => x.BusinessNumber, new { @id = "businessNumber", @class = "form-control", @required = "required", maxlength = "20", @placeholder = "Enter your BusinessNumber" })
+                                            @Html.ValidationMessageFor(i => i.BusinessNumber)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Ownership</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(x => x.OwnershipId, Model.OwnershipList, "Select Ownership", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(i => i.OwnershipId)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @*@Html.Partial("_SubIndustry", Model)*@
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Industry</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(x => x.IndustryId, Model.IndustryList, "Select Industry", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(i => i.IndustryId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="GetSubIndustryDiv">
+                                        @{
+                                            if (Model.SubIndustryError == true)
+                                            {
+                                                <div class="form-group">
+                                                    <div class="col-lg-4">
+                                                        <label for="icode" class="control-label">Sub-Industry</label>
+                                                        <span class="form-required-field">*</span>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        @Html.DropDownListFor(x => x.SubIndustryId, Model.SubIndustryList, "Select Sub-Industry", new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(i => i.SubIndustryId)
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        }
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Taxation Start Day</label>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.DropDownList("TaxStartDay", new List<SelectListItem>
+                                        {
+                                             new SelectListItem { Text = "01", Value = "01" }
+                                            , new SelectListItem { Text = "02", Value = "02" }
+                                            , new SelectListItem { Text = "03", Value = "03" }
+                                            , new SelectListItem { Text = "04", Value = "04" }
+                                            , new SelectListItem { Text = "05", Value = "05" }
+                                            , new SelectListItem { Text = "06", Value = "06" }
+                                            , new SelectListItem { Text = "07", Value = "07" }
+                                            , new SelectListItem { Text = "08", Value = "08" }
+                                            , new SelectListItem { Text = "09", Value = "09" }
+                                            , new SelectListItem { Text = "10", Value = "10" }
+                                            , new SelectListItem { Text = "11", Value = "11" }
+                                             , new SelectListItem { Text = "12", Value = "12" }
+                                            , new SelectListItem { Text = "13", Value = "13" }
+                                            , new SelectListItem { Text = "14", Value = "14" }
+                                            , new SelectListItem { Text = "15", Value = "15" }
+                                            , new SelectListItem { Text = "16", Value = "16" }
+                                            , new SelectListItem { Text = "17", Value = "17" }
+                                            , new SelectListItem { Text = "18", Value = "18" }
+                                               , new SelectListItem { Text = "19", Value = "19" }
+                                            , new SelectListItem { Text = "20", Value = "20" }
+                                            , new SelectListItem { Text = "21", Value = "21" }
+                                             , new SelectListItem { Text = "22", Value = "22" }
+                                            , new SelectListItem { Text = "23", Value = "23" }
+                                            , new SelectListItem { Text = "24", Value = "24" }
+                                            , new SelectListItem { Text = "25", Value = "25" }
+                                            , new SelectListItem { Text = "26", Value = "26" }
+                                            , new SelectListItem { Text = "27", Value = "27" }
+                                            , new SelectListItem { Text = "28", Value = "28" }
+                                            , new SelectListItem { Text = "29", Value = "29" }
+                                            , new SelectListItem { Text = "30", Value = "30" }
+                                            , new SelectListItem { Text = "31", Value = "31" }
+                                         }, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Taxation Start Month</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(x => x.TaxStartMonthId, Model.MonthList, "Select Month", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(i => i.TaxStartMonthId)
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+                                            <label for="icode" class="control-label">Taxation Start Year</label>
+                                            <span class="form-required-field">*</span>
+                                        </div>
+
+                                        <div class="col-lg-7">
+                                            @Html.DropDownListFor(x => x.TaxStartYear, Model.YearList, "Select Year", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(i => i.TaxStartYear)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="form-group">
+                                <!-- Button -->
+                                <div class="col-md-12">
+
+                                    <div class="col-lg-offset-2 col-md-4 createuserBtn">
+                                        <input type="submit" value="Create User" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-12 top-margin-25">
+                                    <span style="color:#b94a48">*</span>
+                                    Mandatory fields are marked. It's recommended that all fields be completed.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

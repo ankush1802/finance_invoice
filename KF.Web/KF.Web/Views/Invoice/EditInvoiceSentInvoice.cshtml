@@ -1,0 +1,491 @@
+﻿@model KF.Web.Models.ReceivedInvoiceListViewModel
+@{
+    ViewBag.Title = "EditInvoiceSentInvoice";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+}
+
+
+@{
+    long SelectedActiveUser = 0;
+    int userid = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+    }
+}
+@{
+    var selectedUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+    using (var db = new KF.Entity.KFentities())
+    {
+        userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.EmailTo).Select(s => s.Id).FirstOrDefault());
+    }
+    string EmailToo = string.Empty;
+}
+
+@section scripts
+{
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/jquertable/Scripts/jquery-2.1.3.min.js"></script>
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+<script src="~/ThemeAssets/jquertable/Scripts/bootstrap.min.js"></script>
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+<script src="~/ThemeAssets/Gridjs/Invoice.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+    <script>
+        $(document).ready(function () {
+
+            if (window.location.href.indexOf("EditInvoiceSentInvoice") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#sentinvoice").addClass("active");
+                $("#sentinvoice").css("color", "#1CAF9A");
+                $("#mains2recinvpro").css("display", "block")
+            }
+
+            setInterval(function () {
+
+                //if (window.location.href.indexOf("EditInvoiceSentInvoice") > -1) {
+                //    $("#ulsubitems").addClass("collapse in");
+                //    $("#sentinvoice").addClass("active");
+                //}
+            }, 10);
+        });
+
+        $(document).ready(function () {
+
+            $("#contactperson").keydown(function (e) {
+                if (e.keyCode === 9)
+                    $('#dialog').dialog('open');
+            });
+            $("#shippingaddress").keydown(function (e) {
+                if (e.keyCode === 9)
+                    $('#dialog1').dialog('open');
+            });
+
+            $('#dialog').on('dialogclose', function (event) {
+                $('#telephone').focus();
+            });
+            $('#dialog1').on('dialogclose', function (event) {
+                $('#telephone').focus();
+            });
+            $("#btnSave").click(function () {
+              
+                var url = window.location.href;
+                if (url.indexOf("id") >= 0) {
+                    var finalURL = url.split("=");
+                    var invoiceid = finalURL[1];
+                }
+                var DepositePayments=$("#paidamounts").val();
+                var BalanceDues=$("#outstandingbalances").val();
+                var req = { ButtonType: 'Save', Type: 1, SectionType: 'Sent', ItemId: FinalClassficationItemId, ServiceType: FinalClassCustomerService, ServiceTypeId: FinalClassCustomerServiceTypeId, Id: invoiceid ,DepositePayment:DepositePayments,BalanceDue:BalanceDues}
+    
+                $.ajax({
+                    type: 'POST',
+                    data: req,
+                    url: '@Url.Action("EditInvoiceSentInvoice", "Invoice")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(req),
+                    success: function (data) {
+                        alert("Invoice Saved Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    },
+                    error: function (ob, errStr) {
+                        alert("Invoice Saved Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    }
+                });
+
+            });
+            $("#btnSend").click(function () {
+                var url = window.location.href;
+                if (url.indexOf("id") >= 0) {
+                    var finalURL = url.split("=");
+                    var invoiceid = finalURL[1];
+                }
+                var DepositePayments=$("#paidamounts").val();
+                var BalanceDues=$("#outstandingbalances").val();
+                var req = { ButtonType: 'Send', Type: 1, SectionType: 'Sent', ItemId: FinalClassficationItemId, ServiceType: FinalClassCustomerService, ServiceTypeId: FinalClassCustomerServiceTypeId, Id: invoiceid ,DepositePayment:DepositePayments,BalanceDue:BalanceDues}
+
+                $.ajax({
+                    type: 'POST',
+                    data: req,
+                    url: '@Url.Action("EditInvoiceSentInvoice", "Invoice")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(req),
+                    success: function (data) {
+                        alert("Invoice Sent Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    },
+                    error: function (ob, errStr) {
+                        alert("Invoice Sent Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    }
+                });
+
+            });
+            $("#btnDelete").click(function () {
+
+                var url = window.location.href;
+                if (url.indexOf("id") >= 0) {
+                    var finalURL = url.split("=");
+                    var invoiceid = finalURL[1];
+                }
+                var req = { ButtonType: 'Delete', Type:1, SectionType: 'Sent', Id: invoiceid }
+
+                $.ajax({
+                    type: 'POST',
+                    data: req,
+                    url: '@Url.Action("EditInvoiceSentInvoice", "Invoice")',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(req),
+                    success: function (data) {
+                        alert("Invoice Delete Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    },
+                    error: function (ob, errStr) {
+                        alert("Invoice Delete Successfully");
+                        window.location.href= "@Url.Action("InvoiceSentInvoice", "Invoice")";
+                    }
+                });
+
+            });
+        });
+
+        $(window).load(function () {
+            $("#load").fadeOut("slow");
+        })
+
+        $('#tblClassification_sentinvoice tr').each(function (i) {
+            i = i + 1;
+            if (i == 0) {
+            }
+            else {
+                var itemId = $("#ddrp_" + i).val();
+                var itemClassText = $("#ddrp_" + i).find("option:selected").text();
+                var id = $("#spn_" + i).text();
+                if (itemId != "" && itemId!=null) {
+                    addClassficationItemId(id);
+                    addClassCustomerService(itemClassText);
+                    addClassCustomerServiceTypeId(itemId);
+
+                }
+
+            }
+        });
+    </script>
+    <script>
+        function FillClassificationArray(drpId) {
+            var splitText = drpId.split("_");
+            var itemId = $("#" + drpId).val();
+            var itemClassText = $("#" + drpId).find("option:selected").text();
+            var id = "";
+
+            if (splitText[1] <= 9) {
+                id = "0" + splitText[1];
+            }
+            else {
+                id = splitText[1];
+            }
+
+
+            //alert(FinalClassCustomerServiceTypeId);
+            var found = $.inArray(id, FinalClassficationItemId) > -1;
+            if (found == true) {
+                FinalClassCustomerService[splitText[1] - 1] = itemClassText;
+                FinalClassCustomerServiceTypeId[splitText[1] - 1] = itemId;
+                FinalClassficationItemId[splitText[1] - 1] = "0" + splitText[1];
+
+            }
+            else {
+                addClassficationItemId(id);
+                addClassCustomerService(itemClassText);
+                addClassCustomerServiceTypeId(itemId);
+            }
+
+
+            // alert(FinalClassficationItemId);
+            // alert(FinalClassCustomerService);
+            // alert(FinalClassCustomerServiceTypeId);
+        };
+    </script>
+
+    <script>
+        function myFunctionLive() {
+            //alert('');
+            $('form').submit();
+
+        }
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            //called when key is pressed in textbox
+            $(".numberOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
+                }
+            });
+
+        });
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <script>
+        $("#corporationaddress").css("height", 90);
+        $("#shippingaddress").css("height", 90);
+    </script>
+
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "EDIT SENT INVOICE",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Edit Sent Invoice",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper">
+    <div class="container">
+        <div class="row">
+
+            @{
+                if (TempData["customerupdatedetails"] == "Success")
+                {
+                    <br />
+                    <div class="row">
+                        <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Customer details successfully updated.</p></div>
+                    </div>
+                    <br />
+                }
+            }
+            <article class="col-sm-12">
+                <button class="btn btn-primary btn-block top-back-button bottom-margin" onclick="goBack()">Back</button>
+            </article>
+            <article class="col-sm-12">
+                <div class="form-box">
+                    <form id="signupform" action="@Url.Action("EditInvoiceSentInvoice", "Invoice")" class="form-horizontal" role="form" method="post">
+                        @Html.HiddenFor(s => s.Id)
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Invoice Date
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.InvoiceDate, new { @id = "invoicedates", @class = "form-control", @placeholder = "Invoice Date", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Invoice Number
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.InvoiceNumber, new { @id = "invoicenos", @class = "form-control", @placeholder = "Invoice Number", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Supplier Name
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.Username, new { @id = "suppliernames", @class = "form-control", @placeholder = "Supplier Name", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Customer Name
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.FirstName, new { @id = "customernames", @class = "form-control", @placeholder = "Customer Name", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Invoice Amount
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.Total, new { @id = "invoiceamounts", @class = "form-control", @placeholder = "Invoice Amount", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Paid Amount
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.DepositePayment, new { @id = "paidamounts", @class = "form-control", @placeholder = "Paid Amount", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Outstanding Balance
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.BalanceDue, new { @id = "outstandingbalances", @class = "form-control", @placeholder = "Outstanding Balance", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Flow Status
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.Pro_FlowStatus, new { @id = "flowstatuss", @class = "form-control", @placeholder = "Flow Status", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Status
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.Pro_Status, new { @id = "statuss", @class = "form-control", @placeholder = "Status", @readonly = "readonly" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-sm-12 classification">
+                            <div class="col-sm-12">
+                                <label class="col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        CLASSIFICATION
+                                    </span>
+                                </label>
+                                @{
+                                    if (Model != null)
+                                    {
+                                        var students = Model.ItemsCount;
+                                        using (var db = new KF.Entity.KFentities())
+                                        {
+                                            var test = db.tblItemDetails.Where(s => s.InvoiceId == @Model.Id).Select(s => new { s.ServiceTypeId, s.Item, s.ServiceType, s.ItemId }).ToList();
+
+                                            foreach (var itm in test)
+                                            {
+                                                <script>
+
+                                                    @*setInterval(function(){
+                                                        var item="";
+                                                        item=@itm.ItemId;
+
+                                                        var drdId="ddrp_"+ item;
+
+                                                        $("#"+drdId).val(@itm.ServiceTypeId);
+
+                                                    }, 10);*@
+                                                    setTimeout(function(){
+                                                        var item="";
+                                                        item=@itm.ItemId;
+
+                                                        var drdId="ddrp_"+ item;
+
+                                                        $("#"+drdId).val(@itm.ServiceTypeId);
+
+                                                    }, 100);
+
+                                                </script>
+                                                <div class="col-sm-12">
+                                                    <table id="tblClassification_sentinvoice">
+                                                        <tr>
+                                                            <td style="padding-right: 9px;">
+                                                                @Html.Label(itm.Item, new { @id = "spn_" + itm.ItemId.ToString() })
+
+                                                            </td>
+                                                            <td style="padding-right: 9px;">
+                                                                @*@Html.DropDownListFor(x => Model.Id, new SelectList(ViewBag.ddlSentInvoice, "Id", "ClassificationType"), new { @class = "form-control clsddl", @id = "ddrp_" + itm.ItemId.ToString(), @onchange = "FillClassificationArray(this.id)" })*@
+                                                                @Html.DropDownList("ddlSentInvoice", (SelectList)ViewBag.ddlSentInvoice, "Please Select", new { @class = "form-control clsddl", @id = "ddrp_" + itm.ItemId.ToString(), @onchange = "FillClassificationArray(this.id)" })
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            }
+
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="col-sm-12 form-button">
+                                @if (ViewBag.ButtonShow == "Draft")
+                                {
+                                    <a href="" class="btn btn-info" id="btnSend">Send</a>
+                                    <a href="Javascript:;" class="btn btn-info" id="btnSave">Save</a>
+                                    <a href="" class="btn btn-info" id="btnDelete">Delete</a>
+                                }
+                                else
+                                {
+                                    <a href="" class="btn btn-info" id="btnSend" style="display:none;">Send</a>
+                                    <a href="Javascript:;" class="btn btn-info" id="btnSave" style="display:none;">Save</a>
+                                    <a href="" class="btn btn-info" id="btnDelete" style="display:none;">Delete</a>
+                                    <script>
+                                        setTimeout(function () { $(".clsddl").attr("disabled", true); }, 100);
+
+
+                                    </script>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

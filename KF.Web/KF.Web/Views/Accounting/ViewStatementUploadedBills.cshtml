@@ -1,0 +1,73 @@
+﻿@model IEnumerable<string>
+
+   
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+        @{
+            string defaultImage = Url.Content("~/ThemeAssets/Images/no-thumb.jpg");
+            int dataslidecount = 0;
+            if (Model.Count() > 0)
+            {
+                               <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    @foreach (var image in Model)
+                    {
+                        <li data-target="#carousel-example-generic" data-slide-to="@dataslidecount" class="active"></li>
+                        dataslidecount = dataslidecount + 1;
+                    }
+
+                </ol>
+                int carsolCount = 0;
+                <div class="carousel-inner">
+                    @{
+                foreach (var image in Model)
+                {
+                    if (carsolCount == 0)
+                    {
+
+                        <div class="item active">
+                            <a class="activeBillImage" data-StatementId="@ViewBag.statementId" data-UserId="@ViewBag.userId" data-url="@Url.Content(image)">Remove Bill</a>
+                            <img src="@Url.Content(image)" alt="@Url.Content(image)">
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="item">
+                            <a class="activeBillImage" data-statementid="@ViewBag.statementId" data-userid="@ViewBag.userId" data-url="@Url.Content(image)">Remove Bill</a>
+                            <img src="@Url.Content(image)" alt="@Url.Content(image)">
+                        </div>
+
+                    }
+                    carsolCount = carsolCount + 1;
+                }
+                    }
+                </div>
+
+
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            }
+            else
+            {
+                    <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+
+                        <img src="@Url.Content("~/ThemeAssets/Images/no-thumb.jpg")" alt="...">
+                    </div>
+                </div>
+            }
+
+        }
+
+    </div>
+
+

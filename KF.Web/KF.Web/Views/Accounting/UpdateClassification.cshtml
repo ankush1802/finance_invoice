@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "UpdateClassification";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    string URL = "/Kippin/Finance/UpdateClassification.aspx?args=" + ViewBag.args;
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+@section scripts{
+    <script type="text/javascript">
+        function AdjustIframeHeightOnLoad() { document.getElementById("form-iframe").style.height = document.getElementById("form-iframe").contentWindow.document.body.scrollHeight + "px"; }
+        function AdjustIframeHeight(i) { document.getElementById("form-iframe").style.height = parseInt(i) + "px"; }
+    </script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Update Classification",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Update Classification",
+    HeaderFontAwsomeIcon = "fa-edit"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <iframe id="form-iframe" src="@URL" style="margin:0; width:100%; height:150px; border:none; overflow:hidden;" scrolling="no" onload="AdjustIframeHeightOnLoad()"></iframe>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <a class="btn btn-primary" style="margin-top:10px" href="@Url.Action("MannualClassification","Accounting")">Back</a>
+        </div>
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

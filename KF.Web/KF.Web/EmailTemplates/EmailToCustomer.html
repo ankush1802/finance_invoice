@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .im {
+            color: none !important;
+        }
+        .mail-container{
+          padding: 50px 100px 100px 100px;
+        }
+
+      
+    </style>    
+</head>
+<body>
+    <div class="mail-container" style="font-family:arial, helvetica, sans-serif;font-size:16px;line-height:20px;">
+        <img src="#CompanyLogo" alt="Company Logo" height="42" width="42">
+
+        <h4>Date : #InvoiceDate</h4>
+        <h4>Dear  : #Customername</h4>
+        <h4>Find attached your invoice sent to you from #companyname</h4> 
+
+       <table width="600px" border="2" cellspacing="0" cellpadding="0"margin:0 auto;padding:10px;border-radius:5px;">
+
+            <tr>
+                <td>Invoice Number
+                </td>
+                <td>Due Date</td>
+                <td>Invoice Amount</td>
+            </tr>
+
+           <tr>
+               <td>#InvoiceNumber</td>
+               <td>#DueDate</td>
+               <td>#Amount</td>
+           </tr>
+        </table>
+
+        <h4>Please review the details provided and confirm your acceptance. </h4>
+
+        <a href="#pdfpath"><h4>View Invoice</h4></a>
+
+        <h4>We would appreciate your prompt payment in accordance with the terms contained in the Invoice.</h4>
+
+        <h4>Thanks for your business!</h4>
+        <ul>
+            <li>#SenderName</li> 
+            <li>#companyname</li> 
+            <li>#Phn</li> 
+            <li>#Email</li> 
+        </ul>
+
+    </div>
+</body>
+
+
+</html>
+
+

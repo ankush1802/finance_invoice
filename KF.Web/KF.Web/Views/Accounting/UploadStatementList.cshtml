@@ -1,0 +1,302 @@
+﻿@model KF.Web.Models.UploadStatementParent
+@{
+    ViewBag.Title = "UploadStatementList";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+    <script src="~/ThemeAssets/js/jquery.unobtrusive-ajax.js"></script>
+    <link href="~/ThemeAssets/css/statementUpload.css" rel="stylesheet" />
+    <script>
+        $("document").ready(function () {
+            $("#bankstatementFile").change(function () {
+
+                SaveUploadedBankstatement();
+            });
+            function SaveUploadedBankstatement() {
+
+                //Binding the form datas
+                var formData = new FormData();
+                //   var a =$("#bankstatementFile")[0].files[0];
+                if ($('#FriendlyAccountName').length > 0) {
+                    if ($("#FriendlyAccountName").val() != "") {
+                        formData.append("FriendlyName", $("#FriendlyAccountName").val());
+                    }
+                }
+                else {
+                    formData.append("FriendlyName", $("#hdnFriendlyAccName").val());
+                }
+                // formData.append("FreindlyAccountName", $("#FriendlyAccountName").val());
+                //   formData.append("UserId", $("#UserId").val());
+                formData.append("selectedUserId", $("#selectedUserId").val());
+                formData.append("selectedStatementType", $("#selectedStatementType").val());
+
+                formData.append("bankid", $("#selectedBankId").val());
+                formData.append("bankname", $('#selectedBankId option:selected').text());
+                formData.append("file", ($("#bankstatementFile"))[0].files[0]);
+                //alert(formData);
+                $.ajax({
+                    // url: "/Kippin/Finance/Kippin/CheckExistingRecord",
+                    url: "/Kippin/Finance/Accounting/CheckExistingRecord",
+                  //  url: "/Accounting/CheckExistingRecord",
+                    type: "POST",
+                    data: formData,
+                    async: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, textStatus, jqXHR) {
+
+                        if (data.indexOf("ClosedFiscalYear") >= 0)
+                        {
+                            // var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "ClosedFiscalYear";
+                            var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "ClosedFiscalYear";
+                           // var url = "/Accounting/UploadStatement?result=" + "ClosedFiscalYear";
+                            window.location.href = url;
+                        }
+                            //close
+                        if (data.toLowerCase().indexOf("close") >= 0) {
+                            // var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "ClosedFiscalYear";
+                            var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "ClosedFiscalYear";
+                           // var url = "/Accounting/UploadStatement?result=" + "ClosedFiscalYear";
+                            window.location.href = url;
+                        }
+                        else if (data.toLowerCase().indexOf("false") >= 0) {
+                            $.ajax({
+                                //url: "/Kippin/Finance/Kippin/UploadBankStatement",
+                                url: "/Kippin/Finance/Accounting/UploadStatementList",
+                               // url: "/Accounting/UploadStatementList",
+                                type: "POST",
+                                data: formData,
+                                async: false,
+                                processData: false,
+                                contentType: false,
+                                success: function (data, textStatus, jqXHR) {
+
+
+                                    //  $("#spinner").removeClass("showProgress").addClass("displaynone");
+                                    if (data == "Success") {
+                                        // var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "true";
+                                        var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "true";
+                                      //  var url = "/Accounting/UploadStatement?result=" + "true";
+                                        window.location.href = url;
+                                    }
+
+                                    else {
+                                        // var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "false";
+                                        var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "false";
+                                       // var url = "/Accounting/UploadStatement?result=" + "false";
+                                        window.location.href = url;
+                                    }
+                                    //$("#NewsID").val("");
+                                    //$("#NewsTitle").val("");
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    //var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "false";
+                                   var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "false";
+                                    //var url = "/Accounting/UploadStatement?result=" + "false";
+                                    window.location.href = url;
+                                    // alert(jQuery.parseJSON(jqXHR. responseText)
+                                    //alert(errorThrown + "/" + jqXHR + "/" + textStatus);
+                                }
+                            });
+                        }
+                        else {
+                            var warningMsg = confirm("Data already existed for this month date " + data.replace("True", " ") + ". Do you want to merge the data?");
+                            if (warningMsg == true) {
+                                formData.append("UpdateDate", data.replace("True", " "));
+
+                                $.ajax({
+                                    // url: "/Kippin/Finance/Kippin/UploadBankStatement",
+                                    url: "/Kippin/Finance/Accounting/UploadStatementList",
+                                   // url: "/Accounting/UploadStatementList",
+                                    type: "POST",
+                                    data: formData,
+                                    async: false,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (data, textStatus, jqXHR) {
+
+                                        if (data == "Success") {
+                                            //var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "true";
+                                            var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "true";
+                                         //   var url = "/Accounting/UploadStatement?result=" + "true";
+                                            window.location.href = url;
+                                        }
+                                        else {
+                                            //var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "false";
+                                            var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "false";
+                                           // var url = "/Accounting/UploadStatement?result=" + "false";
+                                            window.location.href = url;
+                                        }
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        //var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "false";
+                                        var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "false";
+                                        //var url = "/Accounting/UploadStatement?result=" + "false";
+                                        window.location.href = url;
+                                    }
+                                });
+                            }
+                            else {
+                                // var url = "/Kippin/Finance/Kippin/Dashboard";
+                                var url = "/Kippin/Finance/Accounting/UploadStatement";
+                               // var url = "/Accounting/UploadStatement";
+                                window.location.href = url;
+                            }
+                            // alert("Data already existed for this month date " + data.replace("True", " "));
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //var url = "/Kippin/Finance/Kippin/Dashboard?result=" + "false";
+                        var url = "/Kippin/Finance/Accounting/UploadStatement?result=" + "false";
+                        //var url = "/Accounting/UploadStatement?result=" + "false";
+                        window.location.href = url;
+                    }
+                });
+                //return false;
+
+            }
+        });
+
+        $('#GetAccountNames').click(function () {
+            $("#lblerror").html("");
+            $("#lblerrorSelectBank").html("");
+
+            if ($("#selectedUserId").val() == "") {
+                $("#lblerror").html("Please select user for get account name list.");
+                return false;
+            }
+            else if ($("#selectedBankId").val() == "") {//selectedStatementType
+                $("#lblerrorSelectBank").html("Please select bank for get account name list.");
+                return false;
+            }
+            else {
+                $(this).parents('form').submit();
+            }
+        });
+        $("#btnUploadStatement").click(function () {
+            $("#lblerrorSelectBank").html("");
+            $("#lblFriendlyAccountNamerror").html("");
+            $("#lblerrorSelectStatement").html("");
+            $("#lblerror").html("");
+            if ($("#IsExisting").val() == "True") {
+
+                //yes case
+                if ($("#selectedUserId").val() == "") {
+                    $("#lblerror").html("Please select user for get account name list.");
+                    return false;
+                }
+                else if ($("#selectedBankId").val() == "") {
+                    $("#lblerrorSelectBank").html("Please select bank for get account name list.");
+                    return false;
+                }
+                else if ($("#selectedStatementType").val() == "") {
+                    $("#lblerrorSelectStatement").html("Please select statement type.");
+                    return false;
+                }
+                else {
+                    if ($('#Select_Account_name').length > 0) {
+                        if ($("#Select_Account_name").val() != "") {
+                            $("#hdnFriendlyAccName").val($("#Select_Account_name option:selected").text())
+                        }
+                    }
+
+                    if ($('#FriendlyAccountName').length > 0) {
+                        if ($("#FriendlyAccountName").val() != "") {
+                            $("#hdnFriendlyAccName").val($("#FriendlyAccountName").val())
+                        }
+                    }
+                    $("#bankstatementFile").click();
+                }
+            }
+            else {
+
+                //No case
+                if ($("#selectedBankId").val() == "") {
+                    $("#lblerrorSelectBank").html("Please select bank.");
+                    return false;
+                }
+                else if ($("#selectedStatementType").val() == "") {
+                    $("#lblerrorSelectStatement").html("Please select statement type.");
+                    return false;
+                }
+                else {
+
+                    if ($('#FriendlyAccountName').length > 0) {
+                        if ($("#FriendlyAccountName").val() == "") {
+
+                            $("#lblFriendlyAccountNamerror").html("Please insert friendly account name.");
+                            return false;
+                        }
+                        else if ($("#FriendlyAccountName").val() != "") {
+                            $("#hdnFriendlyAccName").val($("#FriendlyAccountName").val())
+                            $("#bankstatementFile").click();
+                        }
+
+                    }
+
+
+                    //   $(this).parents('form').submit();
+                }
+            }
+
+
+
+        });
+
+        //Load states on the basis of selected country
+        $(document.body).on('change', '#selectedBankId', function () {
+            $("#StatementTypeHtml").html("");
+            $("#dynamicAccNames").html("");
+
+            var seletedID = jQuery(this).val();
+            if (seletedID > 0) {
+                //var url = "/Kippin/Finance/Kippin/_GetStatementType?bankId=" + seletedID;
+                var url = "/Kippin/Finance/Accounting/_GetStatementType?bankId=" + seletedID;
+                //var url = "/Accounting/_GetStatementType?bankId=" + seletedID;
+                $("#StatementTypeHtml").load(url);
+            }
+            else {
+                $("#StatementTypeHtml").html("");
+            }
+        });
+    </script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Upload Section",
+    HeaderSubtitle = "Statement Upload",
+    HeaderParentPageName = "Upload Section",
+    HeaderChildPageName = "Statement Upload",
+    HeaderFontAwsomeIcon = "fa-upload"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <h2>Statement Upload</h2>
+        </div>
+    </div><!-- row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-12">
+                @Html.Partial("~/Views/Accounting/Partials/_BankUploadUserListForAccountant.cshtml", Model)
+            </div>
+            <div class="clearfix"></div>
+            <div id="GetFriendlyNameDiv"></div>
+            <input type="file" id="bankstatementFile" name="bankstatementFile" style="display: none;" accept=".csv" />
+            <input type="hidden" id="hdnFriendlyAccName" value="" name="hdnFriendlyAccName" />
+            <button id="btnUploadStatement" class="btn btn-primary" type="button">Upload Statement</button>
+        </div>
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

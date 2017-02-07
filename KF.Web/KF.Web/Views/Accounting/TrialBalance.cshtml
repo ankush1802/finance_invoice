@@ -1,0 +1,283 @@
+﻿@model IEnumerable<KF.Dto.Modules.FinanceReport.TrialBalanceDto>
+
+@{
+    ViewBag.Title = "TrialBalance";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+@section scripts{
+    <script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+    <link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+    <link href="~/ThemeAssets/css/main.css" rel="stylesheet" />
+
+    <script>
+        $(function () {
+            $('#txtStartDate').datetimepicker(
+                {
+                    format: 'YYYY-MM-DD HH:mm'
+                });
+            $('#txtEndDate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+        //$(function () {
+        //    $("#txtStartDate").datepicker();
+        //    $("#txtEndDate").datepicker();
+        //});
+        $(function () {
+            $("#btnPrintTrialReport").click(function () {
+                var contents = $("#printTrailDiv").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>Trial Report</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                //   frameDoc.document.write('<link href="style.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+
+    </script>
+
+    <style>
+        .customAmount {
+            white-space: nowrap;
+        }
+
+        tr.tax_heading th {
+            padding-top: 20px;
+        }
+
+        .doubleborder {
+            border-bottom: 2px solid #000000;
+            position: relative;
+        }
+
+            .doubleborder::after {
+                background: #000000 none repeat scroll 0 0;
+                bottom: -8px;
+                content: "";
+                height: 2px;
+                left: 0;
+                position: absolute;
+                width: 100%;
+            }
+
+        .sideborder::before {
+            background: #fff none repeat scroll 0 0;
+            bottom: -10px;
+            content: "";
+            height: 10px;
+            position: absolute;
+            right: 0;
+            width: 6px;
+            z-index: 9;
+        }
+    </style>
+
+}
+
+
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Reports",
+    HeaderSubtitle = "Trial Balance",
+    HeaderParentPageName = "Reports",
+    HeaderChildPageName = "Trial Balance",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="generalLedger">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+                <h2>Trial Balance Report</h2>
+                <hr />
+                <div class="inputBlocks">
+                    @using (Html.BeginForm("TrialBalanceFilter", "Accounting", FormMethod.Post))
+                    {
+                        if (TempData["UserId"] != null)
+                        {
+                            string userid = TempData["UserId"].ToString();
+                            <input type="hidden" id="selectedUserId" name="selectedUserId" value="@userid">
+                        }
+                       
+                        <input id="txtStartDate" name="txtStartDate" value="@ViewBag.Startdate" type="text" autocomplete="off" placeholder="Start Date" />
+                        <input id="txtEndDate" name="txtEndDate" type="text" value="@ViewBag.Enddate" autocomplete="off" placeholder="End Date" />
+                        <input id="txtjvid" name="txtjvid" type="text" value="@ViewBag.JVID" placeholder="JVID" />
+                        <input id="txtAccNo" name="txtAccNo" type="text" value="@ViewBag.AccountNumber" placeholder="Account Number" />
+                        <input type="submit" value="Search" />
+                        <button id="btnPrintTrialReport" type="button" class="btn btn-primary">Print</button>
+                    }
+                </div>
+                @{
+                    string PreviousYear = "";
+                    if (ViewBag.ReportHeader == null)
+                    {
+                        int userId = Convert.ToInt32(TempData["UserId"]);
+                        var userdata = KF.Web.Models.UserData.GetUserData(userId);
+                        if (userdata != null)
+                        {
+
+                            string datetime = userdata.TaxStartMonthId + "/" + userdata.TaxationStartDay + "/" + userdata.TaxStartYear;
+                            if (datetime == "//")
+                            {
+                                datetime = DateTime.Now.ToShortDateString();
+                            }
+                            DateTime dt = Convert.ToDateTime(datetime);
+                            DateTime enddt = dt.AddYears(1).AddDays(-1);
+                            string endDate = enddt.ToShortDateString();
+                            PreviousYear = ((userdata.TaxStartYear)).ToString();
+
+
+                            <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @datetime to @endDate.</p></div>
+                        }
+                    }
+                    else
+                    {
+                        <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.Startdate to @ViewBag.Enddate</p></div>
+                        if (ViewBag.Startdate != null)
+                        {
+                            DateTime date = Convert.ToDateTime(ViewBag.Startdate);
+                            PreviousYear = date.AddYears(-1).ToString("yyyy");
+                        }
+                    }
+                    <input type="hidden" value="@PreviousYear" id="hdnPrevYear" />
+                }
+                <div id="printTrailDiv" class="ledgerBlock">
+
+                    <table cellspacing="0" cellpadding="0" border="0" style="width:100%;" class="genLeadger">
+                        <tr class="subheading">
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>UploadType</th>
+                            <th>JVID</th>
+                            <th>Source#</th>
+                            <th>Debits</th>
+                            <th>Credits</th>
+                            <th>Balance</th>
+                            <th></th>
+                        </tr>
+                        @{
+                            foreach (var rowData in Model)
+                            {
+                                <tr>
+                                    <th>@rowData.DisplayChartAccountNumber</th>
+                                    <th colspan="6">@rowData.ClassificationName</th>
+                                </tr>
+                                foreach (var subrowdata in rowData.objrowItemList)
+                                {
+                                    <tr>
+                                        <td data-val="@subrowdata.Date.PadLeft(2, '0')">@String.Format("{0:dd/MM/yyyy}", subrowdata.Date)</td>
+                                        <td>@subrowdata.Description</td>
+                                        <td>@subrowdata.UploadType</td>
+                                        <td>@subrowdata.JVID.ToString().PadLeft(4, '0')</td>
+                                        <td>@subrowdata.Source</td>
+                                        @if (subrowdata.Debit == 0)
+                                        {
+                                            <td>-</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="currencyFormat">@subrowdata.Debit</td>
+                                        }
+                                        @if (subrowdata.Credit == 0)
+                                        {
+                                            <td>-</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="currencyFormat">@subrowdata.Credit</td>
+                                        }
+                                        @if (subrowdata.Balance == 0)
+                                        {
+                                            <td>-</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="customAmount">
+                                                <p class="currencyFormat" style="display:inline-block">@subrowdata.Balance</p>
+                                                <span>
+                                                    @subrowdata.TransactionType
+                                                </span>
+                                            </td>
+                                        }
+                                        <td></td>
+                                    </tr>
+                                }
+                                <tr class="totalCal">
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td class="topBorder currencyFormat">@rowData.ClassificationDebitTotal</td>
+                                    <td class="topBorder currencyFormat">@rowData.ClassificationCreditTotal</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+
+                            if (Model.Count() > 0)
+                            {
+                                decimal NewDebitSubTotalBalance = Model.Select(d => d.ClassificationDebitTotal).ToList().Sum();
+                                decimal CreditSubTotalBalance = Model.Select(d => d.ClassificationCreditTotal).ToList().Sum();
+                                string grossDeb = string.Format("{0:0,0.00}", NewDebitSubTotalBalance);
+                                string grossCrt = string.Format("{0:0,0.00}", CreditSubTotalBalance);
+                                <tr class="totalCal">
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td class="topBorder doubleborder sideborder"><strong>@grossDeb</strong> </td>
+                                    <td class="topBorder doubleborder"><strong class="clscrt">@grossCrt</strong></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Main Content End-->

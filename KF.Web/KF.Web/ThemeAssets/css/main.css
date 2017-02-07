@@ -1,0 +1,72 @@
+  .inputBlocks input {
+        margin-bottom:15px !important;
+    }
+     .inputBlocks input {
+        width: 100% !important;
+        max-width: 300px !important;
+        margin-right: 10px !important;
+        border: 1px solid #ccc !important;
+        padding: 5px !important;
+    }
+
+        .inputBlocks input[type="submit"] {
+            max-width: 200px !important;
+            text-align: center !important;
+            background: #428bca !important;
+            border-radius: 5px !important;
+            color: #fff !important;
+            border: 1px solid #357ebd !important;
+        }
+        .border-right {
+  border-right: 1px solid #333 !important;
+}
+.genLeadger th, .genLeadger td{padding:10px 5px;}
+.subheading th{font-size:16px;}
+/*.ledgerBlock{max-height:400px;overflow:auto;}*/
+.genLeadger{min-width:767px;width:100%;}
+.topBorder{border-top:1px solid #333;}
+.nextBlock{padding-top:50px;}
+
+@media(max-width:767px)
+{
+.ledgerBlock{overflow:scroll;}
+}
+
+.balanceSheet th, .balanceSheet td{padding:10px 5px;}
+.balanceSheet td{padding-left:20px;}
+.subheading th{font-size:16px;}
+.balanceBlock{max-height:400px;max-width:700px;}/*overflow-X:auto;*/
+.balanceSheet{min-width:767px;width:100%;}
+.topBorder{border-top:1px solid #333;}
+.bottomBorder{border-bottom:1px solid #333;}
+.border{border-bottom:1px solid #333;border-top:1px solid #333;}
+
+@media(max-width:767px)
+{
+.balanceBlock{overflow:scroll;}
+.mobileViewReport{
+    overflow-y:hidden;
+}
+}
+
+/* CSS for General Ledger Report */
+@media screen and (max-width:1199px){
+	.ledgerBlock{
+		overflow:auto;
+	}
+}
+@media (min-width:1220px) and (max-width:1360)
+{
+.ledgerBlock{overflow:auto;}
+}
+/* CSS for General Income Sheet Report */
+.row.revenue-box{
+	/*margin-bottom: 15px;*/
+	margin:0 0 15px;
+}
+@media screen and (max-width:1199px){
+	.row.revenue-box .col-lg-6:first-child{
+		border-right:none !important;
+		border-bottom: 1px solid #ccc;
+	}
+}

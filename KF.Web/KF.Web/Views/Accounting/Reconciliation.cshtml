@@ -1,0 +1,172 @@
+﻿@model KF.Web.Models.ReconcillationViewModel
+
+@{
+    ViewBag.Title = "Reconciliation";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+@section scripts{
+    <link href="~/CustomResources/GridTable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+    <script src="~/CustomResources/GridTable/Scripts/grid-0.4.3.js"></script>
+    <script src="~/CustomResources/js/StatementList.js"></script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Reconciliation Panel",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Reconciliation Panel",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("ReconciliationFilters", "Accounting", FormMethod.Post))
+            {
+                @Html.HiddenFor(i => i.UserId)
+                if (TempData["CashError"] != null)
+                {
+                    <div id="Update-alert" class="alert alert-danger col-sm-12"> <p><span>*</span> @TempData["CashError"].ToString() .</p></div>
+                }
+                if (TempData["LockStatementError"] != null)
+                {
+                    <div id="Update-alert" class="alert alert-danger col-sm-12"> <p><span>*</span> @TempData["LockStatementError"].ToString() .</p></div>
+                }
+                if (ViewBag.DeleteFiscalYearEntry != null)
+                {
+                    <div id="Update-alert" class="alert alert-danger col-sm-12"> <p><span>*</span> Fiscal Year is closed you can't delete the statement.</p></div>
+                }
+                
+                <div id="Update-alert" class="alert alert-info col-sm-12">
+                    <p><span>*</span> To lock a statement period, please select the Year and Month and then click on the “Lock Statement” button</p>
+                    <p><span>*</span> To view a statement period, please select a search criteria using the drop down menu and click on the “Search” button</p>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12 jumbotron">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">Year</label>
+                                @Html.DropDownListFor(x => x.selectedYearId, Model.YearList, "Select Year", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">Month</label>
+                                @Html.DropDownListFor(x => x.selectedMonthId, Model.MonthList, "Select Month", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">Bank</label>
+                                @Html.DropDownListFor(x => x.selectedStatementTypeId, Model.StatementTypeList, "Select Bank", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">Status</label>
+                                @Html.DropDownListFor(x => x.StatusId, Model.StatusList, "Select Status", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">Select Category</label>
+                                @Html.DropDownListFor(x => x.selectedCategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="icode" class="control-label">JVID (Journal voucher ID)</label>
+                                @Html.TextBoxFor(x => x.JVID, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        @if (Model.RoleId == 4 || Model.RoleId == 1)
+                        {
+                            <div class="col-md-3" style="display:none">
+                                <div class="form-group">
+                                    <label for="icode" class="control-label">Select User</label>
+                                    @Html.DropDownListFor(x => x.selectedUserId, Model.UserList, "Select User", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-8" style="margin-top:10px">
+                            <div class="form-group btn-padding">
+                                @{
+                if (Model.StatementTypeList.Count > 0)
+                {
+                    <button type="submit" class="btn btn-primary" id="btnSave" name="Command" value="Save">Search</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary" disabled="disabled" id="btnSave" name="Command" value="Save">Search</button>
+                }
+
+                <button type="submit" class="btn btn-danger" id="btnLocked" name="Command" value="Locked">Lock Statement</button>
+
+                if (Model.RoleId != 3)
+                {
+                    <button type="submit" class="btn btn-info" id="btnCash" name="Command" value="Cash">Manual Entry</button>
+                                    <button type="submit" class="btn btn-info" id="btnAddClassification" name="Command" value="AddClassification">Create New Classification</button>
+                }
+                if (Model.enablePrintBtn == true)
+                {
+                    <button type="submit" class="btn btn-danger" id="btnPrint" name="Command" value="Print">Export to Excel</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-danger" id="btnPrint" name="Command" disabled value="Print">Export to Excel</button>
+                }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+        <!-- /.row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tableScroll-container">
+                            <table id="AllUserExpenseGrid" class="active-user-table" data-source="@Url.Action("AllUserExpenseList", new { StatusId = @Model.StatusId, roleId = @Model.RoleId, Year = @Model.selectedYearId, Month = @Model.selectedMonthId, BankId = @Model.selectedStatementTypeId,JVID=@Model.JVID, CategoryId = @Model.selectedCategoryId, IsSecondLoad = @Model.IsSecondLoad })"></table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

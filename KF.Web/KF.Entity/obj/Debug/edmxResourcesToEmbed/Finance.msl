@@ -1,0 +1,1336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KIppinFinanceStoreContainer" CdmEntityContainer="KFentities">
+    <EntitySetMapping Name="ArchiveDirectorLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.ArchiveDirectorLog">
+        <MappingFragment StoreEntitySet="ArchiveDirectorLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="StatementId" ColumnName="StatementId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Banks">
+      <EntityTypeMapping TypeName="KIppinFinance.Bank">
+        <MappingFragment StoreEntitySet="Bank">
+          <ScalarProperty Name="BankCode" ColumnName="BankCode" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="BankType" ColumnName="BankType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CardDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.CardDetail">
+        <MappingFragment StoreEntitySet="CardDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CardHolderName" ColumnName="CardHolderName" />
+          <ScalarProperty Name="ExpiryMonth" ColumnName="ExpiryMonth" />
+          <ScalarProperty Name="ExpiryYear" ColumnName="ExpiryYear" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="CVV" ColumnName="CVV" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="KIppinFinance.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+          <ScalarProperty Name="CategoryTypeCode" ColumnName="CategoryTypeCode" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassificationTypes">
+      <EntityTypeMapping TypeName="KIppinFinance.ClassificationType">
+        <MappingFragment StoreEntitySet="ClassificationType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ClassificationType1" ColumnName="ClassificationType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CloudImagesRecords">
+      <EntityTypeMapping TypeName="KIppinFinance.CloudImagesRecord">
+        <MappingFragment StoreEntitySet="CloudImagesRecord">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="IsAssociated" ColumnName="IsAssociated" />
+          <ScalarProperty Name="StatementId" ColumnName="StatementId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="KIppinFinance.Country">
+        <MappingFragment StoreEntitySet="Country">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FiscalYearPostings">
+      <EntityTypeMapping TypeName="KIppinFinance.FiscalYearPosting">
+        <MappingFragment StoreEntitySet="FiscalYearPosting">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TaxStartYear" ColumnName="TaxStartYear" />
+          <ScalarProperty Name="TaxEndYear" ColumnName="TaxEndYear" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="IsPosted" ColumnName="IsPosted" />
+          <ScalarProperty Name="SubAccountantId" ColumnName="SubAccountantId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Industries">
+      <EntityTypeMapping TypeName="KIppinFinance.Industry">
+        <MappingFragment StoreEntitySet="Industry">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IndustryType" ColumnName="IndustryType" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IndustryClassifications">
+      <EntityTypeMapping TypeName="KIppinFinance.IndustryClassification">
+        <MappingFragment StoreEntitySet="IndustryClassification">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ClassificationId" ColumnName="ClassificationId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ClassificationType" ColumnName="ClassificationType" />
+          <ScalarProperty Name="ChartAccountNumber" ColumnName="ChartAccountNumber" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsSole" ColumnName="IsSole" />
+          <ScalarProperty Name="IsIncorporated" ColumnName="IsIncorporated" />
+          <ScalarProperty Name="IsPartnerShip" ColumnName="IsPartnerShip" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KippinStoreImages">
+      <EntityTypeMapping TypeName="KIppinFinance.KippinStoreImage">
+        <MappingFragment StoreEntitySet="KippinStoreImages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsAssociated" ColumnName="IsAssociated" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Licenses">
+      <EntityTypeMapping TypeName="KIppinFinance.License">
+        <MappingFragment StoreEntitySet="License">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LicenseType" ColumnName="LicenseType" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ownerships">
+      <EntityTypeMapping TypeName="KIppinFinance.Ownership">
+        <MappingFragment StoreEntitySet="Ownership">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OwnershipType" ColumnName="OwnershipType" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="KIppinFinance.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReconcilationMethodTypenames">
+      <EntityTypeMapping TypeName="KIppinFinance.ReconcilationMethodTypename">
+        <MappingFragment StoreEntitySet="ReconcilationMethodTypename">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReconcilationMethodName" ColumnName="ReconcilationMethodName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportRanges">
+      <EntityTypeMapping TypeName="KIppinFinance.ReportRange">
+        <MappingFragment StoreEntitySet="ReportRange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="StartRange" ColumnName="StartRange" />
+          <ScalarProperty Name="Endrange" ColumnName="Endrange" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SubHeading" ColumnName="SubHeading" />
+          <ScalarProperty Name="HeadingName" ColumnName="HeadingName" />
+          <ScalarProperty Name="SubHeadingName" ColumnName="SubHeadingName" />
+          <ScalarProperty Name="TotalName" ColumnName="TotalName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RetainedEarnings">
+      <EntityTypeMapping TypeName="KIppinFinance.RetainedEarning">
+        <MappingFragment StoreEntitySet="RetainedEarning">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="SubAccountantId" ColumnName="SubAccountantId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="ReatinedYearEarning" ColumnName="ReatinedYearEarning" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RetainedEarningLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.RetainedEarningLog">
+        <MappingFragment StoreEntitySet="RetainedEarningLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="SubAccountantId" ColumnName="SubAccountantId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="ReatinedYearEarning" ColumnName="ReatinedYearEarning" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="KIppinFinance.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShadowEntryRecords">
+      <EntityTypeMapping TypeName="KIppinFinance.ShadowEntryRecord">
+        <MappingFragment StoreEntitySet="ShadowEntryRecord">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BankExpenseId" ColumnName="BankExpenseId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="BankExpenseShadowId" ColumnName="BankExpenseShadowId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="KIppinFinance.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StatusType" ColumnName="StatusType" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubIndustries">
+      <EntityTypeMapping TypeName="KIppinFinance.SubIndustry">
+        <MappingFragment StoreEntitySet="SubIndustry">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="SubIndustryName" ColumnName="SubIndustryName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblMonths">
+      <EntityTypeMapping TypeName="KIppinFinance.tblMonth">
+        <MappingFragment StoreEntitySet="tblMonth">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblYears">
+      <EntityTypeMapping TypeName="KIppinFinance.tblYear">
+        <MappingFragment StoreEntitySet="tblYear">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UnlinkRecordLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.UnlinkRecordLog">
+        <MappingFragment StoreEntitySet="UnlinkRecordLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="NewAccountantId" ColumnName="NewAccountantId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserPrices">
+      <EntityTypeMapping TypeName="KIppinFinance.UserPrice">
+        <MappingFragment StoreEntitySet="UserPrice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoldeId" ColumnName="RoldeId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRegistrations">
+      <EntityTypeMapping TypeName="KIppinFinance.UserRegistration">
+        <MappingFragment StoreEntitySet="UserRegistration">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReconciliationType" ColumnName="ReconciliationType" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="SubIndustryId" ColumnName="SubIndustryId" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CorporationAddress" ColumnName="CorporationAddress" />
+          <ScalarProperty Name="GSTNumber" ColumnName="GSTNumber" />
+          <ScalarProperty Name="BusinessNumber" ColumnName="BusinessNumber" />
+          <ScalarProperty Name="OwnershipId" ColumnName="OwnershipId" />
+          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+          <ScalarProperty Name="LicenseId" ColumnName="LicenseId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="PrivateKey" ColumnName="PrivateKey" />
+          <ScalarProperty Name="IsEmailSent" ColumnName="IsEmailSent" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+          <ScalarProperty Name="IsTrial" ColumnName="IsTrial" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+          <ScalarProperty Name="ExpiredDate" ColumnName="ExpiredDate" />
+          <ScalarProperty Name="TaxationStartDay" ColumnName="TaxationStartDay" />
+          <ScalarProperty Name="TaxationEndDay" ColumnName="TaxationEndDay" />
+          <ScalarProperty Name="TaxStartMonthId" ColumnName="TaxStartMonthId" />
+          <ScalarProperty Name="TaxEndMonthId" ColumnName="TaxEndMonthId" />
+          <ScalarProperty Name="TaxStartYear" ColumnName="TaxStartYear" />
+          <ScalarProperty Name="TaxEndYear" ColumnName="TaxEndYear" />
+          <ScalarProperty Name="IsDownload" ColumnName="IsDownload" />
+          <ScalarProperty Name="IsNewUser" ColumnName="IsNewUser" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsUnlink" ColumnName="IsUnlink" />
+          <ScalarProperty Name="IsTermsAndConditionAccepted" ColumnName="IsTermsAndConditionAccepted" />
+          <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+          <ScalarProperty Name="IsYodleeAccountCreated" ColumnName="IsYodleeAccountCreated" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="IsEmployeeActivated" ColumnName="IsEmployeeActivated" />
+          <ScalarProperty Name="IsOnlyInvoice" ColumnName="IsOnlyInvoice" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="IsLoggedInWeb" ColumnName="IsLoggedInWeb" />
+          <ScalarProperty Name="IsLoggedInMobile" ColumnName="IsLoggedInMobile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserUpdateProfileLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.UserUpdateProfileLog">
+        <MappingFragment StoreEntitySet="UserUpdateProfileLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FieldUpdatedDetails" ColumnName="FieldUpdatedDetails" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsSuperAdminUpdated" ColumnName="IsSuperAdminUpdated" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="IsPasswordUpdated" ColumnName="IsPasswordUpdated" />
+          <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YodleeAccountDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.YodleeAccountDetail">
+        <MappingFragment StoreEntitySet="YodleeAccountDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ItemAccountId" ColumnName="ItemAccountId" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountUserName" ColumnName="AccountUserName" />
+          <ScalarProperty Name="AccountPassword" ColumnName="AccountPassword" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CobrandToken" ColumnName="CobrandToken" />
+          <ScalarProperty Name="UserToken" ColumnName="UserToken" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="BankId" ColumnName="BankId" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YodleeErrorLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.YodleeErrorLog">
+        <MappingFragment StoreEntitySet="YodleeErrorLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+          <ScalarProperty Name="ErrorMethod" ColumnName="ErrorMethod" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="KippinUserId" ColumnName="KippinUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YodleeUserRegistrations">
+      <EntityTypeMapping TypeName="KIppinFinance.YodleeUserRegistration">
+        <MappingFragment StoreEntitySet="YodleeUserRegistration">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UName" ColumnName="UName" />
+          <ScalarProperty Name="UPassword" ColumnName="UPassword" />
+          <ScalarProperty Name="CobrandName" ColumnName="CobrandName" />
+          <ScalarProperty Name="CobrandPassword" ColumnName="CobrandPassword" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="KippinUserId" ColumnName="KippinUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DirectorAccounts">
+      <EntityTypeMapping TypeName="KIppinFinance.DirectorAccount">
+        <MappingFragment StoreEntitySet="DirectorAccount">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="StatementId" ColumnName="StatementId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Currencies">
+      <EntityTypeMapping TypeName="KIppinFinance.Currency">
+        <MappingFragment StoreEntitySet="Currency">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CurrencyType" ColumnName="CurrencyType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLincensePayments">
+      <EntityTypeMapping TypeName="KIppinFinance.UserLincensePayment">
+        <MappingFragment StoreEntitySet="UserLincensePayment">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ChargeId" ColumnName="ChargeId" />
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="IsActiveSubscription" ColumnName="IsActiveSubscription" />
+          <ScalarProperty Name="SubscriptionEndDate" ColumnName="SubscriptionEndDate" />
+          <ScalarProperty Name="SubscriptionStartDate" ColumnName="SubscriptionStartDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BankExpenses">
+      <EntityTypeMapping TypeName="KIppinFinance.BankExpense">
+        <MappingFragment StoreEntitySet="BankExpense">
+          <ScalarProperty Name="JVID" ColumnName="JVID" />
+          <ScalarProperty Name="StatementReferenceNumber" ColumnName="StatementReferenceNumber" />
+          <ScalarProperty Name="IsVirtualEntry" ColumnName="IsVirtualEntry" />
+          <ScalarProperty Name="IsYodlee" ColumnName="IsYodlee" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="AccountClassificationId" ColumnName="AccountClassificationId" />
+          <ScalarProperty Name="UploadType" ColumnName="UploadType" />
+          <ScalarProperty Name="UploadedStatementName" ColumnName="UploadedStatementName" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Vendor" ColumnName="Vendor" />
+          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ClassificationId" ColumnName="ClassificationId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+          <ScalarProperty Name="ActualPercentage" ColumnName="ActualPercentage" />
+          <ScalarProperty Name="PSTPercentage" ColumnName="PSTPercentage" />
+          <ScalarProperty Name="HSTPercentage" ColumnName="HSTPercentage" />
+          <ScalarProperty Name="QSTPercentage" ColumnName="QSTPercentage" />
+          <ScalarProperty Name="GSTPercentage" ColumnName="GSTPercentage" />
+          <ScalarProperty Name="PSTtax" ColumnName="PSTtax" />
+          <ScalarProperty Name="HSTtax" ColumnName="HSTtax" />
+          <ScalarProperty Name="QSTtax" ColumnName="QSTtax" />
+          <ScalarProperty Name="GSTtax" ColumnName="GSTtax" />
+          <ScalarProperty Name="ActualTotal" ColumnName="ActualTotal" />
+          <ScalarProperty Name="TotalTax" ColumnName="TotalTax" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Debit" ColumnName="Debit" />
+          <ScalarProperty Name="Credit" ColumnName="Credit" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="BankId" ColumnName="BankId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceUserRegistrations">
+      <EntityTypeMapping TypeName="KIppinFinance.InvoiceUserRegistration">
+        <MappingFragment StoreEntitySet="InvoiceUserRegistration">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsOnlyInvoice" ColumnName="IsOnlyInvoice" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+          <ScalarProperty Name="IsTrial" ColumnName="IsTrial" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="EmailCc" ColumnName="EmailCc" />
+          <ScalarProperty Name="EmailTo" ColumnName="EmailTo" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="TradingCurrency" ColumnName="TradingCurrency" />
+          <ScalarProperty Name="BusinessNumber" ColumnName="BusinessNumber" />
+          <ScalarProperty Name="GoodsType" ColumnName="GoodsType" />
+          <ScalarProperty Name="ShippingPostalCode" ColumnName="ShippingPostalCode" />
+          <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+          <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+          <ScalarProperty Name="ShippingStreet" ColumnName="ShippingStreet" />
+          <ScalarProperty Name="ShippingHouseNo" ColumnName="ShippingHouseNo" />
+          <ScalarProperty Name="ShippingAptNo" ColumnName="ShippingAptNo" />
+          <ScalarProperty Name="CorporatePostalCode" ColumnName="CorporatePostalCode" />
+          <ScalarProperty Name="CorporateState" ColumnName="CorporateState" />
+          <ScalarProperty Name="CorporateCity" ColumnName="CorporateCity" />
+          <ScalarProperty Name="CorporateStreet" ColumnName="CorporateStreet" />
+          <ScalarProperty Name="CorporateHouseNo" ColumnName="CorporateHouseNo" />
+          <ScalarProperty Name="CorporateAptNo" ColumnName="CorporateAptNo" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CompanyLogo" ColumnName="CompanyLogo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StripeKeyDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.StripeKeyDetail">
+        <MappingFragment StoreEntitySet="StripeKeyDetails">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="StripePublishKey" ColumnName="StripePublishKey" />
+          <ScalarProperty Name="StripePrivateKey" ColumnName="StripePrivateKey" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCustomerOrSuppliers">
+      <EntityTypeMapping TypeName="KIppinFinance.tblCustomerOrSupplier">
+        <MappingFragment StoreEntitySet="tblCustomerOrSupplier">
+          <ScalarProperty Name="IsEmailExist" ColumnName="IsEmailExist" />
+          <ScalarProperty Name="IsFinance" ColumnName="IsFinance" />
+          <ScalarProperty Name="Credetor" ColumnName="Credetor" />
+          <ScalarProperty Name="Debtors" ColumnName="Debtors" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="ShippingPostalCode" ColumnName="ShippingPostalCode" />
+          <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
+          <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
+          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+          <ScalarProperty Name="AdditionalEmail" ColumnName="AdditionalEmail" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Isdeleted" ColumnName="Isdeleted" />
+          <ScalarProperty Name="DateModify" ColumnName="DateModify" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="ServiceOffered" ColumnName="ServiceOffered" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblInvoiceDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.tblInvoiceDetail">
+        <MappingFragment StoreEntitySet="tblInvoiceDetails">
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblInvoiceTypes">
+      <EntityTypeMapping TypeName="KIppinFinance.tblInvoiceType">
+        <MappingFragment StoreEntitySet="tblInvoiceType">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblItemDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.tblItemDetail">
+        <MappingFragment StoreEntitySet="tblItemDetail">
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="QST_Tax" ColumnName="QST_Tax" />
+          <ScalarProperty Name="PST_Tax" ColumnName="PST_Tax" />
+          <ScalarProperty Name="HST_Tax" ColumnName="HST_Tax" />
+          <ScalarProperty Name="GST_Tax" ColumnName="GST_Tax" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="Customer_Service" ColumnName="Customer_Service" />
+          <ScalarProperty Name="Customer_ServiceTypeId" ColumnName="Customer_ServiceTypeId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoicetblColumnDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.InvoicetblColumnDetail">
+        <MappingFragment StoreEntitySet="InvoicetblColumnDetails">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Invoice_ReportFlowStatus" ColumnName="Invoice_ReportFlowStatus" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Invoice_ReportStatus" ColumnName="Invoice_ReportStatus" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StripePayCardDetails">
+      <EntityTypeMapping TypeName="KIppinFinance.StripePayCardDetail">
+        <MappingFragment StoreEntitySet="StripePayCardDetail">
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="CVV" ColumnName="CVV" />
+          <ScalarProperty Name="ExpieryDate" ColumnName="ExpieryDate" />
+          <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+          <ScalarProperty Name="CardD_Id" ColumnName="CardD_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCurrencies">
+      <EntityTypeMapping TypeName="KIppinFinance.tblCurrency">
+        <MappingFragment StoreEntitySet="tblCurrency">
+          <ScalarProperty Name="SymbolCode" ColumnName="SymbolCode" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblFlowStatus">
+      <EntityTypeMapping TypeName="KIppinFinance.tblFlowStatu">
+        <MappingFragment StoreEntitySet="tblFlowStatus">
+          <ScalarProperty Name="FlowStatus" ColumnName="FlowStatus" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTypeOfInvoices">
+      <EntityTypeMapping TypeName="KIppinFinance.tblTypeOfInvoice">
+        <MappingFragment StoreEntitySet="tblTypeOfInvoice">
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblExpenses">
+      <EntityTypeMapping TypeName="KIppinFinance.tblExpens">
+        <MappingFragment StoreEntitySet="tblExpenses">
+          <ScalarProperty Name="ExpenseName" ColumnName="ExpenseName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetSupplierLists" FunctionName="KIppinFinance.Store.sp_GetSupplierLists">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.sp_GetSupplierLists_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="StripePaymnts">
+      <EntityTypeMapping TypeName="KIppinFinance.StripePaymnt">
+        <MappingFragment StoreEntitySet="StripePaymnt">
+          <ScalarProperty Name="IsPaymentbyStripe" ColumnName="IsPaymentbyStripe" />
+          <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblSTypeCategories">
+      <EntityTypeMapping TypeName="KIppinFinance.tblSTypeCategory">
+        <MappingFragment StoreEntitySet="tblSTypeCategories">
+          <ScalarProperty Name="SValues" ColumnName="SValues" />
+          <ScalarProperty Name="SCategoryId" ColumnName="SCategoryId" />
+          <ScalarProperty Name="SName" ColumnName="SName" />
+          <ScalarProperty Name="SId" ColumnName="SId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblT1TypeCategories">
+      <EntityTypeMapping TypeName="KIppinFinance.tblT1TypeCategories">
+        <MappingFragment StoreEntitySet="tblT1TypeCategories">
+          <ScalarProperty Name="T1Values" ColumnName="T1Values" />
+          <ScalarProperty Name="T1CategoryId" ColumnName="T1CategoryId" />
+          <ScalarProperty Name="T1Name" ColumnName="T1Name" />
+          <ScalarProperty Name="T1Id" ColumnName="T1Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblT2TypeCategories">
+      <EntityTypeMapping TypeName="KIppinFinance.tblT2TypeCategories">
+        <MappingFragment StoreEntitySet="tblT2TypeCategories">
+          <ScalarProperty Name="T2Values" ColumnName="T2Values" />
+          <ScalarProperty Name="T2CategoryId" ColumnName="T2CategoryId" />
+          <ScalarProperty Name="T2Name" ColumnName="T2Name" />
+          <ScalarProperty Name="T2Id" ColumnName="T2Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblZTypeCategories">
+      <EntityTypeMapping TypeName="KIppinFinance.tblZTypeCategory">
+        <MappingFragment StoreEntitySet="tblZTypeCategories">
+          <ScalarProperty Name="ZValues" ColumnName="ZValues" />
+          <ScalarProperty Name="ZCategoryId" ColumnName="ZCategoryId" />
+          <ScalarProperty Name="ZName" ColumnName="ZName" />
+          <ScalarProperty Name="ZId" ColumnName="ZId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTemplateClassifications">
+      <EntityTypeMapping TypeName="KIppinFinance.tblTemplateClassification">
+        <MappingFragment StoreEntitySet="tblTemplateClassification">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ChartAccountNumber" ColumnName="ChartAccountNumber" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ClassifinationName" ColumnName="ClassifinationName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_GType" FunctionName="KIppinFinance.Store.sp_GType">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.sp_GType_Result">
+          <ScalarProperty Name="T2Name" ColumnName="T2Name" />
+          <ScalarProperty Name="T2Values" ColumnName="T2Values" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_SType" FunctionName="KIppinFinance.Store.sp_SType">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.sp_SType_Result">
+          <ScalarProperty Name="SName" ColumnName="SName" />
+          <ScalarProperty Name="SValues" ColumnName="SValues" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TType" FunctionName="KIppinFinance.Store.sp_TType">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.sp_TType_Result">
+          <ScalarProperty Name="T1Name" ColumnName="T1Name" />
+          <ScalarProperty Name="T1Values" ColumnName="T1Values" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DirectorAccountLogs">
+      <EntityTypeMapping TypeName="KIppinFinance.DirectorAccountLog">
+        <MappingFragment StoreEntitySet="DirectorAccountLog">
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="StatementId" ColumnName="StatementId" />
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="PercentageAmount" ColumnName="PercentageAmount" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubAccountantUserPermissions">
+      <EntityTypeMapping TypeName="KIppinFinance.SubAccountantUserPermission">
+        <MappingFragment StoreEntitySet="SubAccountantUserPermission">
+          <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="UserWithAnAccountantId" ColumnName="UserWithAnAccountantId" />
+          <ScalarProperty Name="SubAccountantId" ColumnName="SubAccountantId" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ArchiveBankExpenses">
+      <EntityTypeMapping TypeName="KIppinFinance.ArchiveBankExpense">
+        <MappingFragment StoreEntitySet="ArchiveBankExpense">
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="AccountClassificationId" ColumnName="AccountClassificationId" />
+          <ScalarProperty Name="PSTtax" ColumnName="PSTtax" />
+          <ScalarProperty Name="HSTtax" ColumnName="HSTtax" />
+          <ScalarProperty Name="QSTtax" ColumnName="QSTtax" />
+          <ScalarProperty Name="GSTtax" ColumnName="GSTtax" />
+          <ScalarProperty Name="BankId" ColumnName="BankId" />
+          <ScalarProperty Name="IsDownload" ColumnName="IsDownload" />
+          <ScalarProperty Name="Classification" ColumnName="Classification" />
+          <ScalarProperty Name="ClassificationId" ColumnName="ClassificationId" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Vendor" ColumnName="Vendor" />
+          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Expense" ColumnName="Expense" />
+          <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+          <ScalarProperty Name="BillTotal" ColumnName="BillTotal" />
+          <ScalarProperty Name="BillTax" ColumnName="BillTax" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Debit" ColumnName="Debit" />
+          <ScalarProperty Name="Credit" ColumnName="Credit" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AccountantEmail" ColumnName="AccountantEmail" />
+          <ScalarProperty Name="AccountantId" ColumnName="AccountantId" />
+          <ScalarProperty Name="StatementId" ColumnName="StatementId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="KI_GetFlowStatus" FunctionName="KIppinFinance.Store.KI_GetFlowStatus" />
+    <FunctionImportMapping FunctionImportName="KI_getIndustryID" FunctionName="KIppinFinance.Store.KI_getIndustryID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.KI_getIndustryID_Result">
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ind" ColumnName="Ind" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KI_GetInvoiceDataforpdf" FunctionName="KIppinFinance.Store.KI_GetInvoiceDataforpdf">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.KI_GetInvoiceDataforpdf_Result">
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="Heading" ColumnName="Heading" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CompanyLogo" ColumnName="CompanyLogo" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CorporateAptNo" ColumnName="CorporateAptNo" />
+          <ScalarProperty Name="CorporateHouseNo" ColumnName="CorporateHouseNo" />
+          <ScalarProperty Name="CorporatePostalCode" ColumnName="CorporatePostalCode" />
+          <ScalarProperty Name="CorporateStreet" ColumnName="CorporateStreet" />
+          <ScalarProperty Name="CorporateCity" ColumnName="CorporateCity" />
+          <ScalarProperty Name="CorporateState" ColumnName="CorporateState" />
+          <ScalarProperty Name="EmailTo" ColumnName="EmailTo" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+          <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+          <ScalarProperty Name="TaxPercentage" ColumnName="TaxPercentage" />
+          <ScalarProperty Name="GST_TaxAmount" ColumnName="GST_TaxAmount" />
+          <ScalarProperty Name="GST_TaxPercentage" ColumnName="GST_TaxPercentage" />
+          <ScalarProperty Name="HST_TaxAmount" ColumnName="HST_TaxAmount" />
+          <ScalarProperty Name="HST_TaxPercentage" ColumnName="HST_TaxPercentage" />
+          <ScalarProperty Name="PST_TaxAmount" ColumnName="PST_TaxAmount" />
+          <ScalarProperty Name="PST_TaxPercentage" ColumnName="PST_TaxPercentage" />
+          <ScalarProperty Name="QST_TaxAmount" ColumnName="QST_TaxAmount" />
+          <ScalarProperty Name="QST_TaxPercentage" ColumnName="QST_TaxPercentage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_BlockAccNoList" FunctionName="KIppinFinance.Store.Kl_BlockAccNoList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_BlockAccNoList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ClassificationType" ColumnName="ClassificationType" />
+          <ScalarProperty Name="ChartAccountNumber" ColumnName="ChartAccountNumber" />
+          <ScalarProperty Name="ChartAccountDisplayNumber" ColumnName="ChartAccountDisplayNumber" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsSole" ColumnName="IsSole" />
+          <ScalarProperty Name="IsIncorporated" ColumnName="IsIncorporated" />
+          <ScalarProperty Name="IsPartnerShip" ColumnName="IsPartnerShip" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="SubIndustryId" ColumnName="SubIndustryId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RangeofAct" ColumnName="RangeofAct" />
+          <ScalarProperty Name="CategoryValue" ColumnName="CategoryValue" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_BlockAccNoList_forUserIdNull" FunctionName="KIppinFinance.Store.Kl_BlockAccNoList_forUserIdNull">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_BlockAccNoList_forUserIdNull_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ClassificationType" ColumnName="ClassificationType" />
+          <ScalarProperty Name="ChartAccountNumber" ColumnName="ChartAccountNumber" />
+          <ScalarProperty Name="ChartAccountDisplayNumber" ColumnName="ChartAccountDisplayNumber" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsSole" ColumnName="IsSole" />
+          <ScalarProperty Name="IsIncorporated" ColumnName="IsIncorporated" />
+          <ScalarProperty Name="IsPartnerShip" ColumnName="IsPartnerShip" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="SubIndustryId" ColumnName="SubIndustryId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RangeofAct" ColumnName="RangeofAct" />
+          <ScalarProperty Name="CategoryValue" ColumnName="CategoryValue" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_ExitinStripe" FunctionName="KIppinFinance.Store.Kl_ExitinStripe" />
+    <FunctionImportMapping FunctionImportName="Kl_GetCompanyNameSend" FunctionName="KIppinFinance.Store.Kl_GetCompanyNameSend" />
+    <FunctionImportMapping FunctionImportName="kl_getCustomerEmail" FunctionName="KIppinFinance.Store.kl_getCustomerEmail" />
+    <FunctionImportMapping FunctionImportName="Kl_GetSupplierDataforUserID" FunctionName="KIppinFinance.Store.Kl_GetSupplierDataforUserID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_GetSupplierDataforUserID_Result">
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="Credetor" ColumnName="Credetor" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="kl_Invoicedata_email" FunctionName="KIppinFinance.Store.kl_Invoicedata_email">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.kl_Invoicedata_email_Result">
+          <ScalarProperty Name="CompanyLogo" ColumnName="CompanyLogo" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailTo" ColumnName="EmailTo" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_ReceivedInvoiceList" FunctionName="KIppinFinance.Store.Kl_ReceivedInvoiceList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_ReceivedInvoiceList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="kl_ReceivedProformaList" FunctionName="KIppinFinance.Store.kl_ReceivedProformaList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.kl_ReceivedProformaList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_ReportingList" FunctionName="KIppinFinance.Store.Kl_ReportingList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_ReportingList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="kl_ReportingListwithoutDraft" FunctionName="KIppinFinance.Store.kl_ReportingListwithoutDraft">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.kl_ReportingListwithoutDraft_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_SendInvoiceList" FunctionName="KIppinFinance.Store.Kl_SendInvoiceList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_SendInvoiceList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_SendProformaList" FunctionName="KIppinFinance.Store.Kl_SendProformaList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="KIppinFinance.Kl_SendProformaList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DocumentRef" ColumnName="DocumentRef" />
+          <ScalarProperty Name="SalesPerson" ColumnName="SalesPerson" />
+          <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DepositePayment" ColumnName="DepositePayment" />
+          <ScalarProperty Name="BalanceDue" ColumnName="BalanceDue" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Pro_Status" ColumnName="Pro_Status" />
+          <ScalarProperty Name="Pro_FlowStatus" ColumnName="Pro_FlowStatus" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="IsInvoiceReport" ColumnName="IsInvoiceReport" />
+          <ScalarProperty Name="In_R_Status" ColumnName="In_R_Status" />
+          <ScalarProperty Name="In_R_FlowStatus" ColumnName="In_R_FlowStatus" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="IsSupplierManualPaid" ColumnName="IsSupplierManualPaid" />
+          <ScalarProperty Name="SupplierManualPaidAmount" ColumnName="SupplierManualPaidAmount" />
+          <ScalarProperty Name="SupplierManualPaidJVID" ColumnName="SupplierManualPaidJVID" />
+          <ScalarProperty Name="IsCustomerManualPaid" ColumnName="IsCustomerManualPaid" />
+          <ScalarProperty Name="CustomerManualPaidAmount" ColumnName="CustomerManualPaidAmount" />
+          <ScalarProperty Name="CustomerManualPaidJVID" ColumnName="CustomerManualPaidJVID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="StripeJVID" ColumnName="StripeJVID" />
+          <ScalarProperty Name="InvoiceJVID" ColumnName="InvoiceJVID" />
+          <ScalarProperty Name="CustomerInvoiceJVID" ColumnName="CustomerInvoiceJVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Kl_GetCompanyNamr" FunctionName="KIppinFinance.Store.Kl_GetCompanyNamr" />
+    <FunctionImportMapping FunctionImportName="Kl_getSupplierEmail" FunctionName="KIppinFinance.Store.Kl_getSupplierEmail" />
+    <EntitySetMapping Name="Classifications">
+      <EntityTypeMapping TypeName="KIppinFinance.Classification">
+        <MappingFragment StoreEntitySet="Classification">
+          <ScalarProperty Name="CategoryValue" ColumnName="CategoryValue" />
+          <ScalarProperty Name="RangeofAct" ColumnName="RangeofAct" />
+          <ScalarProperty Name="ReportingTotalDisplayNumber" ColumnName="ReportingTotalDisplayNumber" />
+          <ScalarProperty Name="ReportingTotalNumber" ColumnName="ReportingTotalNumber" />
+          <ScalarProperty Name="ReportingSubTotalDisplayNumber" ColumnName="ReportingSubTotalDisplayNumber" />
+          <ScalarProperty Name="ReportingSubTotalNumber" ColumnName="ReportingSubTotalNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="SubIndustryId" ColumnName="SubIndustryId" />
+          <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="IsPartnerShip" ColumnName="IsPartnerShip" />
+          <ScalarProperty Name="IsIncorporated" ColumnName="IsIncorporated" />
+          <ScalarProperty Name="IsSole" ColumnName="IsSole" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ChartAccountDisplayNumber" ColumnName="ChartAccountDisplayNumber" />
+          <ScalarProperty Name="ChartAccountNumber" ColumnName="ChartAccountNumber" />
+          <ScalarProperty Name="ClassificationType" ColumnName="ClassificationType" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MasterClassifications">
+      <EntityTypeMapping TypeName="KIppinFinance.MasterClassification">
+        <MappingFragment StoreEntitySet="MasterClassification">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TotalDisplayNumber" ColumnName="TotalDisplayNumber" />
+          <ScalarProperty Name="SubTotalDisplayNumber" ColumnName="SubTotalDisplayNumber" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="NewClassificationVerb" ColumnName="NewClassificationVerb" />
+          <ScalarProperty Name="ReportingTotalRange" ColumnName="ReportingTotalRange" />
+          <ScalarProperty Name="RepotingTotalType" ColumnName="RepotingTotalType" />
+          <ScalarProperty Name="ReportingTotal" ColumnName="ReportingTotal" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

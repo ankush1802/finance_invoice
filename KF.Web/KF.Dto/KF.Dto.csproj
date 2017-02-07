@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55957724-DEAE-4EC1-AC0A-E713DF0FC2DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KF.Dto</RootNamespace>
+    <AssemblyName>KF.Dto</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Modules\Common\AddCardDetailDto.cs" />
+    <Compile Include="Modules\Common\ApiResponseDto.cs" />
+    <Compile Include="Modules\Common\ApiStatusCode.cs" />
+    <Compile Include="Modules\Common\LoginWebsiteDto.cs" />
+    <Compile Include="Modules\Common\MonthModelDto.cs" />
+    <Compile Include="Modules\Common\SendMailModelDto.cs" />
+    <Compile Include="Modules\Common\YearModelDto.cs" />
+    <Compile Include="Modules\FinanceReport\BalanceSheetDto.cs" />
+    <Compile Include="Modules\FinanceReport\CategoryReportDto.cs" />
+    <Compile Include="Modules\FinanceReport\IncomeSheetDto.cs" />
+    <Compile Include="Modules\FinanceReport\TrialBalanceDto.cs" />
+    <Compile Include="Modules\Finance\AccountsDto.cs" />
+    <Compile Include="Modules\Finance\AddCashExpenseDto.cs" />
+    <Compile Include="Modules\Finance\AddMjvEntryDto.cs" />
+    <Compile Include="Modules\Finance\AddNewClassificationDto.cs" />
+    <Compile Include="Modules\Finance\BankAccountDto.cs" />
+    <Compile Include="Modules\Finance\BankDto.cs" />
+    <Compile Include="Modules\Finance\CameraImageUploadDto.cs" />
+    <Compile Include="Modules\Finance\CategoryDto.cs" />
+    <Compile Include="Modules\Finance\ClassificationDto.cs" />
+    <Compile Include="Modules\Finance\CloudImagesRecordDto.cs" />
+    <Compile Include="Modules\Finance\CurrencyDto.cs" />
+    <Compile Include="Modules\Finance\FolderListDto.cs" />
+    <Compile Include="Modules\Finance\IndustryListDto.cs" />
+    <Compile Include="Modules\Finance\KippinStoreImageDto.cs" />
+    <Compile Include="Modules\Finance\OwnershipDto.cs" />
+    <Compile Include="Modules\Finance\ProvinceDto.cs" />
+    <Compile Include="Modules\Finance\StatementListDto.cs" />
+    <Compile Include="Modules\Finance\UserRegistrationDto.cs" />
+    <Compile Include="Modules\Finance\YodleeUserRegistrationDto.cs" />
+    <Compile Include="Modules\Invoice\AddCardDetailDto.cs" />
+    <Compile Include="Modules\Invoice\AddCustomerSupplierDto.cs" />
+    <Compile Include="Modules\Invoice\AddPaymentDetailsDto.cs" />
+    <Compile Include="Modules\Invoice\BankAccountDto.cs" />
+    <Compile Include="Modules\Invoice\BankDto.cs" />
+    <Compile Include="Modules\Invoice\Class1.cs" />
+    <Compile Include="Modules\Invoice\ClassificationDto.cs" />
+    <Compile Include="Modules\Invoice\GetItmsforpdf.cs" />
+    <Compile Include="Modules\Invoice\ImageDto.cs" />
+    <Compile Include="Modules\Invoice\ImageListDto.cs" />
+    <Compile Include="Modules\Invoice\IndustryDto.cs" />
+    <Compile Include="Modules\Invoice\InvoiceCurrencyDto.cs" />
+    <Compile Include="Modules\Invoice\InvoiceDetailDto.cs" />
+    <Compile Include="Modules\Invoice\InvoiceUserRegistrationDto.cs" />
+    <Compile Include="Modules\Invoice\Kl_BlockListDto.cs" />
+    <Compile Include="Modules\Invoice\ManualPaymentDto.cs" />
+    <Compile Include="Modules\Invoice\PdfDto.cs" />
+    <Compile Include="Modules\Invoice\RevenueListDto.cs" />
+    <Compile Include="Modules\Invoice\Sp_SendInvoiceListDto.cs" />
+    <Compile Include="Modules\Invoice\StripePaymentDto.cs" />
+    <Compile Include="Modules\Invoice\tableItemDto.cs" />
+    <Compile Include="Modules\Invoice\UserRegistrationDto.cs" />
+    <Compile Include="Modules\Other\ReconcillationBankExpenseDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

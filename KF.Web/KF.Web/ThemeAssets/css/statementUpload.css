@@ -1,0 +1,14 @@
+﻿@media screen and (max-width:980px){
+#form0 .col-sm-4{
+	width:100%;
+	}
+}
+#btnUploadStatement {
+	margin-left: 30px;
+	}
+#form0 #GetAccountNames {
+    margin: 24px 0;
+}
+#GetFriendlyNameDiv {
+    margin-left: 15px;
+}

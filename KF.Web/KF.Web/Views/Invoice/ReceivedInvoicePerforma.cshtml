@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "ReceivedInvoicePerforma";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+<link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/reportSection.css" rel="stylesheet" />
+
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+    <style>
+        .modal-lg {
+            max-width: 1200px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            if (window.location.href.indexOf("ReceivedInvoicePerforma") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#receivedproforma").addClass("active");
+                $("#receivedproforma").css("color", "#1CAF9A");
+                $("#mains2").css("display", "block");
+            }
+
+        });
+    </script>
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "RECEIVED SECTION",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Received Section",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                @{
+                    var currentUserData = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+
+                    long SelectedActiveUser = 0;
+                    if (Request.Cookies["SelectedActiveUser"] != null)
+                    {
+                        if (Request.Cookies["SelectedActiveUser"].Value != null)
+                        {
+                            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                        }
+
+                    }
+                    if (SelectedActiveUser > 0)
+                    {
+                        var selectedUserData = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+
+                    }
+                }
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-12">
+
+                @Html.Partial("~/Views/Shared/_PageHeader.cshtml")
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- /.row -->
+        <div class="row report-section-width">
+            @{
+                using (Html.BeginForm("InvoiceReceivedInvoicePerforma", "Invoice", FormMethod.Post))
+                {
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>RECEIVED INVOICE</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnCustomer" name="Command" value="RECEIVEDINVOICE">RECEIVED INVOICE</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>RECEIVED PROFORMA</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnSupplier" name="Command" value="RECEIVEDPROFORMA">RECEIVED PROFORMA</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+
+

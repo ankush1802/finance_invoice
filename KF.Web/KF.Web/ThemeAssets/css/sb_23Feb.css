@@ -1,0 +1,26 @@
+﻿   .form-required-field {color: red !important;}
+    .createUserForm input{max-width:98%;}
+    .createUserForm label{margin-bottom:5px !important;display:inline-block;}
+    .createUserForm select {max-width:98%;}
+
+@media(Max-width:1400px) {
+    .createUserForm label {font-size:12px;}
+}
+
+@media(Max-width:1199px){
+    .createuserBtn {padding:0;}
+    .createUserForm label {font-size:14px;}
+    }
+
+@media(Max-width:991px) {
+    .createUserForm input, .createUserForm select {width:100%;}
+    
+    /******************below css for reconcillation.cshtml page********************/
+    /******************below css for reconcillation.cshtml page********************/
+
+    .tableScroll-container {overflow-y: auto;width: 100%;}
+    .tableScroll-container table {min-width: 750px;}
+
+    /**************end css for reconcillation.cshtml page*************/
+    /**************end css for reconcillation.cshtml page*************/
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0adc6ac10a604f1bb201ff43cf34b0ad" Name="Diagram1" ZoomLevel="101">
+        <EntityTypeShape EntityType="KIppinFinance.ArchiveDirectorLog" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.Bank" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.CardDetail" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.Category" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.ClassificationType" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.CloudImagesRecord" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.Country" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.FiscalYearPosting" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.Industry" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.IndustryClassification" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.KippinStoreImage" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.License" Width="1.5" PointX="8.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.Ownership" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.Province" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.ReconcilationMethodTypename" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.ReportRange" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.RetainedEarning" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.RetainedEarningLog" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.Role" Width="1.5" PointX="2.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.ShadowEntryRecord" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.Status" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.SubIndustry" Width="1.5" PointX="14.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.tblMonth" Width="1.5" PointX="3.875" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.tblYear" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.UnlinkRecordLog" Width="1.5" PointX="6.375" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.UserPrice" Width="1.5" PointX="4" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.UserRegistration" Width="1.5" PointX="25" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.UserUpdateProfileLog" Width="1.5" PointX="14.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.YodleeAccountDetail" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.YodleeErrorLog" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.YodleeUserRegistration" Width="1.5" PointX="16.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIppinFinance.DirectorAccount" Width="2" PointX="16.75" PointY="9.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="KIppinFinance.Currency" Width="1.5" PointX="7.375" PointY="17.75" />
+        <EntityTypeShape EntityType="KIppinFinance.UserLincensePayment" Width="1.5" PointX="15" PointY="19.875" />
+        <AssociationConnector Association="KIppinFinance.FK_UserLincensePayment_UserRegistration" />
+        <EntityTypeShape EntityType="KIppinFinance.BankExpense" Width="1.5" PointX="27.125" PointY="0.875" />
+        <AssociationConnector Association="KIppinFinance.FK_BankExpense_Bank" />
+        <AssociationConnector Association="KIppinFinance.FK_BankExpense_Category" />
+        <AssociationConnector Association="KIppinFinance.FK_BankExpense_Status" />
+        <AssociationConnector Association="KIppinFinance.FK_BankExpense_UserRegistration" />
+        <EntityTypeShape EntityType="KIppinFinance.InvoiceUserRegistration" Width="1.5" PointX="17.75" PointY="17.75" />
+        <EntityTypeShape EntityType="KIppinFinance.StripeKeyDetail" Width="1.5" PointX="0.875" PointY="6.125" />
+        <EntityTypeShape EntityType="KIppinFinance.tblCustomerOrSupplier" Width="1.5" PointX="3.75" PointY="18.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblInvoiceDetail" Width="1.5" PointX="9.75" PointY="18.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblInvoiceType" Width="1.5" PointX="19.75" PointY="0.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblItemDetail" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="KIppinFinance.InvoicetblColumnDetail" Width="1.5" PointX="19.75" PointY="3.75" />
+        <EntityTypeShape EntityType="KIppinFinance.StripePayCardDetail" Width="1.5" PointX="6.375" PointY="20.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblCurrency" Width="1.5" PointX="20.375" PointY="17.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblFlowStatu" Width="1.5" PointX="21.375" PointY="9.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblTypeOfInvoice" Width="1.5" PointX="12.25" PointY="14" />
+        <EntityTypeShape EntityType="KIppinFinance.tblExpens" Width="1.5" PointX="21.375" PointY="6.75" />
+        <EntityTypeShape EntityType="KIppinFinance.StripePaymnt" Width="1.5" PointX="20.375" PointY="21.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblSTypeCategory" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblT1TypeCategories" Width="1.5" PointX="22.375" PointY="3.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblT2TypeCategories" Width="1.5" PointX="21.625" PointY="11.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblZTypeCategory" Width="1.5" PointX="22.375" PointY="18.75" />
+        <EntityTypeShape EntityType="KIppinFinance.tblTemplateClassification" Width="1.5" PointX="22.375" PointY="21.75" />
+        <EntityTypeShape EntityType="KIppinFinance.DirectorAccountLog" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="KIppinFinance.SubAccountantUserPermission" Width="1.5" PointX="27.25" PointY="12.125" />
+        <AssociationConnector Association="KIppinFinance.FK_SubAccountantUserPermission_UserRegistration" />
+        <EntityTypeShape EntityType="KIppinFinance.ArchiveBankExpense" Width="1.5" PointX="6.375" PointY="24.75" />
+        <EntityTypeShape EntityType="KIppinFinance.Classification" Width="1.5" PointX="12.375" PointY="25.125" />
+        <AssociationConnector Association="KIppinFinance.FK_BankExpense_Classification" />
+        <EntityTypeShape EntityType="KIppinFinance.MasterClassification" Width="1.5" PointX="0.75" PointY="9.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

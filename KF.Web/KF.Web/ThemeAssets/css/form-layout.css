@@ -1,0 +1,663 @@
+/***************************/
+/******* FORM CSS **********/
+h4.form-heading {
+    color: #0e7ed2;
+    font-family: "Open Sans",sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    /*margin: 15px 0;*/
+    margin: 55px 0;
+    text-align: left;
+}
+
+.form-box {
+    background-color: #f5f5f5;
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    font-family: "Open Sans",sans-serif;
+    border-top: 4px solid #0e7ed2;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 8px #ccc;
+    -webkit-box-shadow: 0 0 8px #ccc;
+    -moz-box-shadow: 0 0 8px #ccc;
+    -ms-box-shadow: 0 0 8px #ccc;
+    -o-box-shadow: 0 0 8px #ccc;
+}
+
+    .form-box .form-group {
+        margin: 0 0 15px;
+        min-height: 62px;
+    }
+
+    .form-box .control-label {
+        font-weight: 400;
+        font-size: 14px;
+        padding: 12px 0 0;
+        text-align: left;
+        min-height: 32px;
+    }
+
+    .form-box .field-tittle {
+        position: relative;
+    }
+
+    .form-box .control-label .required-field {
+        color: #f54e2c;
+        font-weight: 600;
+        position: absolute;
+        right: -10px;
+        top: 0;
+    }
+
+    .form-box .form-control {
+        font-size: 14px;
+        height: 40px !important;
+        border: 2px solid #e0e0e0;
+        padding: 5px 15px;
+    }
+
+        .form-box .form-control:hover,
+        .form-box .form-control:active,
+        .form-box .form-control:focus {
+            border-color: #428bca;
+        }
+
+        .form-box .form-control[disabled]:hover {
+            border-color: #e16451;
+        }
+
+    .form-box .validation-msg {
+        color: #f54e2c;
+        font-size: 12px;
+    }
+
+    .form-box .form-control.text-area {
+        height: 90px !important;
+        resize: none;
+    }
+
+    .form-box .form-button {
+        text-align: right;
+    }
+
+        .form-box .form-button button,
+        .form-box .form-button a {
+            background-color: #0e7ed2;
+            color: #fff;
+            padding: 5px 15px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 20px;
+            width: auto;
+            display: inline-block;
+            max-height: 35px;
+        }
+
+            .form-box .form-button button:hover,
+            .form-box .form-button button:focus,
+            .form-box .form-button a:hover,
+            .form-box .form-button a:focus {
+                outline: none;
+            }
+
+    .form-box .col-sm-12 {
+        float: left;
+    }
+
+/*
+.top-back-button {
+    background-color: #0e7ed2;
+    display: inline-block !important;
+    font-weight: 600 !important;
+    padding: 5px 10px !important;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: auto !important;
+}
+*/
+.top-back-button {
+    background-color: #0e7ed2;
+    display: inline-block !important;
+    float: right;
+    font-weight: 600 !important;
+    margin: 15px 0 0;
+    padding: 5px 10px !important;
+    width: auto !important;
+    }
+/******* FORM CSS **********/
+/***************************/
+
+
+/***************************/
+/***** ITEM BOX CSS ********/
+.item-box {
+    margin-bottom: 40px;
+    padding: 0 30px 0 15px;
+}
+
+    .item-box .item-header {
+        background-color: #0e7ed2;
+        color: #fff;
+        position: relative;
+        border-radius: 5px 5px 0 0;
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        -ms-border-radius: 5px 5px 0 0;
+        -o-border-radius: 5px 5px 0 0;
+    }
+
+    .item-box h5 {
+        font-weight: 700;
+    }
+
+    .item-box .item-header i {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .item-box .item-content {
+        background-color: #fff;
+        padding: 30px 0;
+        border-radius: 0 0 5px 5px;
+        box-shadow: 0 0 10px #ccc;
+    }
+
+.item-content .serial-no {
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.item-buttons {
+    color: #0e7ed2;
+    font-weight: 600;
+    padding-top: 8px;
+    text-align: right;
+    padding-left: 0;
+}
+
+    .item-buttons button {
+        background-color: transparent;
+        border: none;
+        font-weight: 600;
+    }
+
+.form-box .bs-example th {
+    border: medium none;
+    position: absolute;
+    right: 5px;
+    top: -38px;
+}
+
+    .form-box .bs-example th a {
+        color: #fff;
+    }
+
+.form-box .item-list-row td {
+    border: none;
+    padding: 0 15px;
+}
+
+    .form-box .item-list-row td:nth-child(1) {
+        width: 8%;
+    }
+
+    .form-box .item-list-row td:nth-child(2) {
+        width: 70%;
+    }
+
+        .form-box .item-list-row td:nth-child(2) input.form-control {
+            border: 2px solid #e0e0e0 !important;
+            font-size: 14px;
+            height: 40px !important;
+            width: 100% !important;
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: none;
+            color: #2c3e50;
+            display: block;
+            font-size: 15px;
+            padding: 6px 12px;
+        }
+
+            .form-box .item-list-row td:nth-child(2) input.form-control:hover,
+            .form-box .item-list-row td:nth-child(2) input.form-control:active,
+            .form-box .item-list-row td:nth-child(2) input.form-control:focus {
+                border-color: #428bca !important;
+            }
+
+    .form-box .item-list-row td:nth-child(3),
+    .form-box .item-list-row td:nth-child(4) {
+        width: 11%;
+        text-align: right;
+        font-weight: 600;
+        padding-top: 10px;
+        padding-left: 0;
+    }
+
+.ui-dialog {
+    z-index: 9999 !important;
+}
+
+
+/****** 22-12-016 ******/
+.form-box .classification label.control-label {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.form-box .classification {
+    text-align: center !important;
+    padding-right: 30px;
+}
+
+    .form-box .classification table {
+        display: inline-block !important;
+        padding-bottom: 5px;
+    }
+
+.classification > .col-sm-12 {
+    background-color: #fff;
+    padding-bottom: 15px;
+    box-shadow: 0 0 6px #ccc;
+}
+
+.action-button {
+    min-height: 38px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+}
+
+.customer-list-table {
+    background-color: #fff;
+    box-shadow: 0 0 5px #ccc;
+    margin-top: 10px;
+    float: left;
+    width: 100%;
+}
+
+/****** 23-12-016 ******/
+h5.sub-heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+}
+/****** 26-12-016 ******/
+.ui-dialog {
+    max-width: 960px;
+    width: 90% !important;
+    left: 0 !important;
+    right: 0;
+    margin: auto;
+}
+
+    .ui-dialog .container {
+        width: 100%;
+    }
+/***** ITEM BOX CSS ********/
+/***************************/
+
+/****** 23-12-016 ******/
+/*
+.top-stripe-button {
+    display: inline-block !important;
+    font-weight: 600 !important;
+    padding: 5px 10px !important;
+    position: absolute;
+    right: 15px;
+    top: -3px;
+    width: auto !important;
+    font-size: 15px;
+}
+*/
+.top-stripe-button {
+  display: inline-block !important;
+  float: right;
+  font-size: 15px;
+  font-weight: 600 !important;
+  margin: 15px 0 !important;
+  padding: 5px 10px !important;
+  width: auto !important;
+}
+
+.stripe-form h4 {
+    margin: 0;
+    color: #0e7ed2;
+    font-weight: 600;
+}
+
+.stripe-form label {
+    color: #333;
+}
+
+.stripe-form .panel-default {
+    box-shadow: 0 0 5px #ccc;
+}
+
+.newClass .ui-dialog {
+    max-width: 500px !important;
+}
+/****** 28-12-2016 ******/
+#page-wrapper > .container {
+    max-width: 1170px;
+    width: 100%;
+}
+
+date-sec::before {
+    content: "" !important;
+}
+
+.date-sec {
+    background: rgb(50, 118, 177) none repeat scroll 0 0;
+    color: #fff;
+    margin: -8px -15px;
+    padding: 8px;
+    float: right;
+    border-radius: 4px;
+    min-width: 200px;
+}
+
+#myBtn {
+    margin: 22px -4px;
+}
+.ui-datepicker th {
+    color:#0e0e0e!important;
+}
+
+    
+/****** 2-01-2017 ******/
+#page-wrapper{
+    background-color:#fff;
+    }
+#page-wrapper .breadcrumb{
+    margin:20px 0;
+    display:inline-block;
+    width:100%;
+    }
+.invoice-report-search .form-group .control-label{
+    padding-top:0;
+    margin:0 !important;
+    }
+.invoice-report-search .action-button{
+    margin-top:33px;
+    }
+.invoice-report .gj-grid-wrapper{
+    overflow-x:scroll;
+    }
+.top-back-button.bottom-margin{
+    margin-bottom:15px;
+    }
+.invoice-registration .top-back-button {
+    background-color: #0e7ed2;
+    display: inline-block !important;
+    font-weight: 600 !important;
+    padding: 5px 10px !important;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: auto !important;
+    }
+.invoice-registration h4.form-heading {
+    margin: 30px 0;
+    }
+
+.invoice-registration .panel-info {
+    border:none;
+    border-radius: 0;
+    text-align:left;
+    box-shadow:0 0 0;
+    }
+.invoice-registration .panel-info .row:nth-child(1) .col-sm-12 {
+    padding: 15px 0;
+    background-color: #f5f5f5;
+    border-radius: 0;
+    box-shadow:0 0 5px #ccc;
+    width:100%;
+    float:left;    
+    }
+
+.invoice-registration .panel-info .row:nth-child(2) {
+    border-radius: 0;
+    padding: 15px 0 0;
+    }
+.invoice-registration .ui-dialog label {
+    font-weight: 400 ;
+    }
+
+/****** 3-01-2017 ******/
+.nav-bracket .plus{
+    position:relative;
+    }
+.nav-bracket .plus > a::after {
+    content: "\f067";
+    position: absolute;
+    right: 0;
+    top: 6px;
+    font-family: fontawesome;
+    font-size: 10px;
+    color:#94989d;
+    }
+.leftpanel-collapsed .nav-bracket .plus > a::after {
+    right: 10px;
+    top: 7px;
+    }
+.leftpanel-collapsed .nav-bracket li ul li ul{
+    display:none !important;
+    top:0 !important;
+    left:100% !important;
+    }
+.leftpanel-collapsed .nav-bracket li ul li:hover ul{
+    display:block !important;
+    }
+.top-add-button {
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    margin: 23px 15px 0 0;
+    }
+
+
+/***************************/
+/**** RESPONSIVENESS *******/
+@media screen and (max-width:1199px) {
+    .form-box {
+        padding: 30px 15px;
+    }
+
+        /****** 26-12-016 ******/
+        .form-box .control-label {
+            font-size: 12px;
+        }
+
+        .form-box .item-list-row td:nth-child(2) {
+            width: 62%;
+        }
+
+        .form-box .item-list-row td:nth-child(3),
+        .form-box .item-list-row td:nth-child(4) {
+            width: 15%;
+            font-size: 13px;
+        }
+}
+
+
+@media screen and (max-width:991px) {
+    .form-box .control-label {
+        padding: 12px 0 0 15px;
+    }
+
+    .item-box {
+        margin-bottom: 40px;
+        margin-top: 30px;
+        padding: 0 15px;
+    }
+
+    /****** 26-12-016 ******/
+    .form-box .form-group {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .form-box .item-list-row td:nth-child(2) {
+        width: 35%;
+    }
+
+    .form-box .item-list-row td:nth-child(3),
+    .form-box .item-list-row td:nth-child(4) {
+        font-size: 13px;
+        width: 10%;
+    }
+
+    .form-box .classification {
+        margin-top: 20px;
+        margin-bottom: 0;
+        padding: 0 15px;
+    }
+
+    .date-sec {
+        display: inline-block !important;
+        float: none !important;
+        margin: 5px !important;
+    }
+
+    .form-box .col-sm-12.form-button {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .form-box {
+        padding: 15px;
+    }
+
+        .form-box .form-group {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+    .item-box .item-header {
+        float: left;
+        width: 100%;
+    }
+
+    .item-box {
+        padding: 0 15px;
+        margin-bottom: 20px;
+        float: left;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+
+        .item-box .item-content {
+            float: left;
+            width: 100%;
+        }
+
+    .form-box .control-label {
+        font-size: 13px;
+    }
+
+    .form-box .form-control {
+        font-size: 13px;
+        height: 38px;
+    }
+
+    h4.form-heading {
+        font-size: 20px;
+    }
+
+    .form-box .form-button button {
+        font-size: 13px;
+    }
+
+    /****** 26-12-016 ******/
+    h4.form-heading {
+        font-size: 17px;
+    }
+
+    .top-back-button {
+        top: -6px;
+    }
+
+    .form-box .col-sm-12 {
+        float: none;
+    }
+
+    .form-box .form-button button,
+    .form-box .form-button a {
+        margin-top: 10px;
+        padding: 5px 10px;
+    }
+
+    .form-box .item-box,
+    .form-box .item-box .item-header,
+    .form-box .item-box .item-content {
+        float: left;
+    }
+
+    .item-box .Container {
+        overflow: auto;
+    }
+
+    .item-box .table {
+        min-width: 430px;
+    }
+
+    .form-box .item-list-row td:nth-child(1) input {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .ui-dialog .ui-dialog-content,
+    .ui-dialog .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .form-box .classification {
+        padding: 0 15px;
+    }
+
+        .form-box .classification label {
+            width: 100%;
+        }
+
+    .form-box .col-sm-3.col-md-2.col-xs-4 {
+        padding-left: 0;
+    }
+
+    .action-button {
+        font-size: 14px;
+        min-height: 34px;
+        margin-top: 4px;
+    }
+
+    h5.sub-heading {
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 0;
+    }
+
+    /****** 2-01-2017 ******/
+.invoice-report-search .form-group .control-label{
+    padding:0;
+    margin:10px 0 5px !important;
+    min-height:auto;
+    }
+.invoice-report-search .action-button{
+    margin-top:10px;
+    }
+}
+
+/**** RESPONSIVENESS *******/
+/***************************/

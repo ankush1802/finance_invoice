@@ -1,0 +1,35 @@
+﻿@model KF.Web.Models.UploadStatementParent
+
+<div id="dynamicAccNames">
+    @{
+        var userdata = KF.Web.Models.UserData.GetCurrentUserData();
+        if (Model.friendlynameList.Count > 0)
+        {
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Select Account Name</label>
+                    @Html.DropDownList("Select Account name", new SelectList(Model.friendlynameList.Select(x => new { Value = x, Text = x }), "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+        }
+        else
+        {
+            <br />
+            if (userdata.RoleId == 1)
+            {
+                <p class="text-info">Note: You have not uploaded any statement for the selected user. Please enter an account name below before uploading a statement</p>
+            }
+            else
+            {
+                <p class="text-info">Note: You have not uploaded any statement. Please enter an account name below before uploading a statement</p>
+            }
+            @Html.TextBoxFor(a => a.FriendlyAccountName, new { @class = "form-control" })
+            <br />
+        }
+
+        <div class="clearfix"></div>
+
+
+    }
+
+</div>

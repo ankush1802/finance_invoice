@@ -1,0 +1,333 @@
+﻿@model KF.Dto.Modules.FinanceReport.IncomeSheetDto
+
+@{
+    ViewBag.Title = "IncomeStatement";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+
+@section scripts{
+    <script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+<link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+<script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+    <link href="~/ThemeAssets/css/main.css" rel="stylesheet" />
+<script>
+    $(function () {
+       
+        $('#txtStartDate').datetimepicker(
+                {
+                    format: 'YYYY-MM-DD HH:mm'
+                });
+        $('#txtEndDate').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+
+        $('#txtSecondStartDate').datetimepicker(
+         {
+             format: 'YYYY-MM-DD HH:mm'
+         });
+        $('#txtSecondEndDate').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+    });
+
+
+    $(function () {
+        $("#btnPrintIncomeReport").click(function () {
+            var contents = $("#printIncomeDiv").html();
+            var frame1 = $('<iframe />');
+            frame1[0].name = "frame1";
+            frame1.css({ "position": "absolute", "top": "-1000000px" });
+            $("body").append(frame1);
+            var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+            frameDoc.document.open();
+            //Create a new HTML document.
+            frameDoc.document.write('<html><head><title>Income Report</title>');
+            frameDoc.document.write('</head><body>');
+            //Append the external CSS file.
+            frameDoc.document.write('<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />');
+            frameDoc.document.write('<link href="~/UI_Assets/css/main.css" rel="stylesheet" type="text/css" />');
+            //Append the DIV contents.
+            frameDoc.document.write(contents);
+            frameDoc.document.write('</body></html>');
+            frameDoc.document.close();
+            setTimeout(function () {
+                window.frames["frame1"].focus();
+                window.frames["frame1"].print();
+                frame1.remove();
+            }, 500);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.A').fadeOut('slow');
+        $('.G').fadeOut('slow');
+        $('.S').fadeOut('slow');
+        $('.T').fadeIn('slow');
+
+        $('#chkA').change(function () {
+            if (!this.checked)
+                $('.A').fadeOut('slow');
+            else
+                $('.A').fadeIn('slow');
+        });
+        $('#chkG').change(function () {
+            if (!this.checked)
+                $('.G').fadeOut('slow');
+            else
+                $('.G').fadeIn('slow');
+        });
+        $('#chkS').change(function () {
+            if (!this.checked)
+                $('.S').fadeOut('slow');
+            else
+                $('.S').fadeIn('slow');
+        });
+        $('#chkT').change(function () {
+            if (!this.checked)
+                $('.T').fadeOut('slow');
+            else
+                $('.T').fadeIn('slow');
+        });
+    });
+</script>
+<style>
+    .revenue-box td {
+        padding: 10px 0;
+    }
+
+    .row.revenue-box {
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+        .row.revenue-box .col-lg-6:first-child {
+            border-right: 1px solid #ccc;
+        }
+
+    .genLeadger {
+        min-width: auto !important;
+    }
+
+    .chk {
+        height: 1.6em;
+        margin-left: -2.5em;
+    }
+</style>
+
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Income Sheet",
+    HeaderParentPageName = "Report",
+    HeaderChildPageName = "Income Sheet",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="col-md-12">
+        <div class="generalLedger mobileViewReport">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
+                    <h2>Income Sheet Report</h2>
+                    <hr />
+                </div>
+                <div class="col-lg-12">
+
+
+                    @using (Html.BeginForm("IncomeStatementFilter", "Accounting", FormMethod.Post))
+                    {
+                        <div class="inputBlocks">
+
+                            @if (TempData["UserId"] != null)
+                            {
+                                string userid = TempData["UserId"].ToString();
+                                <input type="hidden" id="selectedUserId" name="selectedUserId" value="@userid">
+                            }
+                            <input id="txtStartDate" required name="txtStartDate" value="@ViewBag.Startdate" type="text" placeholder="Start Date" />
+                            <input id="txtEndDate" required name="txtEndDate" value="@ViewBag.Enddate" type="text" placeholder="End Date" />
+                        </div>
+                        <br />
+                        <div class="inputBlocks">
+
+                            <input id="txtSecondStartDate" value="@ViewBag.StartSeconddate" name="txtSecondStartDate" type="text" placeholder="Start Date" />
+                            <input id="txtSecondEndDate" value="@ViewBag.EndSeconddate" name="txtSecondEndDate" type="text" placeholder="End Date" />
+                            <input type="submit" value="Search" />
+                            <button id="btnPrintIncomeReport" type="button" class="btn btn-primary">Print</button>
+                        </div>
+                        <div class="inputBlocks row filter">
+                            <div class="col-sm-12">
+
+                                <div class="filter-buttons">
+                                    <label for="checkbox_id" class="btn btn-primary" data-group-cls="btn-group-justified">Sub Accounts(A)</label>
+                                    <input id="chkA" type="checkbox" class="chk" />
+                                </div>
+                                <div class="filter-buttons">
+                                    <label for="checkbox_id" class="btn btn-primary">Accounts(G)</label>
+                                    <input id="chkG" type="checkbox" class="chk" />
+                                </div>
+                                <div class="filter-buttons">
+                                    <label for="checkbox_id" class="btn btn-primary">Sub Accounts Total(S)</label>
+                                    <input id="chkS" type="checkbox" class="chk" />
+                                </div>
+                                <div class="filter-buttons">
+                                    <label for="checkbox_id" class="btn btn-primary">Group Accounts Total(T)</label>
+                                    <input id="chkT" type="checkbox" class="chk" checked="checked" />
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            .filter-buttons {
+                                display: inline-block;
+                                margin-bottom: 15px;
+                                margin-right: 20px;
+                            }
+
+                            .inputBlocks.filter label {
+                                margin-top: -10px;
+                                width: 180px;
+                            }
+
+                            .inputBlocks.filter input[type="checkbox"] {
+                                margin: 10px 5px 0 !important;
+                                width: auto !important;
+                            }
+                        </style>
+                    }
+
+
+                </div>
+
+            </div>
+
+            @{
+                if (ViewBag.ReportHeader == "success" && ViewBag.Startdate == null)
+                {
+                    int userId = Convert.ToInt32(TempData["UserId"]);
+                    var userdata = KF.Web.Models.UserData.GetUserData(userId);
+                    string datetime = userdata.TaxStartMonthId + "/" + userdata.TaxationStartDay + "/" + userdata.TaxStartYear;
+                    if (datetime == "//")
+                    {
+                        datetime = DateTime.Now.ToShortDateString();
+                    }
+                    DateTime dt = Convert.ToDateTime(datetime);
+                    DateTime enddt = dt.AddYears(1).AddDays(-1);
+                    string endDate = enddt.ToShortDateString();
+                    <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @datetime to @endDate.</p></div>
+
+                }
+
+            }
+            <div id="printIncomeDiv">
+                <div class="row revenue-box">
+                    <div class="col-lg-6">
+                        @{
+                            if (ViewBag.Startdate != null)
+                            {
+
+                                <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.Startdate to @ViewBag.Enddate.</p></div>
+                            }
+                        }
+                        <!--First revenue-->
+                        @Html.Partial("_RevenueReport", Model.objRevenueList)
+                    </div>
+                    <div class="col-lg-6">
+                        @{
+                            if (ViewBag.StartSeconddate != null && ViewBag.EndSeconddate != null)
+                            {
+
+                                <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.StartSeconddate to @ViewBag.EndSeconddate.</p></div>
+                            }
+                        }
+
+                        <div class="revenue-right">
+                            <!--Second revenue-->
+                            @Html.Partial("_RevenueReport", Model.objSecondRevenueList)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row revenue-box">
+                    <div class="col-lg-6">
+                        <!--First Expense-->
+                        @Html.Partial("_ExpenseReport", Model.objExpenseList)
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="revenue-right">
+                            <!--Second Expense-->
+                            @Html.Partial("_ExpenseReport", Model.objSecondExpenseList)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div id="netIncomeFirst">
+                                <table class="expense-table">
+                                    <tr>
+                                        <td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Net Income : </strong></td>
+                                        <td>&nbsp;</td>
+                                        <td class='currencyFormat'><strong>@Model.NetIncome1 </strong></td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div id="netIncomeSecond">
+                                @if (Model.objSecondExpenseList.Count > 0 || Model.objSecondRevenueList.Count > 0)
+                                {
+                                    <table class="expense-table">
+                                        <tr>
+                                            <td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Net Income : </strong></td>
+                                            <td>&nbsp;</td>
+                                            <td class='currencyFormat'><strong>@Model.NetIncome2 </strong></td>
+                                        </tr>
+
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- Main Content End-->

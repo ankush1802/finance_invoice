@@ -1,0 +1,200 @@
+﻿@model KF.Web.Models.PaymentDetailViewModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>::KIPPIN PAYMENT::</title>
+    <link href="~/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/payment.css" rel="stylesheet" />
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        @using (Html.BeginForm("UserwithanaccountantPayment", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form", id = "frmCharge" }))
+        {
+            if (ViewBag.PaymentAlready == "Done")
+            {
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-success">
+                            Payment for your Account is already done. <a href="@Url.Action("Login","Account")">Click here</a> for login to your KIPPIN account.
+                        </div>
+                    </div>
+
+                </div>
+            }
+            @Html.HiddenFor(i => i.UserId)
+            @Html.AntiForgeryToken()
+            <div class="proceed-form">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4>Please provide your billing information</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="jumbotron jumbo-spacing">
+                            <h3 class="bottomstroke">YOUR ORDER SUMMARY:</h3>
+                            <div class="yearlyLicense bottomstroke">
+                                <p class="pull-left">Subscription:Monthly</p>
+                                <p class="pull-right">Price:19.99 CAD (taxes not included)</p>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="terms">
+                                @{
+            DateTime Date = DateTime.Now;
+            Date = Date.AddYears(1);
+                                }
+                                <p class="pull-left">Anniversary date:Valid upto @Date</p>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="total">
+                                <p class="pull-right">
+                                    TOTAL:19.99 CAD (taxes not included)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class=" panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title text-center">Card Information</div>
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="col-md-12 proceed-heading">
+                                    <h3>CARD NAME: <span style="color:#f00">*</span></h3>
+                                </div>
+                                <div class="detail-form">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => Model.FirstName, new { @class = "form-control", @placeholder = "Name" })
+                                            @Html.ValidationMessageFor(s => s.FirstName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 proceed-heading">
+                                        <h3>CARD NUMBER: <span style="color:#f00">*</span></h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => Model.CardNumber, new { @id = "txtCardNumber", @class = "form-control", @placeholder = "CARD NUMBER", maxlength = "16" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 proceed-heading">
+                                        <h3>EXPIRES: <span style="color:#f00">*</span></h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="custom-select">
+                                                        <select id="txtExpiryMonth" class="form-control" name="ExpiryMonth">
+                                                            @for (int i = 1; i < 13; i++)
+                                                            {
+                                                                <option value="@i">@i</option>
+
+                                                            }
+
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="custom-select">
+                                                        <select id="txtExpiryYear" class="form-control" name="ExpiryYear">
+                                                            @for (int i = DateTime.Now.Year; i < DateTime.Now.Year + 15; i++)
+                                                            {
+                                                                <option value="@i">@i</option>
+
+                                                            }
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => Model.CVV, new { @Value = "", @id = "txtCvc", @class = "form-control", @placeholder = "CVV", maxlength = "3" })
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-12">
+                                        <div class="col-sm-6">
+
+                                        </div>
+                                        <div class="col-sm-6 pull-right text-right">
+                                            <div class="form-group">
+                                                <a href="javscript:void()" class="btn btn-primary btn-send-data" id="btnCharge">Submit</a>
+                                                @Html.HiddenFor(model => model.Token, new { id = "hdnToken" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+    <script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+    <script src="~/CustomResources/js/stripe.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Stripe.setPublishableKey('@(System.Configuration.ConfigurationManager.AppSettings["PublishableKey"].ToString())');
+            $('#btnCharge').on('click', function (e) {
+                $(".btn-send-data").attr("disabled", "disabled")
+                var $form = $('#frmCharge');
+                //$form.get(0).submit();
+                e.preventDefault();
+                e.stopPropagation();
+                Stripe.card.createToken({
+                    number: $('#txtCardNumber').val(),
+                    cvc: $('#txtCvc').val(),
+                    exp_month: $('#txtExpiryMonth').val(),
+                    exp_year: $('#txtExpiryYear').val()
+                }, stripeResponseHandler);
+            });
+
+            function stripeResponseHandler(status, response) {
+                var $form = $('#frmCharge');
+                if (response.error) {
+                    // Show the errors on the form
+                    alert(response.error.message);
+                } else {
+                    // response contains id and card, which contains additional card details
+                    var token = response.id;
+                    // Insert the token into the form so it gets submitted to the server
+
+
+                    $('#hdnToken').val(token);
+
+                    // and submit
+                    $form.get(0).submit();
+                }
+                $(".btn-send-data").removeAttr("disabled");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

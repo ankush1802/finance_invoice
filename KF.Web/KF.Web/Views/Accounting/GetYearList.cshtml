@@ -1,0 +1,95 @@
+﻿@model IEnumerable<KF.Web.Models.FolderViewModel>
+@{
+    ViewBag.Title = "GetYearList";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+
+
+@section scripts{
+<link href="~/ThemeAssets/css/cloud.css" rel="stylesheet" />
+<link href="~/ThemeAssets/css/customlistCss.css" rel="stylesheet" />
+<script src="~/ThemeAssets/js/BrowserBack.js"></script>
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Kippin Cloud",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Kippin Cloud",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="proceed-form">
+
+                        <div class="searchBar">
+                            <div class="col-sm-6">
+                                <h3>Kippin Store</h3>
+                            </div>
+
+                        </div>
+                        <div class="box-area">
+                            @{
+                                if (Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <div class="col-sm-4">
+                                            <div class="folderArea">
+                                                <div class="picTitle">
+                                                    <h3 class="headingTitle">
+                                                        <a href="@Url.Action("GetMonthList", "Accounting", new { userId = @item.UserId, year = @item.Year })">@item.Name</a>
+                                                    </h3>
+
+                                                </div>
+                                                @if (item.IsAssociated == false)
+                                                {
+                                                    <div class="astrickIcon">*</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <p> No Image available.</p>
+                                }
+                            }
+
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-lg-12">
+                    <div class="col-lg-4">
+                        <button class="btn btn-primary btn-block" onclick="goBack()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

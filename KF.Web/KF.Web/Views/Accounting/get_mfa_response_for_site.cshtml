@@ -1,0 +1,43 @@
+﻿@using YodleeBase.model;
+@{
+    Layout = null;
+}
+@model SiteInfo
+@*<img class="logo" src="@Url.Content("~/Content/img/logo-yodleeinteractive-transparent.png")" /> 
+<img class="logo" src="@Url.Content("~/Content/img/loading.gif")" />*@ 
+@Model.defaultDisplayName
+<br><br>
+<span id="message"></span>
+
+<script type="text/javascript">
+var Mfa_Response_For_Site_Interval = null;
+var memSiteAccId = '@ViewBag.memSiteAccId';
+
+$(function(){
+	
+	function getMfaResponseForSite() { 
+		$.ajax({
+		    url: "/Finance/Accounting/get_mfa_response_for_site",
+			cache:false,
+			method:'POST',
+			data: {
+				"memSiteAccId": memSiteAccId
+			},
+			complete: function(xhr, status){
+				var response = xhr.responseText;
+				if(response!=""){
+					clearInterval(Mfa_Response_For_Site_Interval);
+					$("#container-page").html(response);
+				}
+			}
+		});
+	}
+
+	function startGetMfaResponseForSite(){
+		$("#message").text("Loading information...");
+		Mfa_Response_For_Site_Interval = setInterval(getMfaResponseForSite, 2000);
+	}
+
+	startGetMfaResponseForSite();
+});
+</script>

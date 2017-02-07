@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "ViewPdf";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+}
+
+<h2>ViewPdf</h2>
+
+
+@{
+    if ((string)TempData["PdfResult"] != "")
+    {
+        <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Proforma Accepted Successfully.</p></div></div>
+        <br />
+   
+            alert(@TempData["PdfResult"]);
+
+            var datauri = 'data:application/pdf;base64,' + Base64.encode(@TempData["PdfResult"]);
+            var win = window.open(url, '_new', "width=1024,height=768,resizable=yes,scrollbars=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,copyhistory=no");
+            //    // win.document.location.href = datauri;
+        </script>
+        }
+
+        }
+
+

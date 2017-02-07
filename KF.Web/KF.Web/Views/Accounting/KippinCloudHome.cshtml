@@ -1,0 +1,65 @@
+﻿@{
+    <link href="~/ThemeAssets/css/popUpCloud.css" rel="stylesheet" />
+    var userData = KF.Web.Models.UserData.GetCurrentUserData();
+
+    if (userData.RoleId == 1)
+    {
+        int SelectedActiveUser = 0;
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+        if (SelectedActiveUser > 0)
+        {
+            var selectedUserData = KF.Web.Models.UserData.GetUserData(SelectedActiveUser);
+            <div class="col-lg-12">
+                <div class="proceed-form">
+                    <div class="box-area">
+                        <div class="col-sm-8">
+                            <div class="picArea">
+                                <div class="picTitle">
+                                    <h3 class="headingTitle">
+                                        <a class="cloudGetYearFolders" data-userid="@selectedUserData.Id" href="javascript:void(0)">@selectedUserData.FirstName @selectedUserData.LastName</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        }
+        else
+        {
+            <p>Not Available</p>
+        }
+    }
+    else
+    {
+        <div class="col-lg-12">
+            <div class="proceed-form">
+                <div class="box-area">
+                    <div class="col-sm-8">
+                        <div class="picArea">
+                            <div class="picTitle">
+                                <h3 class="headingTitle">
+                                    <a class="cloudGetYearFolders" data-userid="@userData.Id" href="javascript:void(0)">@userData.FirstName @userData.LastName</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    }
+
+
+}
+
+
+

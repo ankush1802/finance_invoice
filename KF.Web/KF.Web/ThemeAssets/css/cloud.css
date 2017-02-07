@@ -1,0 +1,5 @@
+﻿@media screen and (min-width:768px) and (max-width:1280px){
+    .box-area .col-sm-4{
+        min-width:380px;
+    }
+}

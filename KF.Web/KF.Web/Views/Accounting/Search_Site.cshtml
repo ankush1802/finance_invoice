@@ -1,0 +1,59 @@
+﻿@using YodleeBase.model;
+@using System.Collections;
+@{
+    Layout = null;
+}
+@model ICollection<SiteInfo>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td colspan="2" class="c-gray"><i class="icon-th-list"></i><b> List Sites</b></td>
+        </tr>
+        <tr>
+            <td class="c-gray"><b> ID</b></td>
+            <td class="c-gray"><b> Site</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            foreach (var site in Model)
+            {
+                <tr>
+                    <td>@site.siteId</td>
+                    <td>@site.defaultDisplayName<button class="btn pull-right" id="btn_add_site" name="btn_add_site" data-siteid="@site.siteId">Add</button></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2"><b>No results</b></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+$(function(){
+    $("button[name='btn_add_site']").on("click", function () {
+       
+		var siteId = $(this).data("siteid");
+		var self_btn = $(this)
+		var description = self_btn.text();
+		$.ajax({
+		    url: "/Accounting/get_site_login_form",
+			method:'GET',
+			data: {
+				"filter_siteId": siteId
+			},
+			beforeSend:function(){
+				self_btn.text("Loading...").attr("disabled","disabled");
+			},
+			complete: function(xhr){
+				$("#container-page").html(xhr.responseText);
+				self_btn.text(description).removeAttr("disabled");
+			}
+		});
+	});
+});
+</script>

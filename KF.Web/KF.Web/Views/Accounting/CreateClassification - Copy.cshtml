@@ -1,0 +1,1777 @@
+﻿@model KF.Web.Models.AddClassificationViewModel
+@{
+    ViewBag.Title = "CreateClassification";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+    else
+    {
+        SelectedActiveUser = currentUserData.Id;
+    }
+    // string URL = "/EditBankStatement.aspx?userid=" + SelectedActiveUser;//Local
+    string URL = "/Finance/EditBankStatement.aspx?userid=" + SelectedActiveUser; //Dev
+}
+
+@section scripts{
+    <style>
+        #errmsg {
+            color: red;
+        }
+
+        .custom-height {
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
+    <style>
+        .modal-lg {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .cls-form .form-group {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+
+        #signupform .form-group {
+            margin-bottom: 0;
+            min-height: 85px;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+
+            $("#ddlCategory2").change(function () {
+                if ($("#ddlCategory2 option:selected").val() != '') {
+                    $("#SMyId3").val('-5000');
+                }
+            });
+            //$("#ddlCategory3").change(function () {
+            //    if ($("#ddlCategory3 option:selected").val() != '') {
+            //        $("#GMyId3").val('-0000');
+            //    }
+            //});
+            $("#ddlCategory4").change(function () {
+                if ($("#ddlCategory4 option:selected").val() != '') {
+                    $("#TMyId3").val('-9999');
+                }
+            });
+            $("#chrtaccno2").keyup(function () {
+
+                var newtext = $(this).val();
+                $("#SMyId3").val(newtext + '-5000');
+
+            });
+            //$("#chrtaccno3").keyup(function () {
+
+            //    var newtext = $(this).val();
+            //    $("#GMyId3").val(newtext + '-0000');
+
+            //});
+            $("#chrtaccno4").keyup(function () {
+
+                var newtext = $(this).val();
+                $("#TMyId3").val(newtext + '-9999');
+
+            });
+
+
+            $("#MyId2").keyup(function () {
+
+                var txtvalue = parseInt($(this).val());
+                //alert($("#Category option:selected").val());
+                if ($("#Category option:selected").val() == '1050') {
+
+                    if (((txtvalue >= 1201 && txtvalue <= 4999) || (txtvalue >= 0001 && txtvalue <= 1059)) && $("#MyId2").val().length >= 4) {
+
+                        return;
+                    }
+                    else {
+                        if ($("#MyId2").val().length >= 4) {
+                            alert('Invalid Range Number.');
+                            $(this).val('');
+                            return;
+                        }
+                    }
+                }
+                else if ($("#Category option:selected").val() == '1100') {
+                    if (((txtvalue >= 0001 && txtvalue <= 1079) || (txtvalue >= 1201 && txtvalue <= 4999)) && $("#MyId2").val().length >= 4) {
+
+                        return;
+                    }
+                    else {
+                        if ($("#MyId2").val().length >= 4) {
+                            alert('Invalid Range Number.');
+                            $(this).val('');
+                            return;
+                        }
+                    }
+                }
+                else if ($("#Category option:selected").val() == '1200') {
+                    if (txtvalue >= 1000 && txtvalue <= 9999 && $("#MyId2").val().length >= 4) {
+                        alert('Reserved Category');
+                        $(this).val('');
+                        return;
+                    }
+                }
+
+                else if ($("#Category option:selected").val() == '2250') {
+                    if (txtvalue >= 1000 && txtvalue <= 9999 && $("#MyId2").val().length >= 4) {
+                        alert('Reserved Category');
+                        $(this).val('');
+                        return;
+                    }
+                }
+
+            });
+
+
+        });
+
+
+        function checkaccountno(AccNo, type) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckAccountExists", "Kippin")",
+                data: "{'AccountNumbers':'" + AccNo + "','type':'" + type + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == "1") {
+                        alert("This chart of account number already exists.");
+                    }
+                    else {
+                        if (type == "A") {
+                            $("#btn1").trigger('click');
+                        }
+                        if (type == "S") {
+                            $("#btn2").trigger('click');
+                        }
+                        if (type == "G") {
+                            $("#btn3").trigger('click');
+                        }
+                        if (type == "T") {
+                            $("#btn4").trigger('click');
+                        }
+                    }
+                }
+            });
+        }
+
+
+    </script>
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            var serviceURL = '/Finance/Accounting/checkchartaccountnumberexists';
+            $("#nonsubmitbtn1").click(function () {
+
+                var ChartAccNo = $("#chrtaccno1").val();
+
+
+
+                if ($('#clsdesc1').val() == '') {
+                    $('#valdesc1').css("display", "block");
+                    $('#valdesc1').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valdesc1').css("display", "none");
+                }
+                if ($('#Category').val() == '') {
+                    $('#valcategoryId1').css("display", "block");
+                    $('#valcategoryId1').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valcategoryId1').css("display", "none");
+                }
+                if ($('#MyId2').val() == '') {
+                    $('#valchartaccno1').css("display", "block");
+                    $('#valchartaccno1').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valchartaccno1').css("display", "none");
+                }
+
+                //if ($('#MyId3').val() == '') {
+                //    $('#valnewchartaccno1').css("display", "block");
+                //    $('#valnewchartaccno1').css("color", "red");
+
+                //    return;
+                //}
+                //else {
+                //    $('#valnewchartaccno1').css("display", "none");
+                //}
+
+                if ($('#MyId2').val().length == 4) {
+
+                }
+                else {
+                    alert("Chart Account Number must be 4 digit.");
+                }
+                if ($('#MyName1').val() == '') {
+                    $('#valname1').css("display", "block");
+                    $('#valname1').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valname1').css("display", "none");
+                }
+
+
+
+                if ($('#clsdesc1').val() != '' && $('#chrtaccno1').val() != '' && $('#newrange1').val() != '' && $('#Category').val() != '' && $('#MyId2').val().length == 4 && $('#MyName1').val() != '') {
+                    if (ChartAccNo != "") {
+                        $.ajax({
+                            type: "POST",
+                            url: serviceURL,
+                            data: "{'ChartAccountNumbers':'" + ChartAccNo + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: successFunc,
+                            error: errorFunc
+                        });
+
+                        function successFunc(data, status) {
+
+                            if (data == "False") {
+
+                                var sel = document.getElementById('Category');
+                                var SelectedIndex = (sel.selectedIndex) - 1;
+
+                                if (SelectedIndex >= 0) {
+                                    var prev = $('#Category option').eq(SelectedIndex).val();
+                                    var newone = $('#Category').val();
+
+                                    //$("#newrange1").val(prev + '-' + newone);
+                                    // $("#newrange1").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                                    $("#newrange1").val($("#newrange1").val());
+                                    var MyId2 = parseInt($("#MyId2").val());
+
+                                    var array = $('#newrange1').val().split("-");
+
+                                    if (array.length > 2) {
+                                        if ($("#Category option:selected").val() == '1050') {
+                                            if (((MyId2 >= 1201 && MyId2 <= 4999) || (MyId2 >= 0001 && MyId2 <= 1059))) {
+
+                                                checkaccountno($('#MyId2').val(), $("#hidnTA").val());
+                                            }
+                                            else {
+                                                alert("Invalid Range Number.");
+                                                //alert("Account Number Must Be In A Range Between : " + ($("#newrange1").val()));
+                                            }
+                                        }
+                                        else if ($("#Category option:selected").val() == '1100') {
+                                            if (((MyId2 >= 0001 && MyId2 <= 1079) || (MyId2 >= 1201 && MyId2 <= 4999))) {
+
+                                                checkaccountno($('#MyId2').val(), $("#hidnTA").val());
+                                            }
+                                            else {
+                                                alert("Invalid Range Number.");
+                                                //alert("Account Number Must Be In A Range Between : " + ($("#newrange1").val()));
+                                            }
+                                        }
+                                    }
+
+                                    else {
+                                        if (MyId2 >= array[0] && MyId2 <= array[1]) {
+
+                                            checkaccountno($('#MyId2').val(), $("#hidnTA").val());
+                                            //$("#btn1").trigger('click');
+                                        }
+                                        else {
+                                            alert("Invalid Range Number.");
+                                            //alert("Account Number Must Be In A Range Between : " + ($("#newrange1").val()));
+                                        }
+                                    }
+                                    $("#newrange1").val($("#newrange1").val());
+
+                                }
+                                else {
+
+                                }
+                            }
+                            else {
+                                alert("This ChartAccount Number Already Exists");
+                            }
+                        }
+
+                        function errorFunc() {
+                            alert('error');
+                        }
+                    }
+                    else {
+                        alert("Chart Account Number is required.");
+                    }
+                }
+
+
+            });
+        });
+
+
+
+
+
+        $(document).ready(function () {
+            var serviceURL = '/Finance/Accounting/checkchartaccountnumberexists';
+            $("#nonsubmitbtn2").click(function () {
+
+                var ChartAccNo = $("#chrtaccno2").val();
+
+
+
+                if ($('#clsdesc2').val() == '') {
+                    $('#valdesc2').css("display", "block");
+                    $('#valdesc2').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valdesc2').css("display", "none");
+                }
+                if ($('#ddlCategory2').val() == '') {
+                    $('#valcategoryId2').css("display", "block");
+                    $('#valcategoryId2').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valcategoryId2').css("display", "none");
+                }
+                if ($('#chrtaccno2').val() == '') {
+                    $('#valchartaccno2').css("display", "block");
+                    $('#valchartaccno2').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valchartaccno2').css("display", "none");
+                }
+
+                //if ($('#MyId3').val() == '') {
+                //    $('#valnewchartaccno1').css("display", "block");
+                //    $('#valnewchartaccno1').css("color", "red");
+
+                //    return;
+                //}
+                //else {
+                //    $('#valnewchartaccno1').css("display", "none");
+                //}
+
+                if ($('#chrtaccno2').val().length == 4) {
+
+                }
+                else {
+                    alert("Chart Account Number must be 4 digit.");
+                }
+                if ($('#MyName2').val() == '') {
+                    $('#valname2').css("display", "block");
+                    $('#valname2').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valname2').css("display", "none");
+                }
+
+
+
+                if ($('#clsdesc2').val() != '' && $('#chrtaccno2').val() != '' && $('#newrange2').val() != '' && $('#ddlCategory2').val() != '' && $('#chrtaccno2').val().length == 4 && $('#MyName2').val() != '') {
+                    if (ChartAccNo != "") {
+                        $.ajax({
+                            type: "POST",
+                            url: serviceURL,
+                            data: "{'ChartAccountNumbers':'" + ChartAccNo + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: successFunc,
+                            error: errorFunc
+                        });
+
+                        function successFunc(data, status) {
+
+                            if (data == "False") {
+
+                                var sel = document.getElementById('ddlCategory2');
+                                var SelectedIndex = (sel.selectedIndex) - 1;
+
+                                if (SelectedIndex >= 0) {
+                                    var prev = $('#ddlCategory2 option').eq(SelectedIndex).val();
+                                    var newone = $('#ddlCategory2').val();
+
+                                    //$("#newrange2").val(prev + '-' + newone);
+                                    // $("#newrange2").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                                    $("#newrange2").val($("#newrange2").val());
+                                    var chrtaccno2 = $("#chrtaccno2").val();
+
+                                    var array = $('#newrange2').val().split("-");
+
+                                    // if (chrtaccno2 > prev && chrtaccno2 <= newone) {
+                                    if (chrtaccno2 >= array[0] && chrtaccno2 <= array[1]) {
+
+                                        checkaccountno($('#chrtaccno2').val(), $("#hiddTS").val());
+                                        //$("#btn2").trigger('click');
+                                    }
+                                    else {
+                                        alert("Invalid Range Number.");
+                                        //alert("Account Number Must Be In A Range Between : " + ($("#newrange2").val()));
+                                    }
+                                    //$("#newrange2").val(prev + '-' + newone);
+                                    // $("#newrange2").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                                    $("#newrange2").val($("#newrange2").val());
+
+                                    //$("#btn2").trigger('click');
+                                }
+                                else {
+
+                                }
+                            }
+                            else {
+                                alert("This ChartAccount Number Already Exists");
+                            }
+                        }
+
+                        function errorFunc() {
+                            alert('error');
+                        }
+                    }
+                    else {
+                        alert("Chart Account Number is required.");
+                    }
+                }
+
+
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var serviceURL = '/Finance/Accounting/checkchartaccountnumberexists';
+            $("#nonsubmitbtn3").click(function () {
+
+                var ChartAccNo = $("#chrtaccno3").val();
+
+                if ($('#clsdesc3').val() == '') {
+                    $('#valdesc3').css("display", "block");
+                    $('#valdesc3').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valdesc3').css("display", "none");
+                }
+                if ($('#ddlCategory3').val() == '') {
+                    $('#valcategoryId3').css("display", "block");
+                    $('#valcategoryId3').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valcategoryId3').css("display", "none");
+                }
+                if ($('#chrtaccno3').val() == '') {
+                    $('#valchartaccno3').css("display", "block");
+                    $('#valchartaccno3').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valchartaccno3').css("display", "none");
+                }
+
+                if ($('#chrtaccno3').val().length == 4) {
+
+                }
+                else {
+                    alert("Chart Account Number must be 4 digit.");
+                }
+
+                if ($('#MyName3').val() == '') {
+                    $('#valname3').css("display", "block");
+                    $('#valname3').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valname3').css("display", "none");
+                }
+                if ($('#clsdesc3').val() != '' && $('#chrtaccno3').val() != '' && $('#newrange3').val() != '' && $('#ddlCategory3').val() != '' && $('#chrtaccno3').val().length == 4 && $('#MyName3').val() != '') {
+
+                    if (ChartAccNo != "") {
+                        $.ajax({
+                            type: "POST",
+                            url: serviceURL,
+                            data: "{'ChartAccountNumbers':'" + ChartAccNo + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: successFunc,
+                            error: errorFunc
+                        });
+
+                        function successFunc(data, status) {
+
+                            if (data == "False") {
+
+                                var sel = document.getElementById('ddlCategory3');
+                                var SelectedIndex = (sel.selectedIndex) - 1;
+
+                                if (SelectedIndex >= 0) {
+                                    var prev = $('#ddlCategory3 option').eq(SelectedIndex).val();
+                                    var newone = $('#ddlCategory3').val();
+
+
+                                    $("#newrange3").val($("#newrange3").val());
+                                    var chrtaccno3 = $("#chrtaccno3").val();
+
+                                    var array = $('#newrange3').val().split("-");
+
+                                    if (chrtaccno3 >= array[0] && chrtaccno3 <= array[1]) {
+
+                                        checkaccountno($('#GMyId3').val(), $("#hiddTG").val());
+
+                                        //$("#btn3").trigger('click');
+                                    }
+                                    else {
+                                        alert("Invalid Range Number.");
+                                        //alert("Account Number Must Be In A Range Between : " + ($("#newrange3").val()));
+                                    }
+                                    // $("#newrange3").val(prev + '-' + newone);
+                                    //$("#newrange3").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+
+                                    $("#newrange3").val($("#newrange3").val());
+                                }
+                                else {
+
+                                }
+                            }
+                            else {
+                                alert("This ChartAccount Number Already Exists");
+                            }
+                        }
+
+                        function errorFunc() {
+                            alert('error');
+                        }
+                    }
+                    else {
+                        alert("Chart Account Number is required.");
+                    }
+
+                }
+
+
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var serviceURL = '/Finance/Accounting/checkchartaccountnumberexists';
+            $("#nonsubmitbtn4").click(function () {
+
+                var ChartAccNo = $("#chrtaccno4").val();
+
+                if ($('#clsdesc4').val() == '') {
+                    $('#valdesc4').css("display", "block");
+                    $('#valdesc4').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valdesc4').css("display", "none");
+                }
+                if ($('#ddlCategory4').val() == '') {
+                    $('#valcategoryId4').css("display", "block");
+                    $('#valcategoryId4').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valcategoryId4').css("display", "none");
+                }
+                if ($('#chrtaccno4').val() == '') {
+                    $('#valchartaccno4').css("display", "block");
+                    $('#valchartaccno4').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valchartaccno4').css("display", "none");
+                }
+
+                if ($('#chrtaccno4').val().length == 4) {
+
+                }
+                else {
+                    alert("Chart Account Number must be 4 digit.");
+                }
+
+
+                if ($('#MyName4').val() == '') {
+                    $('#valname4').css("display", "block");
+                    $('#valname4').css("color", "red");
+                    return;
+                }
+                else {
+                    $('#valname4').css("display", "none");
+                }
+
+
+                if ($('#clsdesc4').val() != '' && $('#chrtaccno4').val() != '' && $('#newrange4').val() != '' && $('#ddlCategory4').val() != '' && $('#chrtaccno4').val().length == 4 && $('#MyName4').val() != '') {
+                    if (ChartAccNo != "") {
+                        $.ajax({
+                            type: "POST",
+                            url: serviceURL,
+                            data: "{'ChartAccountNumbers':'" + ChartAccNo + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: successFunc,
+                            error: errorFunc
+                        });
+
+                        function successFunc(data, status) {
+
+                            if (data == "False") {
+
+                                var sel = document.getElementById('ddlCategory4');
+                                var SelectedIndex = (sel.selectedIndex) - 1;
+
+                                if (SelectedIndex >= 0) {
+                                    var prev = $('#ddlCategory4 option').eq(SelectedIndex).val();
+                                    var newone = $('#ddlCategory4').val();
+
+                                    //$("#newrange4").val(prev + '-' + newone);
+
+
+                                    //$("#newrange4").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                                    $("#newrange4").val($("#newrange4").val());
+
+                                    var chrtaccno4 = $("#chrtaccno4").val();
+
+                                    // if (chrtaccno4 > prev && chrtaccno4 <= newone) {
+
+                                    var array = $('#newrange4').val().split("-");
+
+                                    if (chrtaccno4 >= array[0] && chrtaccno4 <= array[1]) {
+                                        checkaccountno($('#chrtaccno4').val(), $("#hiddTT").val());
+
+                                        //$("#btn4").trigger('click');
+                                    }
+                                    else {
+                                        //alert("Account Number Must Be In A Range Between : " + prev + '-' + newone);
+                                        alert("Account Number Must Be In A Range Between : " + ($("#newrange4").val()));
+                                    }
+                                    //$("#newrange4").val(prev + '-' + newone);
+                                    //$("#newrange4").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                                    $("#newrange4").val($("#newrange4").val());
+                                }
+                                else {
+
+                                }
+                            }
+                            else {
+                                alert("This ChartAccount Number Already Exists");
+                            }
+                        }
+
+                        function errorFunc() {
+                            alert('error');
+                        }
+                    }
+                    else {
+                        alert("Chart Account Number is required.");
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#MyId2").keyup(function () {
+                //$("#MyId3").val($("#Category").val() + '-' + $(this).val());
+                var STypecatid1 = $("#Category").val();
+
+                if (STypecatid1.length == 1) {
+                    $("#MyId3").val("000" + STypecatid1 + '-' + $("#MyId2").val());
+                }
+                else if (STypecatid1.length == 2) {
+                    $("#MyId3").val("00" + STypecatid1 + '-' + $("#MyId2").val());
+                }
+                else if (STypecatid1.length == 3) {
+                    $("#MyId3").val("0" + STypecatid1 + '-' + $("#MyId2").val());
+                }
+                else {
+                    $("#MyId3").val(STypecatid1 + '-' + $("#MyId2").val());
+                }
+            });
+
+            $("#chrtaccno3").keyup(function () {
+                //$("#MyId3").val($("#Category").val() + '-' + $(this).val());
+                var STypecatid1 = $("#ddlCategory3").val();
+
+                if (STypecatid1.length == 1) {
+                    $("#GMyId3").val("000" + STypecatid1 + '-' + $("#chrtaccno3").val());
+                }
+                else if (STypecatid1.length == 2) {
+                    $("#GMyId3").val("00" + STypecatid1 + '-' + $("#chrtaccno3").val());
+                }
+                else if (STypecatid1.length == 3) {
+                    $("#GMyId3").val("0" + STypecatid1 + '-' + $("#chrtaccno3").val());
+                }
+                else {
+                    $("#GMyId3").val(STypecatid1 + '-' + $("#chrtaccno3").val());
+                }
+            });
+
+
+
+
+        });
+
+        $(document).ready(function () {
+            $("#Category").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var STypecatid = $(this[this.selectedIndex]).val();
+
+                if (STypecatid.length == 1) {
+                    $("#MyId3").val("000" + STypecatid + '-' + $("#MyId2").val());
+                }
+                else if (STypecatid.length == 2) {
+                    $("#MyId3").val("00" + STypecatid + '-' + $("#MyId2").val());
+                }
+                else if (STypecatid.length == 3) {
+                    $("#MyId3").val("0" + STypecatid + '-' + $("#MyId2").val());
+                }
+                else {
+                    $("#MyId3").val(STypecatid + '-' + $("#MyId2").val());
+                }
+
+                //$("#MyId3").val(STypecatid + '-' + $("#MyId2").val());
+
+                if (defaultvalue != "Select Category") {
+                    $("#MyId2").prop("disabled", false);
+                }
+                else {
+                    $("#MyId3").val('');
+                }
+
+
+            });
+
+
+            $("#ddlCategory3").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var STypecatid = $(this[this.selectedIndex]).val();
+
+                if (STypecatid.length == 1) {
+                    $("#GMyId3").val("000" + STypecatid + '-' + $("#chrtaccno3").val());
+                }
+                else if (STypecatid.length == 2) {
+                    $("#GMyId3").val("00" + STypecatid + '-' + $("#chrtaccno3").val());
+                }
+                else if (STypecatid.length == 3) {
+                    $("#GMyId3").val("0" + STypecatid + '-' + $("#chrtaccno3").val());
+                }
+                else {
+                    $("#GMyId3").val(STypecatid + '-' + $("#chrtaccno3").val());
+                }
+
+                //$("#MyId3").val(STypecatid + '-' + $("#MyId2").val());
+
+                if (defaultvalue != "Select Category") {
+                    $("#chrtaccno3").prop("disabled", false);
+                }
+                else {
+                    $("#GMyId3").val('');
+                }
+
+
+            });
+
+
+
+
+
+
+        });
+
+        $(document).ready(function () {
+
+            $("#Category").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var sel = document.getElementById('Category');
+                var SelectedIndex = (sel.selectedIndex) - 1;
+                if (SelectedIndex == -1) {
+                    $("#newrange1").val('');
+                    $("#MyId2").val('');
+                    $("#MyId2").prop("disabled", true);
+                }
+                else {
+
+                    var prev = $('#Category option').eq(SelectedIndex).val();
+                    var newone = $('#Category').val();
+
+                    if (defaultvalue != "Select Category") {
+                        $("#MyId2").prop("disabled", false);
+                    }
+                    else {
+                        $("#MyId2").prop("disabled", true);
+                    }
+
+                    if (SelectedIndex == 0) {
+                        //$("#newrange3").val(0 + '-' + newone);
+                        $("#newrange1").val(('(0001 - 1059)') + 'to' + ('(1201 - 4999)'));
+                    }
+                    else {
+
+                        //$("#newrange3").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+
+                        if (newone == 1050) {
+                            $("#newrange1").val(('(0001 - 1059)') + 'to' + ('(1201 - 4999)'));
+                        }
+                        else if (newone == 1100) {
+                            $("#newrange1").val(('(0001 - 1079)') + 'to' + ('(1201 - 4999)'));
+                        }
+                        else if (newone == 1150) {
+                            $("#newrange1").val('0001' + '-' + (('4999')));
+                        }
+                        else if (newone == 1200) {
+                            $("#newrange1").val(('0004') + '-' + (('0999')));
+                        }
+                        else if (newone == 1250) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1300) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1550) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1600) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1650) {
+                            $("#newrange1").val(('0002') + '-' + (('4998')));
+                        }
+                        else if (newone == 1700) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1750) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1800) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1850) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 1950) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 2050) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 2100) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 2150) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 2200) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 2250) {
+                            $("#newrange1").val(('0002') + '-' + (('0999')));
+                        }
+                        else if (newone == 2300) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 3100) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 3150) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 3200) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else if (newone == 3550) {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                        else {
+                            $("#newrange1").val(('0001') + '-' + (('4999')));
+                        }
+                    }
+
+                }
+
+            });
+
+
+            $("#ddlCategory2").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var sel = document.getElementById('ddlCategory2');
+                var SelectedIndex = (sel.selectedIndex) - 1;
+                if (SelectedIndex == -1) {
+                    $("#newrange2").val('');
+                    $("#chrtaccno2").val('');
+                    $("#chrtaccno2").prop("disabled", true);
+                }
+                else {
+                    var prev = $('#ddlCategory2 option').eq(SelectedIndex).val();
+                    var newone = $('#ddlCategory2').val();
+
+                    if (defaultvalue != "Select Category") {
+                        $("#chrtaccno2").prop("disabled", false);
+                    }
+                    else {
+                        $("#chrtaccno2").prop("disabled", true);
+                    }
+
+
+
+                    if (SelectedIndex == 0) {
+
+                        //$("#newrange2").val(parseInt('1001') + '-' + (parseInt(newone) - parseInt('1')));
+                        $("#newrange2").val(('1002') + '-' + (('1499')));
+                    }
+                    else {
+                        if (newone == 1500) {
+                            // $("#newrange2").val((parseInt(prev) + parseInt('1')) + '-' + (parseInt(newone) - parseInt('1')));
+                            $("#newrange2").val(('1002') + '-' + (('1499')));
+                        }
+
+                        else if (newone == 1900) {
+                            $("#newrange2").val(parseInt('1502') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else if (newone == 1990) {
+                            $("#newrange2").val(parseInt('1952') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else if (newone == 2600) {
+                            $("#newrange2").val(parseInt('2002') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else if (newone == 2850) {
+                            $("#newrange2").val(parseInt('2801') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else if (newone == 3500) {
+                            $("#newrange2").val(parseInt('3002') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else if (newone == 3600) {
+                            $("#newrange2").val(parseInt('3502') + '-' + (parseInt(newone) - parseInt('1')));
+                        }
+                        else
+                        {
+                            $("#newrange2").val(('1002') + '-' + (('3599')));
+                        }
+                       
+                    }
+
+                }
+
+            });
+        });
+
+        $(document).ready(function () {
+
+            $("#ddlCategory3").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var sel = document.getElementById('ddlCategory3');
+                var SelectedIndex = (sel.selectedIndex) - 1;
+                if (SelectedIndex == -1) {
+                    $("#newrange3").val('');
+                    $("#chrtaccno3").val('');
+                    $("#chrtaccno3").prop("disabled", true);
+                }
+                else {
+                    var prev = $('#ddlCategory3 option').eq(SelectedIndex).val();
+                    var newone = $('#ddlCategory3').val();
+
+                    if (defaultvalue != "Select Category") {
+                        $("#chrtaccno3").prop("disabled", false);
+                    }
+                    else {
+                        $("#chrtaccno3").prop("disabled", true);
+                    }
+
+
+
+                    if (SelectedIndex == 0) {
+
+                        //$("#newrange3").val(parseInt('4002') + '-' + (parseInt(newone) - parseInt('1')));
+                        $("#newrange3").val(('0001') + '-' + (('9998')));
+                    }
+                    else {
+                        $("#newrange3").val(('0001') + '-' + (('9998')));
+
+                    }
+
+                }
+
+            });
+        });
+
+        $(document).ready(function () {
+
+            $("#ddlCategory4").change(function () {
+                var defaultvalue = $(this[this.selectedIndex]).text();
+
+                var sel = document.getElementById('ddlCategory4');
+                var SelectedIndex = (sel.selectedIndex) - 1;
+                if (SelectedIndex == -1) {
+                    $("#newrange4").val('');
+                    $("#chrtaccno4").val('');
+                    $("#chrtaccno4").prop("disabled", true);
+                }
+                else {
+                    var prev = $('#ddlCategory4 option').eq(SelectedIndex).val();
+                    var newone = $('#ddlCategory4').val();
+
+                    if (defaultvalue != "Select Category") {
+                        $("#chrtaccno4").prop("disabled", false);
+                    }
+                    else {
+                        $("#chrtaccno4").prop("disabled", true);
+                    }
+                    if (SelectedIndex == 0) {
+                        $("#newrange4").val(parseInt('1001') + '-' + (parseInt(newone) - parseInt('1')));
+                    }
+                    else {
+
+                        $("#newrange4").val((parseInt(prev) + parseInt('2')) + '-' + (parseInt(newone) - parseInt('1')));
+                    }
+                }
+
+            });
+        });
+
+        $(".alpha-only").on("input", function () {
+            var regexp = /[^a-zA-Z]/g;
+            if ($(this).val().match(regexp)) {
+                $(this).val($(this).val().replace(regexp, ''));
+            }
+        });
+        $('#Type').keyup(function (event) {
+            var textBox = event.target;
+            var start = textBox.selectionStart;
+            var end = textBox.selectionEnd;
+            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+            textBox.setSelectionRange(start, end);
+        });
+        
+        $(document).ready(function () {
+
+            $('#MyId2,#chrtaccno2,#chrtaccno3,#chrtaccno4').keyup(function () {
+                if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                    this.value = this.value.replace(/[^0-9\.]/g, '');
+                }
+            });
+        });
+
+        $(function () {
+            $("#btnPrintChartNumbers").click(function () {
+                var contents = $("#chartDiv").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>DIV Contents</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                //   frameDoc.document.write('<link href="style.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+    </script>
+}
+
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Create Classification",
+    HeaderParentPageName = "Statement Reconcilation",
+    HeaderChildPageName = "Create Classification",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        <div class="clearfix"></div>
+       
+            @if (ViewBag.Status != null)
+            {
+                <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Classification Added Successfully.</p></div></div>
+                <br />
+            }
+        
+    <div class="clearfix"></div>
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title text-center">Sub-Account(A)-Subsidiary Account</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form id="signupform" action="@Url.Action("CreateClassification", "Accounting", new { Type = "A" })" class="form-horizontal createUserForm cls-form" role="form" method="post">
+                            <input type="hidden" id="hidnTA" value="A" />
+                            <input type="hidden" id="hidnCatA" value="A" />
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name" class="control-label">Name of Account</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.Name, new { id = "MyName1", @class = "form-control mrgn2", @placeholder = "Enter Account Name" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valname1" style="display:none;">Name is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="firstname" class="control-label">Sub-Account(A)Description </label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ClassificationDesc, new { id = "MyId1", @class = "form-control", @placeholder = "Enter your Classification Description" })
+                                    @*@Html.ValidationMessageFor(i => i.ClassificationDesc)*@
+                                    <span id="valdesc1" style="display:none;">Classification Description is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Insert Account No.</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ChartAccountNumber, new { id = "MyId2", @disabled = "disabled", @class = "form-control mrgn2", maxlength = "4", @placeholder = "Enter Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valchartaccno1" style="display:none;">Chart Account Number is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Range of Acct #</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBox("RangChartAccountNumber", "", new { id = "newrange1", @readonly = "disabled", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">New Account#</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.NewChartAccountNumber, new { id = "MyId3", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno1" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastname" class="control-label">Sub-Totals (S)</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.DropDownListFor(x => x.CategoryValue, Model.CategoryList, "Select Category", new { @class = "form-control", @id = "Category" })
+                                    @*@Html.ValidationMessageFor(i => i.CategoryId)*@
+                                    <span id="valcategoryId1" style="display:none;">Category is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input value="Add" type="button" id="nonsubmitbtn1" class=" btn btn-primary mrgn5" style="padding:6px 20px !important;margin-bottom:5px;margin-top:25px;" />
+                                    <input type="submit" value="Add" id="btn1" name="a" class="btn btn-primary mrgn5" style="margin-bottom:5px;margin-top:25px;display:none;">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Classification Type</th>
+                                    <th>Chart Account Number</th>
+                                    <th style="display:none;">Chart Account Number</th>
+                                    <th>Category</th>
+                                    <th>Name</th>
+                                    <th>Classification Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    if (Session["ManualClassificationListA"] != null)
+                                    {
+                                        List<KF.Web.Models.AddClassificationViewModel> objManualEntriesList = new List<KF.Web.Models.AddClassificationViewModel>();
+                                        objManualEntriesList = (List<KF.Web.Models.AddClassificationViewModel>)Session["ManualClassificationListA"];
+                                        if (objManualEntriesList.Count > 0)
+                                        {
+                                            foreach (var item in objManualEntriesList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.NewChartAccountNumber</td>
+                                                    <td style="display:none;">@item.ChartAccountNumber</td>
+                                                    <td>@item.CategoryName</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.ClassificationDesc</td>
+                                                    @*<td>@item.ClassificationTypeName</td>*@
+
+
+                                                    <td><a class="btn btn-danger" href="@Url.Action("RemoveClassificationEnrty", new { id = @item.Id, Type = "A" })">Remove</a></td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="6"> No record.</td></tr>
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="col-md-4 pull-right">
+                        @{
+                            if (Session["ManualClassificationListA"] != null)
+                            {
+                                <a class="btn btn-info pull-right" href="@Url.Action("SaveManualClassificationList", "Accounting", new { Type = "A" })">Create Classifications</a>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <br />
+
+
+                <div class="panel-heading">
+                    <div class="panel-title text-center">Sub-Total(S)-Account has subsidiaries</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form id="signupform" action="@Url.Action("CreateClassification", "Accounting", new { Type = "S" })" class="form-horizontal createUserForm cls-form" role="form" method="post">
+                            <input type="hidden" value="S" id="hiddTS" />
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name" class="control-label">Name of Account</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.Name, new { id = "MyName2", @class = "form-control mrgn2", @placeholder = "Enter Account Name" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valname2" style="display:none;">Name is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="firstname" class="control-label">Sub-Total(S)Description </label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ClassificationDesc, new { id = "clsdesc2", @class = "form-control", @placeholder = "Enter your Classification Description" })
+                                    @*@Html.ValidationMessageFor(i => i.ClassificationDesc)*@
+                                    <span id="valdesc2" style="display:none;">Classification Description is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Insert Account No.</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ChartAccountNumber, new { id = "chrtaccno2", @disabled = "disabled", @class = "form-control mrgn2", maxlength = "4", @placeholder = "Enter Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valchartaccno2" style="display:none;">Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Range of Acct #</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.NewChartAccountNumber, new { id = "newrange2", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno2" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">New Account#</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBox("NewChartAccRange", "", new { id = "SMyId3", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno1" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastname" class="control-label">Reporting Total</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.DropDownListFor(x => x.CategoryValue, Model.CategoryList2, "Select Category", new { @class = "form-control mrgn4", @id = "ddlCategory2" })
+                                    @*@Html.ValidationMessageFor(i => i.CategoryId2)*@
+                                    <span id="valcategoryId2" style="display:none;">Category is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input value="Add" type="button" id="nonsubmitbtn2" class="btn btn-primary mrgn5" style="padding:6px 20px !important;margin-bottom:5px;margin-top:25px;" />
+                                    <input type="submit" value="Add" id="btn2" class="btn btn-primary mrgn5" style="margin-bottom:5px;margin-top:25px;display:none;">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th> Classification Type</th>
+                                    <th>Chart Account Number</th>
+                                    <th style="display:none;">Chart Account Number</th>
+                                    <th>Category</th>
+                                    <th>Name</th>
+                                    <th>Classification Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    if (Session["ManualClassificationListS"] != null)
+                                    {
+                                        List<KF.Web.Models.AddClassificationViewModel> objManualEntriesList = new List<KF.Web.Models.AddClassificationViewModel>();
+                                        objManualEntriesList = (List<KF.Web.Models.AddClassificationViewModel>)Session["ManualClassificationListS"];
+                                        if (objManualEntriesList.Count > 0)
+                                        {
+                                            foreach (var item in objManualEntriesList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.ChartAccountNumber-5000</td>
+                                                    <td style="display:none;">@item.ChartAccountNumber</td>
+                                                    <td>@item.CategoryName</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.ClassificationDesc</td>
+                                                    @*<td>@item.ClassificationTypeName</td>*@
+                                                    <td><a class="btn btn-danger" href="@Url.Action("RemoveClassificationEnrty", new {id=@item.Id, Type = "S"})">Remove</a></td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="6"> No record.</td></tr>
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="col-md-4 pull-right">
+                        @{
+                            if (Session["ManualClassificationListS"] != null)
+                            {
+                                <a class="btn btn-info pull-right" href="@Url.Action("SaveManualClassificationList", "Kippin", new { Type = "S" })">Create Classifications</a>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="panel-heading">
+                    <div class="panel-title text-center">New Accounts (G) - Account has no subsidiaries</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form id="signupform" action="@Url.Action("CreateClassification", "Accounting", new { Type = "G" })" class="form-horizontal createUserForm cls-form" role="form" method="post">
+                            <input type="hidden" value="G" id="hiddTG" />
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name" class="control-label">Name of Account</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.Name, new { id = "MyName3", @class = "form-control mrgn2", @placeholder = "Enter Account Name" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valname3" style="display:none;">Name is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                        
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ClassificationDesc, new { id = "clsdesc3", @class = "form-control", @placeholder = "Enter your Classification Description" })
+                                    @*@Html.ValidationMessageFor(i => i.ClassificationDesc)*@
+                                    <span id="valdesc3" style="display:none;">Classification Description is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Insert Account No.</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ChartAccountNumber, new { id = "chrtaccno3", @disabled = "disabled", @class = "form-control mrgn2", maxlength = "4", @placeholder = "Enter Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valchartaccno3" style="display:none;">Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Range of Acct #</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.NewChartAccountNumber, new { id = "newrange3", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno3" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">New Account#</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBox("NewChartAccRange", "", new { id = "GMyId3", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno1" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastname" class="control-label">Reporting Total</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.DropDownListFor(x => x.CategoryValue, Model.CategoryList3, "Select Category", new { @class = "form-control mrgn4", @id = "ddlCategory3" })
+                                    @*@Html.ValidationMessageFor(i => i.CategoryId3)*@
+                                    <span id="valcategoryId3" style="display:none;">Category is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input value="Add" type="button" id="nonsubmitbtn3" class="btn btn-primary mrgn5" style="padding:6px 20px !important;margin-bottom:5px;margin-top:25px;" />
+                                    <input type="submit" value="Add" id="btn3" class="btn btn-primary mrgn5" style="margin-bottom:5px;margin-top:25px;display:none;">
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th> Classification Type</th>
+                                    <th>Chart Account Number</th>
+                                    <th style="display:none;">Chart Account Number</th>
+                                    <th>Category</th>
+                                    <th>Name</th>
+                                    <th>Classification Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    if (Session["ManualClassificationListG"] != null)
+                                    {
+                                        List<KF.Web.Models.AddClassificationViewModel> objManualEntriesList = new List<KF.Web.Models.AddClassificationViewModel>();
+                                        objManualEntriesList = (List<KF.Web.Models.AddClassificationViewModel>)Session["ManualClassificationListG"];
+                                        if (objManualEntriesList.Count > 0)
+                                        {
+                                            foreach (var item in objManualEntriesList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.CategoryValue-@item.ChartAccountNumber</td>
+                                                    <td style="display:none;">@item.CategoryValue-@item.ChartAccountNumber</td>
+                                                    <td>@item.CategoryName</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.ClassificationDesc</td>
+                                                    @*<td>@item.ClassificationTypeName</td>*@
+                                                    <td><a class="btn btn-danger" href="@Url.Action("RemoveClassificationEnrty", new { id = @item.Id, Type = "G" })">Remove</a></td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="6"> No record.</td></tr>
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="col-md-4 pull-right">
+                        @{
+                            if (Session["ManualClassificationListG"] != null)
+                            {
+                                <a class="btn btn-info pull-right" href="@Url.Action("SaveManualClassificationList", "Accounting", new { Type = "G" })">Create Classifications</a>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <br />
+
+                <div class="panel-heading">
+                    <div class="panel-title text-center">New Account Name (T) - Account Total (S+G)</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form id="signupform" action="@Url.Action("CreateClassification", "Accounting", new { Type = "T" })" class="form-horizontal createUserForm cls-form" role="form" method="post">
+                            <input type="hidden" value="T" id="hiddTT" />
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name" class="control-label">Name of Account</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.Name, new { id = "MyName4", @class = "form-control mrgn2", @placeholder = "Enter Account Name" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valname4" style="display:none;">Name is required</span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="firstname" class="control-label">Account Name(T)Description</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ClassificationDesc, new { id = "clsdesc4", @class = "form-control", @placeholder = "Enter your Classification Description" })
+                                    @*@Html.ValidationMessageFor(i => i.ClassificationDesc)*@
+                                    <span id="valdesc4" style="display:none;">Classification Description is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Insert Account No.</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.ChartAccountNumber, new { id = "chrtaccno4", @disabled = "disabled", @class = "form-control mrgn2", maxlength = "4", @placeholder = "Enter Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.ChartAccountNumber)*@
+                                    <span id="valchartaccno4" style="display:none;">Chart Account Number is required</span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">Range of Acct #</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBoxFor(x => x.NewChartAccountNumber, new { id = "newrange4", @readonly = "readonly ", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno4" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email" class="control-label">New Account#</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.TextBox("NewChartAccRange", "", "", new { id = "TMyId3", @readonly = "readonly", @class = "form-control mrgn3", maxlength = "10", @placeholder = "Chart Account Number" })
+                                    <span id="errmsg"></span>
+                                    @*@Html.ValidationMessageFor(i => i.NewChartAccountNumber)*@
+                                    <span id="valnewchartaccno1" style="display:none;">New Chart Account Number is required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="lastname" class="control-label">Reporting Total</label>
+                                    <span class="form-required-field">*</span>
+                                    @Html.DropDownListFor(x => x.CategoryValue, Model.CategoryList4, "Select Category", new { @class = "form-control mrgn4", @id = "ddlCategory4" })
+                                    @*@Html.ValidationMessageFor(i => i.CategoryId4)*@
+                                    <span id="valcategoryId4" style="display:none;">Category is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input value="Add" type="button" id="nonsubmitbtn4" class="btn btn-primary mrgn5" style="padding:6px 20px !important;margin-bottom:5px;margin-top:25px;" />
+                                    <input type="submit" value="Add" id="btn4" class="btn btn-primary mrgn5" style="margin-bottom:5px;margin-top:25px;display:none;">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th> Classification Type</th>
+                                    <th>Chart Account Number</th>
+                                    <th style="display:none;">Chart Account Number</th>
+                                    <th>Category</th>
+                                    <th>Name</th>
+                                    <th>Classification Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    if (Session["ManualClassificationListT"] != null)
+                                    {
+                                        List<KF.Web.Models.AddClassificationViewModel> objManualEntriesList = new List<KF.Web.Models.AddClassificationViewModel>();
+                                        objManualEntriesList = (List<KF.Web.Models.AddClassificationViewModel>)Session["ManualClassificationListT"];
+                                        if (objManualEntriesList.Count > 0)
+                                        {
+                                            foreach (var item in objManualEntriesList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.ChartAccountNumber-9999</td>
+                                                    <td style="display:none;">@item.ChartAccountNumber</td>
+                                                    <td>@item.CategoryName</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.ClassificationDesc</td>
+                                                    @*<td>@item.ClassificationTypeName</td>*@
+                                                    <td><a class="btn btn-danger" href="@Url.Action("RemoveClassificationEnrty", new { id = @item.Id, Type = "T" })">Remove</a></td>
+                                                </tr>
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="6"> No record.</td></tr>
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="col-md-4 pull-right">
+                        @{
+                            if (Session["ManualClassificationListT"] != null)
+                            {
+                                <a class="btn btn-info pull-right" href="@Url.Action("SaveManualClassificationList", "Accounting", new { Type = "T" })">Create Classifications</a>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <a href="@Url.Action("MannualClassification", "Accounting")" class="btn btn-primary">Manage/Update Created Accounts</a>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <button type="button" class="btn btn-primary" style="margin-bottom:5px;" data-toggle="modal" data-target="#myModal1">
+                            View Chart of Account Listing
+                        </button>
+                    </div>
+
+                </div>
+                <br />
+            </div>
+
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Available Chart Account Numbers</h4>
+                <button id="btnPrintChartNumbers" type="button" class="btn btn-primary">Print</button>
+            </div>
+            <div id="chartDiv" class="modal-body">
+                @Html.Partial("~/Views/Accounting/Partials/_AvailableChartAccountNumber.cshtml")
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">View Chart of Account Listing</h4>
+                <button id="btnPrintChartNumbers" type="button" class="btn btn-primary">Print</button>
+            </div>
+            <div id="chartDiv" class="modal-body">
+                @Html.Partial("~/Views/Accounting/Partials/_AvailableChartAccountNumber.cshtml")
+            </div>
+        </div>
+    </div>
+</div>

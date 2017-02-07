@@ -1,0 +1,22 @@
+﻿@{
+    <style>
+        .date-sec::before {
+            content: "" !important;
+        }
+    </style>
+    var selectedUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+        if(selectedUser !=null)
+        {
+            var selectedUser1 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+            //selectedUser.RoleId = Convert.ToInt32(selectedUser1.Id);
+            <ol class="breadcrumb">
+                <li class="text-success">
+                    <i class="fa fa-users"></i> Welcome @selectedUser1.EmailTo / @selectedUser1.Username
+                </li>
+                <li class="date-sec">
+                    <i class="fa fa-calendar" aria-hidden="true"> &nbsp;</i>  @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) @DateTime.Now.Day, @DateTime.Now.Year
+                </li>
+            </ol>
+        }
+      
+        }

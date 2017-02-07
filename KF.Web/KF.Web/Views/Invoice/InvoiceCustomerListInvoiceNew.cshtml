@@ -1,0 +1,277 @@
+﻿@model KF.Web.Models.RegisterInvoiceViewModel
+@{
+    ViewBag.Title = "InvoiceCustomerListInvoiceNew";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+}
+
+
+@{
+    long SelectedActiveUser = 0;
+
+    int userid = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+
+    }
+}
+
+@section scripts
+{
+
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+<script src="~/ThemeAssets/Gridjs/ActiverInvoiceCustomerListInvoiceNew.js"></script>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            $('#emailTo').keyup(function () {
+                var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                if (reg.test($("#emailTo").val()) == false) {
+
+                    $("#lblemailvalid").css("display", "block");
+
+                    $("#btnSrch").attr("disabled", true);
+                }
+                else {
+                    $("#lblemailvalid").css("display", "none");
+                    $("#btnSrch").attr("disabled", false);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoiceCustomerListInvoiceNew") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#createinvoice").addClass("active");
+                $("#createinvoice").css("color", "#1CAF9A");
+            }
+
+            setInterval(function () {
+
+                $('#btn1').click(function () {
+                    $('#dialog').dialog('close');
+
+                });
+                $('#btn2').click(function () {
+                    window.location = "/Kippin/Finance/Invoice/InvoiceCustomerRegister";
+                });
+            }, 10);
+        });
+    </script>
+
+    <script>
+        function validateEmail() {
+            var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            debugger;
+            if (reg.test($("#emailTo").val()) == false) {
+                alert('Please enter valid email id');
+                return false;
+            }
+            else {
+                $('form').submit();
+                return true;
+            }
+        }
+    </script>
+
+}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "KIPPIN",
+            width: 50,
+            height: 100,
+        });
+
+    });
+</script>
+
+@*<div id="dialog" style="display: none" align="center">
+    <h4 class="form-heading">
+        Customer does not exist. Do you want to create a new customer?
+    </h4>
+    <div>
+        <input id="btn1" type="button" value="NO" />
+        <input id="btn2" type="button" value="YES" />
+    </div>
+</div>*@
+<div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Message</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-info">
+                    Customer does not exist. Do you want to create a new customer?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="Javascript:;" id="btn1">No</a>
+                <a class="btn btn-success" href="Javascript:;" id="btn2">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "CUSTOMER LIST",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Customer List",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-sm-12">
+
+                <button class="btn btn-primary btn-block top-back-button" onclick="goBack()">Back</button>
+
+                @using (Html.BeginForm("InvoiceCustomerRegister", "Invoice", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                {
+                }
+                <br />
+                @Html.Partial("~/Views/Shared/_PageHeaderInvoice.cshtml")
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+                    <div class="uploadListing">
+
+                        @using (Html.BeginForm("SearchInvoiceCustomerListEmail", "Invoice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            if ((TempData["customerdetails"] == "Success") || (TempData["customerdetails6"] == "Success") || (TempData["customerdetails3"] == "Success") || (TempData["customerdetails4"] == "Success") || (TempData["customerdetails5"] == "Success") || (TempData["customerdetails2"] == "Success"))
+                            {
+                                @*<script>getURL()</script>*@
+                            
+                            <script>
+                                var url = window.location.href;
+                                if (url.indexOf("Selectuser") >= 0) {
+                                    var finalURL = url.split("=");
+                                    var userId = finalURL[1];
+                                    if (userId == 6) {
+
+
+                                        $(document).ready(function () {
+                                            //$('#dialog').dialog('open');
+                                            $('#dialog').modal('show');
+                                        });
+
+                                    }
+
+                                    else if (userId == 3) {
+                                        alert("Already Registered.");
+
+                                    }
+                                    else if (userId == 4) {
+                                        alert("You cannot add yourself as a supplier/customer.");
+
+                                    }
+                                    else if (userId == 5) {
+                                        alert("Please provide data.");
+
+                                    }
+                                    else if (userId == 2) {
+                                        alert("Unable to connect to server, Please try again later.");
+
+                                    }
+                                }
+                                else {
+                                    $('form').submit();
+                                }
+                            </script>
+                            }
+                            <div class="row">
+                                <div class="col-sm-9 col-md-10 col-xs-8">
+                                    @{
+                            var selectedUser1 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                            using (var db = new KF.Entity.KFentities())
+                            {
+                                userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser1.EmailTo).Select(s => s.Id).FirstOrDefault());
+                            }
+                                    }
+                                    @Html.TextBoxFor(x => x.UserId, new { @Value = userid, @type = "hidden" })                                    
+                                    @Html.TextBoxFor(i => i.EmailCc, new { @class = "form-control input-lg", placeholder = "Enter customer email to establish link", @id = "emailTo", autocomplete = "off" })
+
+                                </div> <!-- col-md-8 -->
+                                <div class="col-sm-3 col-md-2 col-xs-4">
+
+                                    <input class="btn btn-primary btn-lg col-md-12 col-xs-12 action-button" type="submit" value="Search" id="btnSrch" disabled="disabled" />
+                                </div> <!-- col-md-4 -->
+
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--User's List-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 class="sub-heading">Select Customer to create invoice</h5>
+                        </div>
+                        @using (Html.BeginForm("InvoiceCustomerListInvoiceNew", "Invoice"))
+                        {
+                            <div class="col-sm-9 col-md-10 col-xs-8">
+                                @Html.TextBoxFor(i => i.EmailTo, new { @id = "txtSearch", @class = "form-control input-lg", placeholder = "Search here" })
+                                <br />
+                            </div>
+                            <div class="col-sm-3 col-md-2 col-xs-4">
+                                <input class="btn btn-primary btn-lg col-md-12 col-xs-12 action-button" id="btnCancel" type="submit" value="Search" />
+                            </div>
+                        }
+                        <div class="col-md-12">
+                            <div class="tableScroll-container customer-list-table">
+                                @{
+                                    var selectedUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                                    using (var db = new KF.Entity.KFentities())
+                                    {
+                                        userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.EmailTo).Select(s => s.Id).FirstOrDefault());
+                                    }
+                                    string EmailToo = string.Empty;
+
+                                    string EmailTo = string.Empty;
+                                    if (ViewBag.EmailTo != null)
+                                    {
+                                        EmailTo = ViewBag.EmailTo;
+                                    }
+                                    <table id="ActiverInvoiceCustomerListGridNew" class="active-user-table" data-source="@Url.Action("InvoiceCustomerListGridInvoiceNew", "Invoice", new { Id = userid,searchString = EmailTo })"></table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>

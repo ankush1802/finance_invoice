@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "GetEmployees";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+    <link href="~/CustomResources/GridTable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+    <script src="~/CustomResources/GridTable/Scripts/grid-0.4.3.js"></script>
+    <script src="~/CustomResources/js/ActiveEmployeeList.js"></script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Employee List",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Employee List",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <!--User's List-->
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="@Url.Action("SaveSubAccountant", "Accounting")" class="btn btn-primary">Add Employee >></a>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tableScroll-container" style="overflow:auto">
+                        <table id="ActiveUserListGrid" class="active-user-table" data-source="@Url.Action("ActiveEmployeesList", "Accounting")"></table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <!--Send Email Status Div Start-->
+            <div class="row">
+                @{
+
+                    if (ViewBag.isDeleted != null)
+                    {
+                        <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Employee successfully deleted.</p></div>
+                    }
+                    if (ViewBag.isActivated != null)
+                    {
+                        <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Employee successfully activated.</p></div>
+                    }
+                    if (ViewBag.isDeactivated != null)
+                    {
+                        <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Employee successfully de-activated.</p></div>
+                    }
+                    if (TempData["SendEmailStatus"] == "Success")
+                    {
+                        <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Email sent successfully.</p></div>
+                    }
+                    else if (TempData["SendEmailStatus"] == "Failure")
+                    {
+                        <div id="Update-alert" class="alert alert-danger col-sm-12"> <p>Error while sending an email.</p></div>
+                    }
+                }
+            </div>
+            <!--Send Email Status Div End-->
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

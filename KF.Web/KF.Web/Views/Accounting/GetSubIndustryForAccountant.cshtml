@@ -1,0 +1,14 @@
+﻿@model KF.Web.Models.UserWithAnAccountantViewModel
+
+
+<div class="form-group">
+    <div class="col-lg-4">
+        <label for="icode" class="control-label">Sub-Industry</label>
+        <span class="form-required-field">*</span>
+    </div>
+    <div class="col-lg-7">
+        @Html.DropDownListFor(x => x.SubIndustryId, Model.SubIndustryList, "Select Sub-Industry", new { @class = "form-control" })
+
+    </div>
+</div>
+

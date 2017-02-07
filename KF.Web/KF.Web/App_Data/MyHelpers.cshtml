@@ -1,0 +1,37 @@
+﻿@using YodleeBase.model;
+
+
+
+<!-- Format YMoney in an string representation wrapped by an span element -->
+@helper FormatMoney(YMoney yMoney)
+{
+	if (yMoney != null) {
+		<span class="y-money">@(yMoney.currencyCode + " " + yMoney.amount)</span>
+	}
+	else
+	{
+		<span class="y-money"></span>
+	}
+		
+}
+
+<!-- Date formatting helper methods -->
+@helper FormatDate(long timestamp) { 
+	var date = new DateTime(1970, 1, 1, 0, 0, 0, 0)
+							.AddSeconds(timestamp)
+							.ToLocalTime();
+							
+	<text>@date.ToString("MM/dd/yyyy")</text>
+}
+
+<!-- TODO: Verify this method -->
+@helper FormatDate(YDate yDate)
+{
+	DateTime parseDate;
+	
+	DateTime.TryParseExact(yDate.date, yDate.localFormat, null, System.Globalization.DateTimeStyles.None, out parseDate);
+
+	<text>@(parseDate.ToString(yDate.localFormat))</text>
+}
+
+

@@ -1,0 +1,56 @@
+﻿
+        .form-required-field {
+            color: red !important;
+        }
+
+        .field-validation-error {
+            color: red !important;
+        }
+
+        .selectBox > #AreaCode {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            color: #555555;
+            display: block;
+            font-size: 14px;
+            height: 34px;
+            line-height: 1.42857;
+            padding: 6px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            vertical-align: middle;
+            margin-right: 9px;
+            display: inline-block;
+            width: 44%;
+        }
+
+        .selectBox .form-control {
+            display: inline-block;
+            width: 50%;
+        }
+
+        .clearLeft {
+            clear: left;
+        }
+
+        .field-validation-error {
+            font-size: 11px;
+        }
+        .edit-profile .col-sm-12 {
+            float:left;
+        }
+
+        .edit-profile .col-sm-6 {
+            /*max-width: 500px;*/
+            width: 50%;
+        }
+
+@media screen and (max-width:1099px) {
+    .edit-profile .col-sm-6 {
+        width: 100%;
+        max-width: 500px;
+        float: none;
+        margin: auto;
+    }
+}

@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "AddAccount";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section customjTableScripts{
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/codemirror.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/javascript.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/bootstrap.min.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/underscore-min.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/underscore.string.min.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/backbone-min.js")"></script>
+<script src="@Url.Content("~/CustomResources/js/yodleeJs/jquery.codemirror.js")" type="text/javascript"></script>
+<script type="text/javascript">
+        $(function () {
+            // Search site handler
+            $("#btn_search_site").click(function (ev) {
+                ev.preventDefault();
+                var site = $("input[name='search_site']").val();
+                var label = $("#btn_search_site").text();
+                $("#btn_search_site").text("Loading...").attr("disabled", "disabled");
+                $("#container-page").load("//Kippin/Finance/Accounting/search_site", { filter_site: site }, function () {
+                    $("#btn_search_site").text(label).removeAttr("disabled");
+                });
+            });
+        });
+</script>
+    <style>
+        .alert.alert-error {
+    color: red;
+}
+    </style>
+}
+<div id="page-wrapper">
+    <div class="container">
+        <!--Content-->
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Search site form -->
+                <h4>@ViewBag.title</h4> <span class="c-gray">@ViewBag.subtitle</span>
+                <hr>
+                    <form method="POST" class="navbar-form pull-left" id="search_site">
+                        <div class="col-lg-12">
+                            <div class="col-lg-6">
+                                <input type="text" value="" placeholder="Search site" name="search_site" class="form-control">
+                            </div>
+                            <div class="col-lg-3">
+                                <button type="submit" id="btn_search_site" name="btn_search_site" class="btn btn-primary">Search Site</button>
+                            </div>
+                        </div>
+                    </form>
+                <br>
+                <div class="clearfix"></div>
+                <!-- Placeholder for flow's subsequent views -->
+                <div id="container-page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+

@@ -1,0 +1,310 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Reports Dashboard",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Reports Dashboard",
+    HeaderFontAwsomeIcon = "fa-bar-chart-o"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @{
+
+                if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+                {
+                    
+                    if (Request.Cookies["SelectedActiveUser"] != null)
+                    {
+                        if (Request.Cookies["SelectedActiveUser"].Value != null)
+                        {
+                            int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                        }
+
+                    }
+                    if (SelectedActiveUser > 0)
+                    {
+                        var selectedUserData = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+                        <div class="col-lg-12 pull-right" style="margin-bottom:10px;">
+                            <a data-toggle="modal" data-target="#fiscalYear" href="javascript:void(0)" class="btn btn-success pull-right custom-btnFreezeReport">Click to Close Fiscal Year @selectedUserData.TaxStartYear </a>
+                        </div>
+                    }
+
+                }
+            }
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+    <div class="clearfix"></div>
+        <div class="col-md-12">
+            @{
+                if (TempData["FiscalYear"] != null)
+                {
+                    <div id="Update-alert" class="alert alert-danger col-sm-12"> <p><strong> @TempData["FiscalYear"].ToString()</strong></p></div>
+                }
+            }
+        </div>
+
+    <div class="col-md-12">
+        <div class="row report-section-width">
+            @{
+                using (Html.BeginForm("ReportFilter", "Accounting", FormMethod.Post))
+                {
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Trial Balance</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnCash" name="Command" value="GeneralLedger">Trial Balance</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Income Statement</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnIncomeStatement" name="Command" value="IncomeStatement">Income Statement</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Balance Sheet</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnBalanceSheet" name="Command" value="BalanceSheet">Balance Sheet</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Asset report</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnAssetReport" name="Command" value="AssetReport">Asset report</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Liability report</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnLiablityReport" name="Command" value="LiablityReport">Liability report</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Expense report</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnExpenseReport" name="Command" value="ExpenseReport">Expense report</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Revenue report</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnRevenueReport" name="Command" value="RevenueReport">Revenue report</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Equity report</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-info" id="btnDividentReport" name="Command" value="DividentReport">Equity report</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>Chart of Accounts</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-info" style="margin-bottom:5px;" data-toggle="modal" data-target="#myModal">
+                                        View Chart Account Numbers
+                                    </button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+
+        </div>
+    </div>
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->
+
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">All Chart Account Numbers</h4>
+                <button id="btnPrintChartNumbers" type="button" class="btn btn-primary">Print</button>
+            </div>
+            <div id="chartDiv" class="modal-body">
+                @Html.Partial("~/Views/Accounting/Partials/_AvailableChartAccountNumber.cshtml")
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--Fiscal year popup-->
+<div class="modal fade" id="fiscalYear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Close Fiscal Year</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-info">
+                    Are you sure you want to close this fiscal year...??? Closing this fiscal year will prevent both user and accountant from making any new updates/changes to this users fiscal year.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" href="@Url.Action("SubmitFiscalYearData")">Yes</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+
+            </div>
+        </div>
+    </div>
+</div>

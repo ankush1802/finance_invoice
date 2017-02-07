@@ -1,0 +1,956 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1BCF01B0-31D0-47BB-BF7E-82153F1FDF45}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KF.Web</RootNamespace>
+    <AssemblyName>KF.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DropDownList_Optgroup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\DropDownList_Optgroup.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WizardFramework">
+      <HintPath>..\packages\Microsoft.VisualStudio.WizardFramework.12.0\lib\net40\Microsoft.WizardFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WizardFrameworkVS">
+      <HintPath>..\packages\Microsoft.VisualStudio.WizardFramework.12.0\lib\net40\Microsoft.WizardFrameworkVS.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\KF.Repo\bin\Debug\Stripe.net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddClassification.aspx.cs">
+      <DependentUpon>AddClassification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddClassification.aspx.designer.cs">
+      <DependentUpon>AddClassification.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ApiCall.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountingController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\InvoiceUserRegistrationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\KippinFinanceMobileApiController.cs" />
+    <Compile Include="Controllers\PlatformController.cs" />
+    <Compile Include="Controllers\StripeWebhookController.cs" />
+    <Compile Include="EditBankStatement.aspx.cs">
+      <DependentUpon>EditBankStatement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditBankStatement.aspx.designer.cs">
+      <DependentUpon>EditBankStatement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\ClsDropDownList.cs" />
+    <Compile Include="Models\CreateUserWithAnAccountUsingExcelSheet.cs" />
+    <Compile Include="Models\FinanceViewModel.cs" />
+    <Compile Include="Models\GridModel.cs" />
+    <Compile Include="Models\InternalPageHeaderViewModel.cs" />
+    <Compile Include="Models\Invoice\GeneratingReport.cs" />
+    <Compile Include="Models\Invoice\ReceivedInvoiceListViewModel.cs" />
+    <Compile Include="Models\Invoice\SupplierListViewModel.cs" />
+    <Compile Include="Models\KippinAuthorize.cs" />
+    <Compile Include="Models\PaymentDetailViewModel.cs" />
+    <Compile Include="Models\ReadCSV.cs" />
+    <Compile Include="Models\SortHelper.cs" />
+    <Compile Include="Models\UserData.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateClassification.aspx.cs">
+      <DependentUpon>UpdateClassification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpdateClassification.aspx.designer.cs">
+      <DependentUpon>UpdateClassification.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AddClassification.aspx" />
+    <Content Include="Agreement.html" />
+    <Content Include="AgreementMobile.html" />
+    <Content Include="CustomResources\DateTimePicker\bootstrap-datetimepicker.js" />
+    <Content Include="CustomResources\DateTimePicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="CustomResources\DateTimePicker\jquery.datetimepicker.css" />
+    <Content Include="CustomResources\DateTimePicker\jquery.datetimepicker.js" />
+    <Content Include="CustomResources\DateTimePicker\V1\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="CustomResources\DateTimePicker\V1\bootstrap-datetimepicker.css" />
+    <Content Include="CustomResources\DateTimePicker\V1\bootstrap-datetimepicker.js" />
+    <Content Include="CustomResources\DateTimePicker\V1\bootstrap-datetimepicker.min.css" />
+    <Content Include="EmailImages\2016-12-29--15-50-30-.jpg" />
+    <Content Include="EmailImages\2016-12-29--15-55-11-.jpg" />
+    <Content Include="EmailImages\2016-12-29--15-58-50-.jpg" />
+    <Content Include="EmailImages\2016-12-29--16-01-15-.jpg" />
+    <Content Include="EmailImages\2017-01-10--09-54-28-.jpg" />
+    <Content Include="EmailImages\2017-01-10--10-06-32-.jpg" />
+    <Content Include="EmailImages\2017-01-10--10-43-19-.jpg" />
+    <Content Include="EmailImages\2017-01-11--15-11-42-.jpg" />
+    <Content Include="EmailImages\2017-01-11--15-17-30-.jpg" />
+    <Content Include="EmailImages\2017-01-11--15-20-24-.jpg" />
+    <Content Include="EmailImages\2017-01-11--16-59-16-.jpg" />
+    <Content Include="EmailImages\2017-01-12--16-11-38-.jpg" />
+    <Content Include="EmailImages\2017-01-16--11-13-11-.jpg" />
+    <Content Include="EmailImages\2017-01-16--12-55-34-.jpg" />
+    <Content Include="EmailImages\2017-01-4--13-27-54-.jpg" />
+    <Content Include="EmailImages\2017-01-4--13-28-52-.jpg" />
+    <Content Include="EmailImages\2017-01-4--13-29-18-.jpg" />
+    <Content Include="EmailImages\2017-01-4--15-47-03-.jpg" />
+    <Content Include="EmailImages\2017-01-4--15-54-31-.jpg" />
+    <Content Include="EmailImages\2017-01-4--18-20-16-.jpg" />
+    <Content Include="EmailImages\2017-01-4--18-23-03-.jpg" />
+    <Content Include="EmailImages\2017-01-5--18-51-14-.jpg" />
+    <Content Include="EmailImages\2017-01-6--17-54-41-.jpg" />
+    <Content Include="EmailImages\2017-01-6--18-06-10-.jpg" />
+    <Content Include="EmailImages\2017-01-6--18-24-16-.jpg" />
+    <Content Include="EmailImages\2017-01-6--18-39-09-.jpg" />
+    <Content Include="EmailImages\2017-01-6--18-43-04-.jpg" />
+    <Content Include="EmailImages\2017-01-6--18-49-22-.jpg" />
+    <Content Include="EmailImages\2017-01-6--19-04-13-.jpg" />
+    <Content Include="EmailImages\2017-01-6--19-15-04-.jpg" />
+    <Content Include="EmailImages\2017-01-6--19-23-22-.jpg" />
+    <Content Include="EmailImages\2017-01-6--19-25-22-.jpg" />
+    <Content Include="Logos\invoicelogo.png" />
+    <Content Include="ThemeAssets\js\jquery-2.1.1.min.js" />
+    <Content Include="CustomResources\DateTimePicker\V1\moment-with-locales.js" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap-theme.css" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap-theme.min.css" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap.css" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap.min.css" />
+    <Content Include="CustomResources\GridTable\Content\grid-0.4.3.css" />
+    <Content Include="CustomResources\GridTable\Content\grid-0.4.3.min.css" />
+    <Content Include="CustomResources\GridTable\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="CustomResources\GridTable\Scripts\bootstrap.js" />
+    <Content Include="CustomResources\GridTable\Scripts\bootstrap.min.js" />
+    <Content Include="CustomResources\GridTable\Scripts\grid-0.4.3.js" />
+    <Content Include="CustomResources\GridTable\Scripts\grid-0.4.3.min.js" />
+    <Content Include="CustomResources\ActiveUser\UsersTemplate.xlsx" />
+    <Content Include="CustomResources\js\ActiveEmployeeList.js" />
+    <Content Include="CustomResources\js\yodleeJs\backbone-min.js" />
+    <Content Include="CustomResources\js\yodleeJs\bootstrap.min.js" />
+    <Content Include="CustomResources\js\yodleeJs\codemirror.js" />
+    <Content Include="CustomResources\js\yodleeJs\javascript.js" />
+    <Content Include="CustomResources\js\yodleeJs\jquery.codemirror.js" />
+    <Content Include="CustomResources\js\yodleeJs\underscore-min.js" />
+    <Content Include="CustomResources\js\yodleeJs\underscore.string.min.js" />
+    <Content Include="CustomResources\UnlinkAccountant\EmptyData.xlsx" />
+    <Content Include="App_Data\MyHelpers.cshtml" />
+    <None Include="CustomResources\GridTable\Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="CustomResources\GridTable\Scripts\jquery-2.1.3.js" />
+    <Content Include="CustomResources\GridTable\Scripts\jquery-2.1.3.min.js" />
+    <Content Include="CustomResources\GridTable\Scripts\npm.js" />
+    <Content Include="CustomResources\js\ActiverUserList.js" />
+    <Content Include="CustomResources\js\Agreement.js" />
+    <Content Include="CustomResources\js\StatementList.js" />
+    <Content Include="CustomResources\js\stripe.js" />
+    <Content Include="CustomResources\js\UserWithAccountreconcillation.js" />
+    <Content Include="dll\AutoMapper.dll" />
+    <Content Include="dll\AutoMapper.xml" />
+    <Content Include="dll\AxInterop.MODI.dll" />
+    <Content Include="dll\DropDownList_Optgroup.dll" />
+    <Content Include="dll\EPPlus.dll" />
+    <Content Include="dll\GroupDropDownList.dll" />
+    <Content Include="dll\Interop.MODI.dll" />
+    <Content Include="dll\Microsoft.ReportViewer.Common.dll" />
+    <Content Include="dll\Microsoft.ReportViewer.ProcessingObjectModel.DLL" />
+    <Content Include="dll\Microsoft.ReportViewer.WinForms.dll" />
+    <Content Include="dll\Microsoft.SqlServer.Types.dll" />
+    <Content Include="dll\RestSharp.dll" />
+    <Content Include="dll\RestSharp.xml" />
+    <Content Include="dll\Stripe.dll" />
+    <Content Include="dll\Stripe.net.dll" />
+    <Content Include="EditBankStatement.aspx" />
+    <Content Include="EmailFormats\AddEmployee.html" />
+    <Content Include="EmailFormats\Agreement.html" />
+    <Content Include="EmailFormats\AgreementMobile.html" />
+    <Content Include="EmailFormats\EmailTemplate.html" />
+    <Content Include="EmailFormats\EmailTemplateInvoice.html" />
+    <Content Include="EmailFormats\PrivateKeyEmailTemplate.html" />
+    <Content Include="EmailFormats\UserWithAnAccountantEmailTemplate.html" />
+    <Content Include="EmailTemplate.html" />
+    <Content Include="EmailTemplateInvoice.html" />
+    <Content Include="EmailTemplates\EmailToCustomer.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-22-13-.png" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-25-54-.png" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-28-03-.png" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-29-05-.png" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-30-06-.png" />
+    <Content Include="InvoiceUserConpanyLogoImage\2016-12-23--20-32-24-.png" />
+    <Content Include="Logos\2016-11-17--11-55-58-.png" />
+    <Content Include="obj\Debug\KF.Web.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\KF.Web.dll" />
+    <Content Include="obj\Debug\KF.Web.pdb" />
+    <Content Include="OcrImages\2\17\2016-12-23--13-02-29-.jpg" />
+    <Content Include="OcrImages\2\17\2016-12-28--16-56-51-.jpg" />
+    <Content Include="OcrImages\2\17\2016-12-28--16-58-07-.jpg" />
+    <Content Include="OcrImages\2\18\2016-12-23--13-08-46-.jpg" />
+    <Content Include="OcrImages\2\18\2016-12-28--17-13-54-.jpg" />
+    <Content Include="OcrImages\2\18\2016-12-28--17-19-12-.jpg" />
+    <Content Include="OcrImages\2\50\2016-12-23--13-02-29-.jpg" />
+    <Content Include="OcrImages\2\54\2016-12-23--13-08-46-.jpg" />
+    <Content Include="OcrImages\2\56\2016-12-23--13-08-46-.jpg" />
+    <Content Include="OcrImages\8\147\2016-12-29--16-13-38-test.jpg" />
+    <Content Include="ThemeAssets\css\animate.delay.css" />
+    <Content Include="ThemeAssets\css\animate.min.css" />
+    <Content Include="ThemeAssets\css\bootstrap-override.css" />
+    <Content Include="ThemeAssets\css\bootstrap.min.css" />
+    <Content Include="ThemeAssets\css\cloud.css" />
+    <Content Include="ThemeAssets\css\customlistCss.css" />
+    <Content Include="ThemeAssets\css\EditProfile.css" />
+    <Content Include="ThemeAssets\css\font-awesome.min.css" />
+    <Content Include="ThemeAssets\css\form-layout.css" />
+    <Content Include="ThemeAssets\css\jquery-ui-1.10.3.css" />
+    <Content Include="ThemeAssets\css\lato.css" />
+    <Content Include="ThemeAssets\css\main.css" />
+    <Content Include="ThemeAssets\css\manualEntry.css" />
+    <Content Include="ThemeAssets\css\payment.css" />
+    <Content Include="ThemeAssets\css\popUpCloud.css" />
+    <Content Include="ThemeAssets\css\roboto.css" />
+    <Content Include="ThemeAssets\css\sb_23Feb.css" />
+    <Content Include="ThemeAssets\css\select2.css" />
+    <Content Include="ThemeAssets\css\statementUpload.css" />
+    <Content Include="ThemeAssets\css\style.default.css" />
+    <Content Include="ThemeAssets\css\toggles.css" />
+    <Content Include="ThemeAssets\css\weather-icons.min.css" />
+    <Content Include="ThemeAssets\fonts\fontawesome-webfont862f.svg" />
+    <Content Include="ThemeAssets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bla-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BlaIta-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bol-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BolIta-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Hai-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-HaiIta-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Lig-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-LigIta-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Reg-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-RegIta-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Black-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BlackItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Bold-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensed-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensedItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Condensed-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-CondensedItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Italic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Light-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-LightItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Medium-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-MediumItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Regular-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Thin-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-ThinItalic-webfont.svg" />
+    <Content Include="ThemeAssets\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="ThemeAssets\Gridjs\accountantAgreement.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiveEmployeeList.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverCustomerList.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverCustomerListNew.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverCustomerListProformaNew.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceCustomerList.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceCustomerListInvoiceNew.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceCustomerListNew.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceCustomerListProformaNew.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceReceivedInvoiceListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceReceivedPerformaListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceReportInvoiceListGrids.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceReportListGrids.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceSentInvoiceListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceSentPerformaListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverInvoiceSupplierList.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverReceivedInvoiceListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverReceivedPerformaListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverSentInvoiceListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverSentPerformaListGrid.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverSupplierList.js" />
+    <Content Include="ThemeAssets\Gridjs\ActiverUserList.js" />
+    <Content Include="ThemeAssets\Gridjs\Agreement.js" />
+    <Content Include="ThemeAssets\Gridjs\BrowserBack.js" />
+    <Content Include="ThemeAssets\Gridjs\Invoice.js" />
+    <Content Include="ThemeAssets\Gridjs\jquery.formatCurrency-1.4.0.js" />
+    <Content Include="ThemeAssets\Gridjs\jquery.price_format.2.0.js" />
+    <Content Include="ThemeAssets\Gridjs\metisMenu.js" />
+    <Content Include="ThemeAssets\Gridjs\Reconcillation.js" />
+    <Content Include="ThemeAssets\Gridjs\sb-admin-2.js" />
+    <Content Include="ThemeAssets\Gridjs\UnlinkedUsers.js" />
+    <Content Include="ThemeAssets\Gridjs\UserWithAccountreconcillation.js" />
+    <Content Include="ThemeAssets\Images\ajax-loading.gif" />
+    <Content Include="ThemeAssets\Images\comming-soon.png" />
+    <Content Include="ThemeAssets\Images\delete.png" />
+    <Content Include="ThemeAssets\Images\deleteblack.png" />
+    <Content Include="ThemeAssets\Images\download.png" />
+    <Content Include="ThemeAssets\Images\favicon.png" />
+    <Content Include="ThemeAssets\Images\folder.png" />
+    <Content Include="ThemeAssets\Images\icon-search.png" />
+    <Content Include="ThemeAssets\Images\is-document.png" />
+    <Content Include="ThemeAssets\Images\is-money.png" />
+    <Content Include="ThemeAssets\Images\is-user.png" />
+    <Content Include="ThemeAssets\Images\kippin_logo.png" />
+    <Content Include="ThemeAssets\Images\loggeduser.png" />
+    <Content Include="ThemeAssets\Images\no-thumb.jpg" />
+    <Content Include="ThemeAssets\Images\noAccess.gif" />
+    <Content Include="ThemeAssets\Images\noUser.png" />
+    <Content Include="ThemeAssets\Images\photo1.png" />
+    <Content Include="ThemeAssets\Images\plus-white.png" />
+    <Content Include="ThemeAssets\Images\plus.png" />
+    <Content Include="ThemeAssets\Images\icon-user.png" />
+    <Content Include="ThemeAssets\Images\searchIcon.png" />
+    <Content Include="ThemeAssets\img\account1.png" />
+    <Content Include="ThemeAssets\img\API-keys.png" />
+    <Content Include="ThemeAssets\img\cibcLogo.jpg" />
+    <Content Include="ThemeAssets\img\LoginStripe.png" />
+    <Content Include="ThemeAssets\img\logo.png" />
+    <Content Include="ThemeAssets\img\pdfviewier.png" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap-theme.css" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap-theme.min.css" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap.css" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap.min.css" />
+    <Content Include="ThemeAssets\jquertable\Content\grid-0.4.3.css" />
+    <Content Include="ThemeAssets\jquertable\Content\grid-0.4.3.min.css" />
+    <Content Include="ThemeAssets\jquertable\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="ThemeAssets\jquertable\Scripts\bootstrap.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\bootstrap.min.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\grid-0.4.3.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\grid-0.4.3.min.js" />
+    <Content Include="EmailTemplates\ConfirmEmailForMobileInvoice.cshtml" />
+    <None Include="ThemeAssets\jquertable\Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\jquery-2.1.3.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\jquery-2.1.3.min.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\newgrid.js" />
+    <Content Include="ThemeAssets\jquertable\Scripts\npm.js" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\application.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\code.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\css.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\db.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\directory.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\doc.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\file.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\film.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\flash.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\folder_open.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\html.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\java.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\linux.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\music.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\pdf.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\php.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\picture.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\ppt.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\psd.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\ruby.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\script.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\spinner.gif" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\txt.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\xls.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\images\zip.png" />
+    <Content Include="ThemeAssets\jqueryFileTree\js\jquery.easing.js" />
+    <Content Include="ThemeAssets\jqueryFileTree\js\jquery.js" />
+    <Content Include="ThemeAssets\jqueryFileTree\js\jqueryFileTree.css" />
+    <Content Include="ThemeAssets\jqueryFileTree\js\jqueryFileTree.js" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_888888_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="ThemeAssets\JqueryUI\css\jquery-ui.css" />
+    <Content Include="ThemeAssets\JqueryUI\css\style.css" />
+    <Content Include="ThemeAssets\JqueryUI\jquery-ui.js" />
+    <Content Include="ThemeAssets\js\ActiverInvoiceCustomerListInvoiceNew.js" />
+    <Content Include="ThemeAssets\js\bootstrap.min.js" />
+    <Content Include="ThemeAssets\js\BrowserBack.js" />
+    <Content Include="ThemeAssets\js\custom.js" />
+    <Content Include="ThemeAssets\js\dashboard.js" />
+    <Content Include="ThemeAssets\js\jquery-1.11.1.min.js" />
+    <Content Include="ThemeAssets\js\jquery-migrate-1.2.1.min.js" />
+    <Content Include="ThemeAssets\js\jquery-ui-1.10.3.min.js" />
+    <Content Include="ThemeAssets\js\jquery.cookies.js" />
+    <Content Include="ThemeAssets\js\jquery.flot.min.js" />
+    <Content Include="ThemeAssets\js\jquery.flot.resize.min.js" />
+    <Content Include="ThemeAssets\js\jquery.flot.spline.min.js" />
+    <Content Include="ThemeAssets\js\jquery.formatCurrency-1.4.0.js" />
+    <Content Include="ThemeAssets\js\jquery.sparkline.min.js" />
+    <Content Include="ThemeAssets\js\jquery.unobtrusive-ajax.js" />
+    <Content Include="ThemeAssets\js\modernizr.min.js" />
+    <Content Include="ThemeAssets\js\morris.min.js" />
+    <Content Include="ThemeAssets\js\raphael-2.1.0.min.js" />
+    <Content Include="ThemeAssets\js\retina.min.js" />
+    <Content Include="ThemeAssets\js\toggles.min.js" />
+    <Content Include="UpdateClassification.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Accounting\Partials\_SearchUserPartial.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Checkmail.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailForMobileUser.cshtml" />
+    <Content Include="Views\Account\Payment.cshtml" />
+    <Content Include="Views\Account\PaymentSucess.cshtml" />
+    <Content Include="Views\Account\AccountantAgreement.cshtml" />
+    <Content Include="Views\Account\UserwithanaccountantPaymentSuccess.cshtml" />
+    <Content Include="Views\Account\UserwithanaccountantPayment.cshtml" />
+    <Content Include="Views\Account\MobileUserPayment.cshtml" />
+    <Content Include="Views\Account\MobileUserPaymentSucess.cshtml" />
+    <Content Include="Views\Accounting\CreateUser.cshtml" />
+    <Content Include="Views\Accounting\UploadStatement.cshtml" />
+    <Content Include="Views\Accounting\UploadStatementList.cshtml" />
+    <Content Include="Views\Accounting\Partials\_BankUploadUserListForAccountant.cshtml" />
+    <Content Include="Views\Accounting\Partials\_GetFriendlynameListByUserId.cshtml" />
+    <Content Include="Views\Accounting\_GetStatementType.cshtml" />
+    <Content Include="Views\Accounting\AddManualEntry.cshtml" />
+    <Content Include="Views\Accounting\GetSubIndustryForAccountant.cshtml" />
+    <Content Include="Views\Accounting\KippinCloudHome.cshtml" />
+    <Content Include="Views\Accounting\KippinCloudImageListing.cshtml" />
+    <Content Include="Views\Accounting\KippinCloudMonthListing.cshtml" />
+    <Content Include="Views\Accounting\KippinCloudYearListing.cshtml" />
+    <Content Include="Views\Accounting\Reconciliation.cshtml" />
+    <Content Include="Views\Accounting\Report.cshtml" />
+    <Content Include="Views\Accounting\StatementReconcilation.cshtml" />
+    <Content Include="Views\Shared\_InternalPageHeader.cshtml" />
+    <Content Include="Views\Account\UserwithanaccountantTrialMode.cshtml" />
+    <Content Include="Views\Account\Userlogin.cshtml" />
+    <Content Include="Views\Invoice\AddstripeDetail.cshtml" />
+    <Content Include="Views\Invoice\CreateInvoice.cshtml" />
+    <Content Include="Views\Invoice\CreateProforma.cshtml" />
+    <Content Include="Views\Invoice\CustomerList.cshtml" />
+    <Content Include="Views\Invoice\CustomerListNew.cshtml" />
+    <Content Include="Views\Invoice\CustomerListProformaNew.cshtml" />
+    <Content Include="Views\Invoice\CustomerRegister.cshtml" />
+    <Content Include="Views\Invoice\EditInvoiceReceivedInvoice.cshtml" />
+    <Content Include="Views\Invoice\EditInvoiceReceivedProforma.cshtml" />
+    <Content Include="Views\Invoice\EditInvoiceSentInvoice.cshtml" />
+    <Content Include="Views\Invoice\EditInvoiceSentProforma.cshtml" />
+    <Content Include="Views\Invoice\EditReceivedInvoice.cshtml" />
+    <Content Include="Views\Invoice\EditReceivedProforma.cshtml" />
+    <Content Include="Views\Invoice\EditSentInvoice.cshtml" />
+    <Content Include="Views\Invoice\EditSentProforma.cshtml" />
+    <Content Include="Views\Invoice\FinanceSupplierCustomerDashboard.cshtml" />
+    <Content Include="Views\Invoice\Invoice1ReceivedInvoicePerforma.cshtml" />
+    <Content Include="Views\Invoice\InvoiceActiveUser.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCreateInvoice.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCreateProforma.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCustomerList.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCustomerListInvoiceNew.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCustomerListNew.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCustomerListProformaNew.cshtml" />
+    <Content Include="Views\Invoice\InvoiceCustomerRegister.cshtml" />
+    <Content Include="Views\Invoice\InvoiceReceivedInvoice.cshtml" />
+    <Content Include="Views\Invoice\InvoiceReceivedPerforma.cshtml" />
+    <Content Include="Views\Invoice\InvoiceReport.cshtml" />
+    <Content Include="Views\Invoice\InvoiceReportInvoice.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSentInvoice.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSentInvoicePerforma.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSentPerforma.cshtml" />
+    <Content Include="Views\Invoice\InvoicestripeDetail.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSupplierCustomerDashboard.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSupplierList.cshtml" />
+    <Content Include="Views\Invoice\InvoiceUpdateCustomer.cshtml" />
+    <Content Include="Views\Invoice\InvoiceUpdateSupplier.cshtml" />
+    <Content Include="Views\Invoice\ReceivedInvoice.cshtml" />
+    <Content Include="Views\Invoice\ReceivedInvoicePdf.cshtml" />
+    <Content Include="Views\Invoice\ReceivedInvoicePerforma.cshtml" />
+    <Content Include="Views\Invoice\ReceivedPerforma.cshtml" />
+    <Content Include="Views\Invoice\SentInvoice.cshtml" />
+    <Content Include="Views\Invoice\SentInvoicePerforma.cshtml" />
+    <Content Include="Views\Invoice\SentPerforma.cshtml" />
+    <Content Include="Views\Invoice\SupplierList.cshtml" />
+    <Content Include="Views\Invoice\SupplierRegister.cshtml" />
+    <Content Include="Views\Invoice\TestCreateInvoice.cshtml" />
+    <Content Include="Views\Invoice\UpdateCustomer.cshtml" />
+    <Content Include="Views\Invoice\UpdateSupplier.cshtml" />
+    <Content Include="Views\Invoice\ViewPdf.cshtml" />
+    <Content Include="Views\Account\InvoiceLogin.cshtml" />
+    <Content Include="Views\Shared\_PageHeader.cshtml" />
+    <Content Include="Views\Shared\_InvoiceLayoutPage.cshtml" />
+    <Content Include="Views\Shared\_ProfileImage.cshtml" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap-theme.css.map" />
+    <Content Include="ThemeAssets\jquertable\Content\bootstrap.css.map" />
+    <Content Include="ThemeAssets\jquertable\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="ThemeAssets\jquertable\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="ThemeAssets\jquertable\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="ThemeAssets\jquertable\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="ThemeAssets\jquertable\Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\Account\InvoiceRegister.cshtml" />
+    <Content Include="Views\Accounting\CreateClassification.cshtml" />
+    <Content Include="Views\Accounting\DeleteClassification_TypeA.cshtml" />
+    <Content Include="Views\Accounting\MannualClassification.cshtml" />
+    <Content Include="Views\Accounting\Partials\_AvailableChartAccountNumber.cshtml" />
+    <Content Include="Views\Accounting\UpdateClassification_TypeA.cshtml" />
+    <Content Include="Views\Accounting\UpdateClassification_TypeG.cshtml" />
+    <Content Include="Views\Accounting\UpdateClassification_TypeS.cshtml" />
+    <Content Include="Views\Accounting\UpdateClassification_TypeT.cshtml" />
+    <Content Include="Views\Shared\_MasterPageLayout_New_backup.cshtml" />
+    <Content Include="Views\Accounting\ViewStatementUploadedBills.cshtml" />
+    <Content Include="Views\Shared\_MasterPageLayout_1.cshtml" />
+    <Content Include="Views\Shared\_MasterPageLayout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Invoice\InvoiceSupplierRegister.cshtml" />
+    <Content Include="Views\Accounting\TrialBalance.cshtml" />
+    <Content Include="Views\Accounting\IncomeStatement.cshtml" />
+    <Content Include="Views\Accounting\BalanceSheet.cshtml" />
+    <Content Include="Views\Accounting\_AssetReport.cshtml" />
+    <Content Include="Views\Accounting\_EquityReport.cshtml" />
+    <Content Include="Views\Accounting\_ExpenseReport.cshtml" />
+    <Content Include="Views\Accounting\_LiabilityReport.cshtml" />
+    <Content Include="Views\Accounting\_RevenueReport.cshtml" />
+    <Content Include="Views\Accounting\Assets.cshtml" />
+    <Content Include="Views\Accounting\Liability.cshtml" />
+    <Content Include="Views\Accounting\Equity.cshtml" />
+    <Content Include="Views\Accounting\Revenue.cshtml" />
+    <Content Include="Views\Accounting\Expense.cshtml" />
+    <Content Include="Views\Accounting\KippinCloud.cshtml" />
+    <Content Include="Views\Accounting\GetYearList.cshtml" />
+    <Content Include="Views\Accounting\GetMonthList.cshtml" />
+    <Content Include="Views\Accounting\GetUserImages.cshtml" />
+    <Content Include="Views\Accounting\UnlinkAccountant.cshtml" />
+    <Content Include="Views\Accounting\SuccessfullyUnlink.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailForMobileInvoice.cshtml" />
+    <Content Include="Views\Accounting\AccountList.cshtml" />
+    <Content Include="Views\Accounting\AddAccount.cshtml" />
+    <Content Include="Views\Accounting\AddAccountwithKippin.cshtml" />
+    <Content Include="Views\Accounting\AutomaticLogin.cshtml" />
+    <Content Include="Views\Accounting\form_mfa_question.cshtml" />
+    <Content Include="Views\Accounting\form_mfa_token.cshtml" />
+    <Content Include="Views\Accounting\get_mfa_response_for_site.cshtml" />
+    <Content Include="Views\Accounting\get_site_login_form.cshtml" />
+    <Content Include="Views\Accounting\msg_errors.cshtml" />
+    <Content Include="Views\Accounting\poll_refresh_site_account.cshtml" />
+    <Content Include="Views\Accounting\Search_Site.cshtml" />
+    <Content Include="Views\Accounting\ViewTransaction.cshtml" />
+    <Content Include="Views\Accounting\AddSubAccountant.cshtml" />
+    <Content Include="Views\Accounting\SaveSubAccountant.cshtml" />
+    <Content Include="Views\Accounting\GetEmployees.cshtml" />
+    <Content Include="Views\Account\EditProfile.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\PasswordUpdated.cshtml" />
+    <Content Include="Views\Account\Agreement.cshtml" />
+    <Content Include="Views\Account\InvoiceForgotPassword.cshtml" />
+    <Content Include="Views\Shared\_PageHeaderInvoice.cshtml" />
+    <Content Include="Views\Account\InvoiceChangePassword.cshtml" />
+    <Content Include="Views\Account\InvoicePasswordUpdated.cshtml" />
+    <Content Include="Views\Accounting\CreateClassification - Copy.cshtml" />
+    <Content Include="Views\Account\TrialMode.cshtml" />
+    <Content Include="Views\Accounting\UpdateClassification.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CameraUploadImages\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="OcrImages\2\52\" />
+    <Folder Include="OcrImages\8\145\" />
+    <Folder Include="Views\StripeWebhook\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap-theme.css.map" />
+    <Content Include="CustomResources\GridTable\Content\bootstrap.css.map" />
+    <Content Include="CustomResources\GridTable\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="CustomResources\GridTable\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="CustomResources\GridTable\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="CustomResources\GridTable\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="CustomResources\GridTable\Scripts\jquery-2.1.3.min.map" />
+    <Content Include="List_Errors_Codes.json" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\KF.Web.csprojResolveAssemblyReference.cache" />
+    <Content Include="InvoicePdf\2016-12-14--20-22-42-21.pdf" />
+    <Content Include="InvoicePdf\2016-12-14--22-31-19-10.pdf" />
+    <Content Include="InvoicePdf\2016-12-16--17-09-38-5.pdf" />
+    <Content Include="InvoicePdf\2016-12-16--17-14-26-5.pdf" />
+    <Content Include="InvoicePdf\2016-12-16--17-18-56-5.pdf" />
+    <Content Include="InvoicePdf\2016-12-16--17-50-06-77.pdf" />
+    <Content Include="InvoicePdf\2016-12-16--17-51-23-21.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-15-36-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-17-30-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-27-35-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-31-27-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-32-33-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-36-20-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-45-55-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--11-49-23-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--12-12-25-91.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--12-23-33-92.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--16-57-19-109.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--17-06-35-111.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--17-07-15-112.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--17-09-07-113.pdf" />
+    <Content Include="InvoicePdf\2016-12-20--20-44-03-87.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-23-01-.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-31-20-.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-34-22-.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-52-13-6.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-53-24-6.pdf" />
+    <Content Include="InvoicePdf\2016-12-9--11-53-28-1.pdf" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Views\Shared\_MasterPageLayout_Old.cshtml" />
+    <Content Include="Views\Accounting\Index.cshtml" />
+    <Content Include="ThemeAssets\fonts\fontawesome-webfont862f.eot" />
+    <Content Include="ThemeAssets\fonts\fontawesome-webfont862f.ttf" />
+    <Content Include="ThemeAssets\fonts\fontawesome-webfont862f.woff" />
+    <Content Include="ThemeAssets\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="ThemeAssets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="ThemeAssets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="ThemeAssets\fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bla-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bla-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bla-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bla-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BlaIta-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BlaIta-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BlaIta-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BlaIta-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bol-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bol-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bol-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Bol-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BolIta-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BolIta-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BolIta-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-BolIta-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Hai-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Hai-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Hai-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Hai-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-HaiIta-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-HaiIta-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-HaiIta-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-HaiIta-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Lig-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Lig-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Lig-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Lig-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-LigIta-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-LigIta-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-LigIta-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-LigIta-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Reg-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Reg-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Reg-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-Reg-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-RegIta-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-RegIta-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-RegIta-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\lato\Lato-RegIta-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Black-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Black-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Black-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Black-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BlackItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BlackItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BlackItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BlackItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Bold-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Bold-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Bold-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Bold-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensed-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensed-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensed-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensed-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensedItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensedItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensedItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldCondensedItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-BoldItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Condensed-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Condensed-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Condensed-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Condensed-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-CondensedItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-CondensedItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-CondensedItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-CondensedItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Italic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Italic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Italic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Italic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Light-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Light-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Light-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Light-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-LightItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-LightItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-LightItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-LightItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Medium-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Medium-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Medium-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Medium-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-MediumItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-MediumItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-MediumItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-MediumItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Regular-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Regular-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Regular-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Regular-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Thin-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Thin-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Thin-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-Thin-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-ThinItalic-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-ThinItalic-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-ThinItalic-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\roboto\Roboto-ThinItalic-webfontd41d.eot" />
+    <Content Include="ThemeAssets\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="ThemeAssets\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="ThemeAssets\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="ThemeAssets\fonts\weathericons-regular-webfontd41d.eot" />
+    <Content Include="Views\Accounting\Partials\_InternalPageHeader.cshtml" />
+    <Content Include="Views\Platform\Dashboard.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\UnauthorizedAccess.cshtml" />
+    <Content Include="Views\Accounting\ActiveUser.cshtml" />
+    <Content Include="Views\Shared\_NavigationMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroupDropDownList\GroupDropDownList.csproj">
+      <Project>{d2e00fdc-efe8-48fb-b16d-2dca2deceb29}</Project>
+      <Name>GroupDropDownList</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KF.Dto\KF.Dto.csproj">
+      <Project>{55957724-deae-4ec1-ac0a-e713df0fc2de}</Project>
+      <Name>KF.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KF.Entity\KF.Entity.csproj">
+      <Project>{fb456a1e-820c-4c59-a4b0-17c79ddc34b5}</Project>
+      <Name>KF.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KF.Repo\KF.Repo.csproj">
+      <Project>{849cfd4b-4a1a-4f23-9e9c-e9a4fbee9d23}</Project>
+      <Name>KF.Repo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KF.Utilities\KF.Utilities.csproj">
+      <Project>{b8e7047e-ff99-4214-987a-fab63a12fae0}</Project>
+      <Name>KF.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YodleeBase\YodleeBase.csproj">
+      <Project>{79353450-1dcc-4806-90ef-7fce871eb5f7}</Project>
+      <Name>YodleeBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\KippinInvoiceReport.rdlc" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49334</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49334/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

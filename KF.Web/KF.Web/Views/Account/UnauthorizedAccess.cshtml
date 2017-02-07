@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>::Unauthorized Access::</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="well-lg bg-danger text-danger">Oh ! We Apologize for not serving this page to you.</h2>
+                <blockquote class="text-danger">
+                    it seems you are not allowed to view the requested page.
+                    Try <a href="@Url.Action("Login","Account")">Login</a> or <a href="@Url.Action("Register","Account")">Register</a> to gain access.
+                </blockquote>
+                <div class="text-center">
+                    <img class="img-responsive img-thumbnail" src="@Url.Content("~/ThemeAssets/Images/noAccess.gif")" alt="unauthorize" />
+                </div>
+                <em><b>you can explore our site back to the navigation above.</b></em>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

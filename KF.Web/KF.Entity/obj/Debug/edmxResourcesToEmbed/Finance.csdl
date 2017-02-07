@@ -1,0 +1,1465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KIppinFinance" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ArchiveDirectorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PercentageAmount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Percentage" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="StatementId" Type="Int32" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="BankType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="BankExpenses" Relationship="KIppinFinance.FK_BankExpense_Bank" FromRole="Bank" ToRole="BankExpense" />
+    <Property Name="BankCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CardDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardHolderName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ExpiryMonth" Type="Int32" />
+    <Property Name="ExpiryYear" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="CVV" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CardNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CategoryTypeCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="BankExpenses" Relationship="KIppinFinance.FK_BankExpense_Category" FromRole="Category" ToRole="BankExpense" />
+  </EntityType>
+  <EntityType Name="ClassificationType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassificationType1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CloudImagesRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="IsAssociated" Type="Boolean" />
+    <Property Name="StatementId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Month" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="FiscalYearPosting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="TaxStartYear" Type="DateTime" Precision="3" />
+    <Property Name="TaxEndYear" Type="DateTime" Precision="3" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsPosted" Type="Boolean" />
+    <Property Name="SubAccountantId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Industry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IndustryType" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="IndustryClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassificationId" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ChartAccountNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsSole" Type="Boolean" />
+    <Property Name="IsIncorporated" Type="Boolean" />
+    <Property Name="IsPartnerShip" Type="Boolean" />
+    <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="IndustryId" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="KippinStoreImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="Month" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="IsAssociated" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="License">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LicenseType" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cost" Type="Decimal" Precision="9" Scale="5" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Ownership">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OwnershipType" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProvinceName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="ReconcilationMethodTypename">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReconcilationMethodName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ReportRange">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="StartRange" Type="Int32" />
+    <Property Name="Endrange" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="SubHeading" Type="Int32" />
+    <Property Name="HeadingName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="SubHeadingName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="TotalName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="RetainedEarning">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="SubAccountantId" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="ReatinedYearEarning" Type="Decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="RetainedEarningLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="SubAccountantId" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="ReatinedYearEarning" Type="Decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleType" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ShadowEntryRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankExpenseId" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="BankExpenseShadowId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="BankExpenses" Relationship="KIppinFinance.FK_BankExpense_Status" FromRole="Status" ToRole="BankExpense" />
+  </EntityType>
+  <EntityType Name="SubIndustry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IndustryId" Type="Int32" />
+    <Property Name="SubIndustryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tblMonth">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" />
+    <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblYear">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="UnlinkRecordLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountantId" Type="Int32" Nullable="false" />
+    <Property Name="NewAccountantId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UserPrice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoldeId" Type="Byte" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="UserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReconciliationType" Type="Byte" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CountryId" Type="Int32" />
+    <Property Name="ProvinceId" Type="Byte" />
+    <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="SectorId" Type="Int32" />
+    <Property Name="IndustryId" Type="Int32" />
+    <Property Name="SubIndustryId" Type="Int32" />
+    <Property Name="CompanyName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CorporationAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="GSTNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="BusinessNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OwnershipId" Type="Int32" />
+    <Property Name="CurrencyId" Type="Int32" />
+    <Property Name="LicenseId" Type="Int32" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="PrivateKey" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsEmailSent" Type="Boolean" />
+    <Property Name="IsVerified" Type="Boolean" />
+    <Property Name="IsTrial" Type="Boolean" />
+    <Property Name="IsPaid" Type="Boolean" />
+    <Property Name="IsExpired" Type="Boolean" />
+    <Property Name="ExpiredDate" Type="DateTime" Precision="3" />
+    <Property Name="TaxationStartDay" Type="Int32" />
+    <Property Name="TaxationEndDay" Type="Int32" />
+    <Property Name="TaxStartMonthId" Type="Byte" />
+    <Property Name="TaxEndMonthId" Type="Byte" />
+    <Property Name="TaxStartYear" Type="Int32" />
+    <Property Name="TaxEndYear" Type="Int32" />
+    <Property Name="IsDownload" Type="Boolean" Nullable="false" />
+    <Property Name="IsNewUser" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsUnlink" Type="Boolean" />
+    <Property Name="IsTermsAndConditionAccepted" Type="Boolean" />
+    <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IsYodleeAccountCreated" Type="Boolean" />
+    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsEmployeeActivated" Type="Boolean" />
+    <Property Name="IsOnlyInvoice" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+    <Property Name="IsLoggedInWeb" Type="Boolean" />
+    <Property Name="IsLoggedInMobile" Type="Boolean" />
+    <NavigationProperty Name="UserLincensePayments" Relationship="KIppinFinance.FK_UserLincensePayment_UserRegistration" FromRole="UserRegistration" ToRole="UserLincensePayment" />
+    <NavigationProperty Name="BankExpenses" Relationship="KIppinFinance.FK_BankExpense_UserRegistration" FromRole="UserRegistration" ToRole="BankExpense" />
+    <NavigationProperty Name="SubAccountantUserPermissions" Relationship="KIppinFinance.FK_SubAccountantUserPermission_UserRegistration" FromRole="UserRegistration" ToRole="SubAccountantUserPermission" />
+  </EntityType>
+  <EntityType Name="UserUpdateProfileLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FieldUpdatedDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="IsSuperAdminUpdated" Type="Boolean" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="IsPasswordUpdated" Type="Boolean" />
+    <Property Name="IsLogin" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="YodleeAccountDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemAccountId" Type="Int64" Nullable="false" />
+    <Property Name="AccountName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="AccountUserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="AccountPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CobrandToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BankId" Type="Int32" />
+    <Property Name="AccountType" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="YodleeErrorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ErrorMethod" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="KippinUserId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="YodleeUserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UPassword" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CobrandName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CobrandPassword" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="KippinUserId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="DirectorAccount">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="StatementId" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PercentageAmount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Percentage" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="StatementId" Type="Int32" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="KFentities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ArchiveDirectorLogs" EntityType="Self.ArchiveDirectorLog" />
+    <EntitySet Name="Banks" EntityType="Self.Bank" />
+    <EntitySet Name="CardDetails" EntityType="Self.CardDetail" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="ClassificationTypes" EntityType="Self.ClassificationType" />
+    <EntitySet Name="CloudImagesRecords" EntityType="Self.CloudImagesRecord" />
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="FiscalYearPostings" EntityType="Self.FiscalYearPosting" />
+    <EntitySet Name="Industries" EntityType="Self.Industry" />
+    <EntitySet Name="IndustryClassifications" EntityType="Self.IndustryClassification" />
+    <EntitySet Name="KippinStoreImages" EntityType="Self.KippinStoreImage" />
+    <EntitySet Name="Licenses" EntityType="Self.License" />
+    <EntitySet Name="Ownerships" EntityType="Self.Ownership" />
+    <EntitySet Name="Provinces" EntityType="Self.Province" />
+    <EntitySet Name="ReconcilationMethodTypenames" EntityType="Self.ReconcilationMethodTypename" />
+    <EntitySet Name="ReportRanges" EntityType="Self.ReportRange" />
+    <EntitySet Name="RetainedEarnings" EntityType="Self.RetainedEarning" />
+    <EntitySet Name="RetainedEarningLogs" EntityType="Self.RetainedEarningLog" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="ShadowEntryRecords" EntityType="Self.ShadowEntryRecord" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="SubIndustries" EntityType="Self.SubIndustry" />
+    <EntitySet Name="tblMonths" EntityType="Self.tblMonth" />
+    <EntitySet Name="tblYears" EntityType="Self.tblYear" />
+    <EntitySet Name="UnlinkRecordLogs" EntityType="Self.UnlinkRecordLog" />
+    <EntitySet Name="UserPrices" EntityType="Self.UserPrice" />
+    <EntitySet Name="UserRegistrations" EntityType="Self.UserRegistration" />
+    <EntitySet Name="UserUpdateProfileLogs" EntityType="Self.UserUpdateProfileLog" />
+    <EntitySet Name="YodleeAccountDetails" EntityType="Self.YodleeAccountDetail" />
+    <EntitySet Name="YodleeErrorLogs" EntityType="Self.YodleeErrorLog" />
+    <EntitySet Name="YodleeUserRegistrations" EntityType="Self.YodleeUserRegistration" />
+    <EntitySet Name="DirectorAccounts" EntityType="Self.DirectorAccount" />
+    <EntitySet Name="Currencies" EntityType="KIppinFinance.Currency" />
+    <EntitySet Name="UserLincensePayments" EntityType="KIppinFinance.UserLincensePayment" />
+    <AssociationSet Name="FK_UserLincensePayment_UserRegistration" Association="KIppinFinance.FK_UserLincensePayment_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistrations" />
+      <End Role="UserLincensePayment" EntitySet="UserLincensePayments" />
+    </AssociationSet>
+    <EntitySet Name="BankExpenses" EntityType="KIppinFinance.BankExpense" />
+    <AssociationSet Name="FK_BankExpense_Bank" Association="KIppinFinance.FK_BankExpense_Bank">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="BankExpense" EntitySet="BankExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_Category" Association="KIppinFinance.FK_BankExpense_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="BankExpense" EntitySet="BankExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_Status" Association="KIppinFinance.FK_BankExpense_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="BankExpense" EntitySet="BankExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_UserRegistration" Association="KIppinFinance.FK_BankExpense_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistrations" />
+      <End Role="BankExpense" EntitySet="BankExpenses" />
+    </AssociationSet>
+    <EntitySet Name="InvoiceUserRegistrations" EntityType="KIppinFinance.InvoiceUserRegistration" />
+    <EntitySet Name="StripeKeyDetails" EntityType="KIppinFinance.StripeKeyDetail" />
+    <EntitySet Name="tblCustomerOrSuppliers" EntityType="KIppinFinance.tblCustomerOrSupplier" />
+    <EntitySet Name="tblInvoiceDetails" EntityType="KIppinFinance.tblInvoiceDetail" />
+    <EntitySet Name="tblInvoiceTypes" EntityType="KIppinFinance.tblInvoiceType" />
+    <EntitySet Name="tblItemDetails" EntityType="KIppinFinance.tblItemDetail" />
+    <EntitySet Name="InvoicetblColumnDetails" EntityType="KIppinFinance.InvoicetblColumnDetail" />
+    <EntitySet Name="StripePayCardDetails" EntityType="KIppinFinance.StripePayCardDetail" />
+    <EntitySet Name="tblCurrencies" EntityType="KIppinFinance.tblCurrency" />
+    <EntitySet Name="tblFlowStatus" EntityType="KIppinFinance.tblFlowStatu" />
+    <EntitySet Name="tblTypeOfInvoices" EntityType="KIppinFinance.tblTypeOfInvoice" />
+    <EntitySet Name="tblExpenses" EntityType="KIppinFinance.tblExpens" />
+    <FunctionImport Name="sp_GetSupplierLists" ReturnType="Collection(KIppinFinance.sp_GetSupplierLists_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="RoleId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="StripePaymnts" EntityType="KIppinFinance.StripePaymnt" />
+    <EntitySet Name="tblSTypeCategories" EntityType="KIppinFinance.tblSTypeCategory" />
+    <EntitySet Name="tblT1TypeCategories" EntityType="KIppinFinance.tblT1TypeCategories" />
+    <EntitySet Name="tblT2TypeCategories" EntityType="KIppinFinance.tblT2TypeCategories" />
+    <EntitySet Name="tblZTypeCategories" EntityType="KIppinFinance.tblZTypeCategory" />
+    <EntitySet Name="tblTemplateClassifications" EntityType="KIppinFinance.tblTemplateClassification" />
+    <FunctionImport Name="sp_GType" ReturnType="Collection(KIppinFinance.sp_GType_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_SType" ReturnType="Collection(KIppinFinance.sp_SType_Result)" />
+    <FunctionImport Name="sp_TType" ReturnType="Collection(KIppinFinance.sp_TType_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="DirectorAccountLogs" EntityType="KIppinFinance.DirectorAccountLog" />
+    <EntitySet Name="SubAccountantUserPermissions" EntityType="KIppinFinance.SubAccountantUserPermission" />
+    <AssociationSet Name="FK_SubAccountantUserPermission_UserRegistration" Association="KIppinFinance.FK_SubAccountantUserPermission_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistrations" />
+      <End Role="SubAccountantUserPermission" EntitySet="SubAccountantUserPermissions" />
+    </AssociationSet>
+    <EntitySet Name="ArchiveBankExpenses" EntityType="KIppinFinance.ArchiveBankExpense" />
+    <FunctionImport Name="KI_GetFlowStatus" ReturnType="Collection(String)">
+      <Parameter Name="flowStatus" Mode="In" Type="String" />
+      <Parameter Name="DepositePayment" Mode="In" Type="Decimal" />
+      <Parameter Name="BalanceDue" Mode="In" Type="Decimal" />
+      <Parameter Name="Pro_Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="KI_getIndustryID" ReturnType="Collection(KIppinFinance.KI_getIndustryID_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="KI_GetInvoiceDataforpdf" ReturnType="Collection(KIppinFinance.KI_GetInvoiceDataforpdf_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="isCustomer" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_BlockAccNoList" ReturnType="Collection(KIppinFinance.Kl_BlockAccNoList_Result)">
+      <Parameter Name="UserdId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_BlockAccNoList_forUserIdNull" ReturnType="Collection(KIppinFinance.Kl_BlockAccNoList_forUserIdNull_Result)">
+      <Parameter Name="UserdId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_ExitinStripe" ReturnType="Collection(Boolean)">
+      <Parameter Name="customerid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_GetCompanyNameSend" ReturnType="Collection(String)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+      <Parameter Name="invoiceid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="kl_getCustomerEmail" ReturnType="Collection(String)">
+      <Parameter Name="useid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_GetSupplierDataforUserID" ReturnType="Collection(KIppinFinance.Kl_GetSupplierDataforUserID_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+      <Parameter Name="invoiceid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="kl_Invoicedata_email" ReturnType="Collection(KIppinFinance.kl_Invoicedata_email_Result)">
+      <Parameter Name="useid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_ReceivedInvoiceList" ReturnType="Collection(KIppinFinance.Kl_ReceivedInvoiceList_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="kl_ReceivedProformaList" ReturnType="Collection(KIppinFinance.kl_ReceivedProformaList_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_ReportingList" ReturnType="Collection(KIppinFinance.Kl_ReportingList_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="kl_ReportingListwithoutDraft" ReturnType="Collection(KIppinFinance.kl_ReportingListwithoutDraft_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_SendInvoiceList" ReturnType="Collection(KIppinFinance.Kl_SendInvoiceList_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_SendProformaList" ReturnType="Collection(KIppinFinance.Kl_SendProformaList_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_GetCompanyNamr" ReturnType="Collection(String)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+      <Parameter Name="customer" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Kl_getSupplierEmail" ReturnType="Collection(String)">
+      <Parameter Name="useid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Classifications" EntityType="KIppinFinance.Classification" />
+    <AssociationSet Name="FK_BankExpense_Classification" Association="KIppinFinance.FK_BankExpense_Classification">
+      <End Role="Classification" EntitySet="Classifications" />
+      <End Role="BankExpense" EntitySet="BankExpenses" />
+    </AssociationSet>
+    <EntitySet Name="MasterClassifications" EntityType="KIppinFinance.MasterClassification" />
+  </EntityContainer>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrencyType" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UserLincensePayment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentAmount" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="SubscriptionStartDate" Type="DateTime" Precision="3" />
+    <Property Name="SubscriptionEndDate" Type="DateTime" Precision="3" />
+    <Property Name="IsActiveSubscription" Type="Boolean" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <Property Name="ChargeId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="UserRegistration" Relationship="KIppinFinance.FK_UserLincensePayment_UserRegistration" FromRole="UserLincensePayment" ToRole="UserRegistration" />
+  </EntityType>
+  <Association Name="FK_UserLincensePayment_UserRegistration">
+    <End Type="KIppinFinance.UserRegistration" Role="UserRegistration" Multiplicity="0..1" />
+    <End Type="KIppinFinance.UserLincensePayment" Role="UserLincensePayment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLincensePayment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BankExpense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="BankId" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Credit" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Debit" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalTax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="GSTtax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="QSTtax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="HSTtax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PSTtax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="GSTPercentage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="QSTPercentage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="HSTPercentage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PSTPercentage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualPercentage" Type="Double" />
+    <Property Name="AccountType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="ClassificationId" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="StatusId" Type="Int32" />
+    <Property Name="TransactionType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Purpose" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Vendor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AccountName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UploadedStatementName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UploadType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="AccountClassificationId" Type="Int32" />
+    <Property Name="TransactionId" Type="Int64" />
+    <Property Name="AccountId" Type="Int64" />
+    <Property Name="IsYodlee" Type="Boolean" Nullable="false" />
+    <Property Name="IsVirtualEntry" Type="Boolean" />
+    <Property Name="StatementReferenceNumber" Type="Int32" />
+    <Property Name="JVID" Type="Int32" />
+    <NavigationProperty Name="Bank" Relationship="KIppinFinance.FK_BankExpense_Bank" FromRole="BankExpense" ToRole="Bank" />
+    <NavigationProperty Name="Category" Relationship="KIppinFinance.FK_BankExpense_Category" FromRole="BankExpense" ToRole="Category" />
+    <NavigationProperty Name="Status" Relationship="KIppinFinance.FK_BankExpense_Status" FromRole="BankExpense" ToRole="Status" />
+    <NavigationProperty Name="UserRegistration" Relationship="KIppinFinance.FK_BankExpense_UserRegistration" FromRole="BankExpense" ToRole="UserRegistration" />
+    <NavigationProperty Name="Classification" Relationship="KIppinFinance.FK_BankExpense_Classification" FromRole="BankExpense" ToRole="Classification" />
+  </EntityType>
+  <Association Name="FK_BankExpense_Bank">
+    <End Type="KIppinFinance.Bank" Role="Bank" Multiplicity="0..1" />
+    <End Type="KIppinFinance.BankExpense" Role="BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="BankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_Category">
+    <End Type="KIppinFinance.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="KIppinFinance.BankExpense" Role="BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_Status">
+    <End Type="KIppinFinance.Status" Role="Status" Multiplicity="0..1" />
+    <End Type="KIppinFinance.BankExpense" Role="BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_UserRegistration">
+    <End Type="KIppinFinance.UserRegistration" Role="UserRegistration" Multiplicity="1" />
+    <End Type="KIppinFinance.BankExpense" Role="BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="InvoiceUserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyLogo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CorporateAptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CorporateHouseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CorporateStreet" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CorporateCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CorporateState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CorporatePostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingAptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingHouseNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingStreet" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingPostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GoodsType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BusinessNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TradingCurrency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmailTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmailCc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="IsTrial" Type="Boolean" />
+    <Property Name="IsPaid" Type="Boolean" />
+    <Property Name="IsVerified" Type="Boolean" />
+    <Property Name="IsOnlyInvoice" Type="Boolean" />
+    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="StripeKeyDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StripePrivateKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="StripePublishKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblCustomerOrSupplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Company_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ServiceOffered" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModify" Type="DateTime" Precision="3" />
+    <Property Name="Isdeleted" Type="Boolean" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="AdditionalEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingCity" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingState" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingPostalCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Debtors" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Credetor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="IsFinance" Type="Boolean" />
+    <Property Name="IsEmailExist" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tblInvoiceDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PaymentTerms" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DueDate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DocumentRef" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="SalesPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingCost" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DepositePayment" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BalanceDue" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Terms" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="InvoiceDate" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Pro_Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Pro_FlowStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="IsInvoiceReport" Type="Boolean" />
+    <Property Name="In_R_Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="In_R_FlowStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TaxType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsSupplierManualPaid" Type="Boolean" />
+    <Property Name="SupplierManualPaidAmount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="SupplierManualPaidJVID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsCustomerManualPaid" Type="Boolean" />
+    <Property Name="CustomerManualPaidAmount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="CustomerManualPaidJVID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+    <Property Name="StripeJVID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="InvoiceJVID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerInvoiceJVID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblInvoiceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblItemDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Item" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceId" Type="Int32" />
+    <Property Name="Discount" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ServiceTypeId" Type="Int32" />
+    <Property Name="ItemId" Type="Int32" />
+    <Property Name="Customer_ServiceTypeId" Type="Int32" />
+    <Property Name="Customer_Service" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Tax" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="GST_Tax" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HST_Tax" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PST_Tax" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="QST_Tax" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SubTotal" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="InvoicetblColumnDetail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Pro_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Invoice_ReportStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Pro_FlowStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Invoice_ReportFlowStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="StripePayCardDetail">
+    <Key>
+      <PropertyRef Name="CardD_Id" />
+    </Key>
+    <Property Name="CardD_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ExpieryDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CVV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isDeleted" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblCurrency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrencyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Symbol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SymbolCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblFlowStatu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FlowStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblTypeOfInvoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblExpens">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ExpenseName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="sp_GetSupplierLists_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Company_Name" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="StripePaymnt">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceID" Type="Int32" />
+    <Property Name="IsPaymentbyStripe" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblSTypeCategory">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SCategoryId" Type="Int32" />
+    <Property Name="SValues" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblT1TypeCategories">
+    <Key>
+      <PropertyRef Name="T1Id" />
+    </Key>
+    <Property Name="T1Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="T1Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="T1CategoryId" Type="Int32" />
+    <Property Name="T1Values" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblT2TypeCategories">
+    <Key>
+      <PropertyRef Name="T2Id" />
+    </Key>
+    <Property Name="T2Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="T2Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="T2CategoryId" Type="Int32" />
+    <Property Name="T2Values" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblZTypeCategory">
+    <Key>
+      <PropertyRef Name="ZId" />
+    </Key>
+    <Property Name="ZId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ZName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ZCategoryId" Type="Int32" />
+    <Property Name="ZValues" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblTemplateClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassifinationName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="ChartAccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="sp_GType_Result">
+    <Property Type="String" Name="T2Name" Nullable="true" MaxLength="603" />
+    <Property Type="Int32" Name="T2Values" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_SType_Result">
+    <Property Type="String" Name="SName" Nullable="true" MaxLength="603" />
+    <Property Type="Int32" Name="SValues" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_TType_Result">
+    <Property Type="String" Name="T1Name" Nullable="true" MaxLength="603" />
+    <Property Type="Int32" Name="T1Values" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="DirectorAccountLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PercentageAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Percentage" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="StatementId" Type="Int32" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="SubAccountantUserPermission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="SubAccountantId" Type="Int32" Nullable="false" />
+    <Property Name="UserWithAnAccountantId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateModified" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="UserRegistration" Relationship="KIppinFinance.FK_SubAccountantUserPermission_UserRegistration" FromRole="SubAccountantUserPermission" ToRole="UserRegistration" />
+  </EntityType>
+  <Association Name="FK_SubAccountantUserPermission_UserRegistration">
+    <End Type="KIppinFinance.UserRegistration" Role="UserRegistration" Multiplicity="1" />
+    <End Type="KIppinFinance.SubAccountantUserPermission" Role="SubAccountantUserPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubAccountantUserPermission">
+        <PropertyRef Name="SubAccountantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ArchiveBankExpense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatementId" Type="Int32" />
+    <Property Name="AccountantId" Type="Int32" />
+    <Property Name="AccountantEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Credit" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Debit" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Total" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="BillTax" Type="Decimal" Precision="9" Scale="4" />
+    <Property Name="BillTotal" Type="Decimal" Precision="19" Scale="5" />
+    <Property Name="AccountType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Expense" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TransactionType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Purpose" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Vendor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AccountName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ClassificationId" Type="Int32" />
+    <Property Name="Classification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IsDownload" Type="Boolean" />
+    <Property Name="BankId" Type="Int32" />
+    <Property Name="GSTtax" Type="Decimal" Precision="9" Scale="4" />
+    <Property Name="QSTtax" Type="Decimal" Precision="9" Scale="4" />
+    <Property Name="HSTtax" Type="Decimal" Precision="9" Scale="4" />
+    <Property Name="PSTtax" Type="Decimal" Precision="9" Scale="4" />
+    <Property Name="AccountClassificationId" Type="Int32" />
+    <Property Name="FriendlyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="KI_getIndustryID_Result">
+    <Property Type="Int32" Name="IndustryId" Nullable="true" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="Ind" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="KI_GetInvoiceDataforpdf_Result">
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="104" />
+    <Property Type="String" Name="Heading" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CompanyLogo" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="CorporateAptNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CorporateHouseNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CorporatePostalCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CorporateStreet" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="CorporateCity" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CorporateState" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailTo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Website" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Company_Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Telephone" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="ServiceType" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="description" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Quantity" Nullable="true" />
+    <Property Type="Decimal" Name="Rate" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="Item" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="DiscountAmount" Nullable="true" MaxLength="8000" />
+    <Property Type="String" Name="DiscountPercentage" Nullable="true" MaxLength="8000" />
+    <Property Type="String" Name="TaxAmount" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="TaxPercentage" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="GST_TaxAmount" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="GST_TaxPercentage" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="HST_TaxAmount" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="HST_TaxPercentage" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="PST_TaxAmount" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="PST_TaxPercentage" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="QST_TaxAmount" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="QST_TaxPercentage" Nullable="true" MaxLength="4000" />
+  </ComplexType>
+  <ComplexType Name="Kl_BlockAccNoList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="CategoryId" Nullable="false" />
+    <Property Type="String" Name="ClassificationType" Nullable="false" MaxLength="500" />
+    <Property Type="Int32" Name="ChartAccountNumber" Nullable="false" />
+    <Property Type="String" Name="ChartAccountDisplayNumber" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Boolean" Name="IsSole" Nullable="true" />
+    <Property Type="Boolean" Name="IsIncorporated" Nullable="true" />
+    <Property Type="Boolean" Name="IsPartnerShip" Nullable="true" />
+    <Property Type="String" Name="Desc" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="IndustryId" Nullable="true" />
+    <Property Type="Int32" Name="SubIndustryId" Nullable="true" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="RangeofAct" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CategoryValue" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Kl_BlockAccNoList_forUserIdNull_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="CategoryId" Nullable="false" />
+    <Property Type="String" Name="ClassificationType" Nullable="false" MaxLength="500" />
+    <Property Type="Int32" Name="ChartAccountNumber" Nullable="false" />
+    <Property Type="String" Name="ChartAccountDisplayNumber" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Boolean" Name="IsSole" Nullable="true" />
+    <Property Type="Boolean" Name="IsIncorporated" Nullable="true" />
+    <Property Type="Boolean" Name="IsPartnerShip" Nullable="true" />
+    <Property Type="String" Name="Desc" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="IndustryId" Nullable="true" />
+    <Property Type="Int32" Name="SubIndustryId" Nullable="true" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="RangeofAct" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CategoryValue" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Kl_GetSupplierDataforUserID_Result">
+    <Property Type="String" Name="Company_Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Credetor" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="kl_Invoicedata_email_Result">
+    <Property Type="String" Name="CompanyLogo" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="104" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Company_Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailTo" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="Kl_ReceivedInvoiceList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="kl_ReceivedProformaList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Kl_ReportingList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="kl_ReportingListwithoutDraft_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Kl_SendInvoiceList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Kl_SendProformaList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="InvoiceNumber" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PaymentTerms" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DueDate" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="DocumentRef" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SalesPerson" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="ShippingCost" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Total" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="DepositePayment" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalanceDue" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Terms" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="CustomerId" Nullable="true" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="String" Name="InvoiceDate" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ModifyDate" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="Pro_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Pro_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Type" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiceReport" Nullable="true" />
+    <Property Type="String" Name="In_R_Status" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="In_R_FlowStatus" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsSupplierManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="SupplierManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="SupplierManualPaidJVID" Nullable="true" />
+    <Property Type="Boolean" Name="IsCustomerManualPaid" Nullable="true" />
+    <Property Type="Decimal" Name="CustomerManualPaidAmount" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="CustomerManualPaidJVID" Nullable="true" />
+    <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="StripeJVID" Nullable="true" />
+    <Property Type="String" Name="InvoiceJVID" Nullable="true" />
+    <Property Type="String" Name="CustomerInvoiceJVID" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Classification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+    <Property Name="ClassificationType" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ChartAccountNumber" Type="Int32" Nullable="false" />
+    <Property Name="ChartAccountDisplayNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsSole" Type="Boolean" />
+    <Property Name="IsIncorporated" Type="Boolean" />
+    <Property Name="IsPartnerShip" Type="Boolean" />
+    <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="IndustryId" Type="Int32" />
+    <Property Name="SubIndustryId" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ReportingSubTotalNumber" Type="Int32" />
+    <Property Name="ReportingSubTotalDisplayNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ReportingTotalNumber" Type="Int32" />
+    <Property Name="ReportingTotalDisplayNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="RangeofAct" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CategoryValue" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="BankExpenses" Relationship="KIppinFinance.FK_BankExpense_Classification" FromRole="Classification" ToRole="BankExpense" />
+  </EntityType>
+  <Association Name="FK_BankExpense_Classification">
+    <End Type="KIppinFinance.Classification" Role="Classification" Multiplicity="0..1" />
+    <End Type="KIppinFinance.BankExpense" Role="BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="ClassificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="MasterClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReportingTotal" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="RepotingTotalType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="ReportingTotalRange" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NewClassificationVerb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="SubTotalDisplayNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TotalDisplayNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,1142 @@
+﻿@model KF.Web.Models.RegisterInvoiceViewModel
+@{
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>::Kippin Invoice Register::</title>
+    <link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+    <script src="~/ThemeAssets/jquertable/Scripts/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+    <script src="~/ThemeAssets/jquertable/Scripts/bootstrap.min.js"></script>
+    <link href="~/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+
+    <script src="~/ThemeAssets/Gridjs/Invoice.js"></script>
+    <style>
+        .form-required-field {
+            color: red !important;
+        }
+
+        .signup-container input, .signup-container select {
+            max-width: 98%;
+        }
+
+        .mandatoryField {
+            display: block;
+            margin: 10px 0 5px 0;
+        }
+
+        .field-validation-error {
+            color: red !important;
+        }
+
+        .selectBox > #AreaCode {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            color: #555555;
+            display: block;
+            font-size: 14px;
+            height: 34px;
+            line-height: 1.42857;
+            padding: 6px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            vertical-align: middle;
+            margin-right: 9px;
+            display: inline-block;
+            width: 44%;
+        }
+
+        .selectBox .form-control {
+            display: inline-block;
+            width: 50%;
+        }
+
+        .clearLeft {
+            clear: left;
+        }
+
+        .field-validation-error {
+            font-size: 11px;
+        }
+
+        .textBoxWidth {
+            width: 547px;
+        }
+
+        /*.invoice-registration .ui-dialog {
+            max-width: 460px !important;
+            width: 100% !important;
+        }
+
+        .invoice-registration .ui-dialog-content {
+            height: auto !important;
+        }*/
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#dialog").dialog({
+                modal: true,
+                autoOpen: false,
+                title: "Corporation Address",
+                width: 800,
+                height: 440,
+                open: function () {
+                    setTimeout(function () {
+                        $('#corporateaptno').focus();
+                    }, 10); // After 420 ms
+                },
+            });
+            $("#corporationaddress").click(function () {
+                $('#dialog').dialog('open');
+            });
+
+        });
+        $(function () {
+            //$("#dialog2").dialog({
+            //    modal: true,
+            //    autoOpen: false,
+            //    title: "Message",
+            //    width: 50,
+            //    height: 150
+            //});
+            $("#btnOk2").click(function () {
+                window.location.href = "/Finance/Account/InvoiceLogin"
+                $('#dialog2').dialog('close');
+            });
+        });
+        $(function () {
+            //$("#dialog3").dialog({
+            //    modal: true,
+            //    autoOpen: false,
+            //    title: "Message",
+            //    width: 10,
+            //    height: 10
+            //});
+
+            $("#btnOk3").click(function () {
+                window.location.href = "/Finance/Account/InvoiceLogin";
+                $('#dialog3').dialog('close');
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#dialog1").dialog({
+                modal: true,
+                autoOpen: false,
+                title: "Shipping Address",
+                width: 800,
+                height: 440,
+                open: function () {
+                setTimeout(function () {
+                    $('#shippingaptno').focus();
+                }, 10); // After 420 ms
+            },
+            });
+            $("#shippingaddress").click(function () {
+                $('#dialog1').dialog('open');
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $("#mobileNumber").keydown(function (e) {
+                if (e.keyCode === 9)
+                    $('#dialog').dialog('open');
+                $(function () {
+                    $.ui.dialog.prototype._focusTabbable = function () {
+                        $("input[name='password']").focus();
+                    };
+                });
+            });
+            
+            $("#corporationaddress").keydown(function (e) {
+                if (e.keyCode === 9)
+                    $('#dialog1').dialog('open');
+            });
+
+            $('#dialog').on('dialogclose', function (event) {
+                $('#corporationaddress').focus();
+            });
+            $('#dialog1').on('dialogclose', function (event) {
+                $('#shippingaddress').focus();
+            });
+
+            $("#tradingcurrency").change(function () {
+                $("#ddl").val($("#tradingcurrency").val());
+
+            });
+
+        });
+    </script>
+    <script>
+        function myFunctionLive() {
+            if ($("#username").val() != "" && $("#tradingcurrency").val() != "" && ($("#companyname").val() != "")
+                && ($("#corporatestreet").val() != "") && ($("#corporatecity").val() != "")
+                && ($("#corporatestate").val() != "") && ($("#corporatepostalcode").val() != "")
+                && ($("#businessNumber").val() != "")
+                && ($("#shippingstreet").val() != "") && ($("#shippingcity").val() != "")
+                && ($("#shippingstate").val() != "") && ($("#shippingpostalcode").val() != "")
+                ) {
+
+                function isEmailValid(emailid) {
+                    var pattern = new RegExp(/\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*/);
+                    return pattern.test(emailid);
+                };
+                if ($("#email").val().length == 0 || !isEmailValid($("#email").val())) {
+
+                    alert("Please fill mandatory fields.");
+                }
+                else {
+                    if ($("#chkTermsConditions").is(':checked') == true) {
+
+                        $("#hdcorptno").val($("#corporateaptno").val());
+                        $("#hdcorhno").val($("#corporatehouseno").val());
+                        $("#hdcorstr").val($("#corporatestreet").val());
+                        $("#hdcorci").val($("#corporatecity").val());
+                        $("#hdcorst").val($("#corporatestate").val());
+                        $("#hdcorpcode").val($("#corporatepostalcode").val());
+
+                        $("#hdshiptno").val($("#shippingaptno").val());
+                        $("#hdshiphno").val($("#shippinghouseno").val());
+                        $("#hdshipstr").val($("#shippingstreet").val());
+                        $("#hdshipci").val($("#shippingcity").val());
+                        $("#hdshipst").val($("#shippingstate").val());
+                        $("#hdshippcode").val($("#shippingpostalcode").val());
+
+                        $('form').submit();
+
+                        return true;
+                    }
+                    else {
+                        alert("Please read and accept Terms & Conditions.");
+                    }
+
+
+
+
+                }
+
+            }
+            else {
+
+                alert("Please fill mandatory fields.");
+
+            }
+
+
+        }
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            //called when key is pressed in textbox
+            $(".numberOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
+                }
+            });
+
+            $("#btnAddCorporate").click(function () {
+                if ($("#corporatepostalcode").val().length <= 5) {
+                    alert("Postal Code should be of 6 characters.");
+                    $('#dialog').dialog('open');
+                    return false;
+                }
+                else {
+
+
+                    var corporateaptno = $("#corporateaptno").val();
+                    var corporatehouseno = $("#corporatehouseno").val();
+                    var corporatestreet = $("#corporatestreet").val();
+                    var corporatecity = $("#corporatecity").val();
+                    var corporatestate = $("#corporatestate").val();
+                    var corporatepostalcode = $("#corporatepostalcode").val();
+
+                    $("#hdcorptno").val(corporateaptno);
+                    $("#hdcorhno").val(corporatehouseno);
+                    $("#hdcorstr").val(corporatestreet);
+                    $("#hdcorci").val(corporatecity);
+                    $("#hdcorst").val(corporatestate);
+                    $("#hdcorpcode").val(corporatepostalcode);
+
+                    $("#hdshiptno").val(corporateaptno);
+                    $("#hdshiphno").val(corporatehouseno);
+                    $("#hdshipstr").val(corporatestreet);
+                    $("#hdshipci").val(corporatecity);
+                    $("#hdshipst").val(corporatestate);
+                    $("#hdshippcode").val(corporatepostalcode);
+
+                    if (($("#corporatestreet").val() != "") && ($("#corporatecity").val() != "")
+                        && ($("#corporatestate").val() != "") && ($("#corporatepostalcode").val() != "")) {
+
+
+                        if (corporateaptno != "" && corporatehouseno != "") {
+                            $("#corporationaddress").text(corporateaptno + '-' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                        }
+                        else {
+
+
+                            if (corporateaptno == "" && corporatehouseno == "") {
+                                $("#corporationaddress").text(corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                            }
+                            else {
+                                $("#corporationaddress").text(corporateaptno + ' ' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                            }
+
+                        }
+
+                        if ($("#shippingaddress").text() == "") {
+
+
+
+                            if (corporateaptno != "" && corporatehouseno != "") {
+                                $("#shippingaddress").text(corporateaptno + '-' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                            }
+                            else {
+
+                                if (corporateaptno == "" && corporatehouseno == "") {
+                                    $("#shippingaddress").text(corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                                }
+                                else {
+                                    $("#shippingaddress").text(corporateaptno + ' ' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                                }
+
+                            }
+
+                            $("#shippingaptno").val(corporateaptno);
+                            $("#shippinghouseno").val(corporatehouseno)
+
+                            $("#shippingstreet").val(corporatestreet);
+                            $("#shippingcity").val(corporatecity);
+                            $("#shippingstate").val(corporatestate);
+                            $("#shippingpostalcode").val(corporatepostalcode);
+
+
+                        }
+
+
+
+                        $('#dialog').dialog('close');
+                    }
+                    else {
+                        alert("Please fill empty fields.");
+                    }
+                }
+
+            });
+
+            $("#btnAddShipping").click(function () {
+
+
+                var corporateaptno = $("#shippingaptno").val();
+                var corporatehouseno = $("#shippinghouseno").val();
+                var corporatestreet = $("#shippingstreet").val();
+                var corporatecity = $("#shippingcity").val();
+                var corporatestate = $("#shippingstate").val();
+                var corporatepostalcode = $("#shippingpostalcode").val();
+
+                $("#hdshiptno").val(corporateaptno);
+                $("#hdshiphno").val(corporatehouseno);
+                $("#hdshipstr").val(corporatestreet);
+                $("#hdshipci").val(corporatecity);
+                $("#hdshipst").val(corporatestate);
+                $("#hdshippcode").val(corporatepostalcode);
+
+
+                if (($("#shippingstreet").val() != "") && ($("#shippingcity").val() != "")
+                    && ($("#shippingstate").val() != "") && ($("#shippingpostalcode").val() != "")) {
+
+
+
+                    if (corporateaptno != "" && corporatehouseno != "") {
+                        $("#shippingaddress").text(corporateaptno + '-' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                    }
+                    else {
+
+                        if (corporateaptno == "" && corporatehouseno == "") {
+                            $("#shippingaddress").text(corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                        }
+                        else {
+                            $("#shippingaddress").text(corporateaptno + ' ' + corporatehouseno + '\r\n' + corporatestreet + '\r\n' + corporatecity + ' ' + corporatestate + '\r\n' + corporatepostalcode);
+                        }
+
+                    }
+
+                    $('#dialog1').dialog('close');
+                }
+                else {
+                    alert("Please fill empty fields.");
+                }
+
+
+            });
+
+
+        });
+
+    </script>
+    <script>
+        $("#addMore2").on("click", function (e) {
+            var flag = "No";
+            $("#tb2 #1A").each(function (e) {
+                var item = $(this).closest("tr").find("td:nth-child(2)").html();
+                if (item.indexOf("ItemDetails") < 0 && item != '') {
+                    flag = "Yes";
+                }
+                else {
+                    flag = "No";
+                }
+
+            });
+            if (flag == "Yes") {
+                var data = $("#tb2 tr:eq(1)").clone(true).appendTo("#tb2");
+                data.find("input").val('');
+                data.find("td").eq(1).html('');
+                numberRows();
+            }
+            else {
+                alert("You cannot add row until you fill previous row");
+            }
+
+        });
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#modalEmail").dialog({
+                modal: true,
+                autoOpen: false,
+                title: "Email Lists",
+                width: 400,
+                height: 320
+            });
+
+        });
+        //$('#dialog').dialog('close');
+
+        function clearInput(element) {
+            element.value = "";
+        }
+
+    </script>
+    <script>
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script>
+
+        $('#ProfileImage').bind('change', function () {
+            if (this.files[0].size / 1024 / 1024 > 1) {
+                alert("Please upload image less than 1MB");
+            }
+
+        });
+
+        $(document).on("click", "#btnLives", function (e) {
+            e.preventDefault();
+            var extension = $("#ProfileImage").val().substr(($("#ProfileImage").val().lastIndexOf('.') + 1));
+            if ($("#ProfileImage").val() != "") {
+                if (extension.toLowerCase() == "png" || extension.toLowerCase() == "jpg") {
+
+                    $("#lblError").text("");
+                    $(this).parents('form').submit();
+                }
+                else {
+                    $("#lblError").text("Please select a valid image.");
+
+                }
+            }
+            else {
+                $(this).parents('form').submit();
+            }
+
+        });
+
+        //$(document).on("click", ".clsAddCorp", function (e) {
+        //    if ($("#corporatepostalcode").val().length <= 5) {
+        //        alert("Postal Code should be of 6 characters.");
+        //        $('#dialog').dialog('open');
+        //        return false;
+        //    }
+        //});
+        $(document).on("click", ".clsAddShip", function (e) {
+            if ($("#shippingpostalcode").val().length <= 5) {
+                alert("Postal Code should be of 6 characters.");
+                $('#dialog1').dialog('open');
+                return false;
+            }
+        });
+
+        //function isEmailValid(emailid) {
+        //    var pattern = new RegExp(/\w+([-+.']\w+)*@@\w+([-.]\w+)*\.\w+([-.]\w+)*/);
+        //    return pattern.test(emailid);
+        //};
+        //if ($("#email").val().length == 0 || !isEmailValid($("#email").val())) {
+
+        //    alert("Please fill empty fields.");
+        //}
+
+
+    </script>
+    <script>
+        function validateEmail() {
+            var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (reg.test($("#email").val()) == false) {
+                alert('Please enter valid email id');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+    <script>
+        function validateEmailCc() {
+            var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (reg.test($("#txtEmail").val()) == false) {
+                alert('Please enter valid email id');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</head>
+<body class="invoice-registration">
+    @{
+
+        if ((string)TempData["InvoiceRegistersuccessfullycreated"] == "Success")
+        {
+
+            if ((string)TempData["InvoiceMailConBox"] != "")
+            {
+                <script>
+
+                    setTimeout(function () {
+                        //$('#dialog2').dialog('open');
+                        $('#dialog2').modal('show');
+                    }, 500);
+
+                    //alert("Invoice Registration Successfully Done.");
+                    // window.location.href = "/Finance/Account/InvoiceLogin";
+                </script>
+            }
+            else
+            {
+                <script>
+                    $('#dialog3').dialog('open');
+                    setTimeout(function () {
+                        //$('#dialog3').dialog('open');
+                        $('#dialog3').modal('show');
+                    }, 500);
+                    //alert("Please check your mail for email confirmation.");
+                    //window.location.href = "/Finance/Account/InvoiceLogin";
+                </script>
+            }
+        }
+        if ((string)TempData["InvoiceRegisterAlready"] == "Success")
+        {
+            <br />
+            <div class="row">
+                <div id="Update-alert" class="alert alert-success col-sm-12"> <p>User already exist.</p></div>
+            </div>
+            <br />
+        }
+    }
+    <div id="page-wrapper">
+        <div class="container">
+            <div class="row">
+                <article class="col-sm-12">
+                    <h4 class="form-heading">Kippin Invoice Registration</h4>
+                    <button class="btn btn-primary btn-block top-back-button" onclick="goBack()">Back</button>
+                </article>
+                <article class="col-sm-12">
+                    <div class="form-box">
+                        <form id="signupform" action="@Url.Action("InvoiceRegister", "Account")" role="form" method="post" enctype="multipart/form-data">
+                            @*@using (Html.BeginForm("InvoiceRegister", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {*@
+
+                            @Html.HiddenFor(s => s.hdncorporateaptno, new { id = "hdcorptno" })
+                            @Html.HiddenFor(s => s.hdncorporatehouseno, new { id = "hdcorhno" })
+                            @Html.HiddenFor(s => s.hdncorporatestreet, new { id = "hdcorstr" })
+                            @Html.HiddenFor(s => s.hdncorporatecity, new { id = "hdcorci" })
+                            @Html.HiddenFor(s => s.hdncorporatestate, new { id = "hdcorst" })
+                            @Html.HiddenFor(s => s.hdncorporatepostalcode, new { id = "hdcorpcode" })
+                            @Html.HiddenFor(s => s.hdnshippingaptno, new { id = "hdshiptno" })
+                            @Html.HiddenFor(s => s.hdnshippinghouseno, new { id = "hdshiphno" })
+                            @Html.HiddenFor(s => s.hdnshippingstreet, new { id = "hdshipstr" })
+                            @Html.HiddenFor(s => s.hdnshippingcity, new { id = "hdshipci" })
+                            @Html.HiddenFor(s => s.hdnshippingstate, new { id = "hdshipst" })
+                            @Html.HiddenFor(s => s.hdnshippingpostalcode, new { id = "hdshippcode" })
+                            @Html.HiddenFor(s => s.hdnemailCC, new { id = "hdemcc" })
+
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Company Logo
+                                        @*<span class="required-field">*</span>*@
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @{
+                                        if (!string.IsNullOrEmpty(Model.ProfileImage))
+                                        {
+                                            <input type="file" name="ProfileImage" id="ProfileImage">
+                                        }
+                                        else
+                                        {
+                                            <input type="file" required name="ProfileImage" id="ProfileImage">
+                                        }
+                                    }
+                                    <span id="lblError" style="color: red;"></span>
+                                    @*<p class="help-block">Upload a .png/.jpg image only.</p>*@
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        User Name
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.UserName, new { @id = "username", @class = "form-control", @placeholder = "User Name" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Company Name
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.CompanyName, new { @id = "companyname", @class = "form-control", @placeholder = "Company Name" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Contact Person
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.ContactPerson, new { @id = "contactperson", @class = "form-control", @placeholder = "Contact Person" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Website
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.Website, new { @id = "website", @class = "form-control", @placeholder = "Website" })
+                                    @Html.TextBoxFor(x => x.Password, new { @id = "password", @class = "form-control", @placeholder = "Website", style = "display: none;" })
+                                    @Html.TextBoxFor(x => x.ddl, new { @id = "ddl", @class = "form-control", style = "display: none;" })
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Mobile Number
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    <div class="selectBox">
+                                        @Html.TextBoxFor(x => x.AreaCode, new { @id = "AreaCode", @class = "form-control numberOnly", maxlength = "3", @placeholder = "Area Code" })
+                                        @Html.TextBoxFor(x => x.MobileNumber, new { @id = "mobileNumber", @class = "form-control numberOnly", maxlength = "7", @placeholder = "MobileNumber" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Corporation Address
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    <textarea id="corporationaddress" placeholder="Corporation Address" class="form-control text-area"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Shipping Address
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    <textarea id="shippingaddress" placeholder="Shipping Address" class="form-control text-area"></textarea>
+                                </div>
+                            </div>
+
+                            <div id="dialog" style="display: none" tabindex="-1" align="center">
+                                <div class="container">
+                                    <article class="col-sm-12">
+                                        <div class="form-box">
+                                            <section class="col-sm-12" id="sec1">
+                                                <section class="row">
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Unit No.
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporateaptno, new { id = "corporateaptno", @class = "form-control", @placeholder = "Enter Unit No.",@value="password" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                House No.
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporatehouseno, new { id = "corporatehouseno", @class = "form-control", @placeholder = "Enter House No." })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Street
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporatestreet, new { @id = "corporatestreet", @class = "form-control", @placeholder = "Enter Street" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                City
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporatecity, new { @id = "corporatecity", @class = "form-control", @placeholder = "Enter City" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                State/Province
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporatestate, new { @id = "corporatestate", @class = "form-control", @placeholder = "Enter State" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Postal Code
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdncorporatepostalcode, new { @id = "corporatepostalcode", @class = "form-control", @placeholder = "Enter Postal Code", maxlength = "6" })
+                                                        </div>
+                                                    </div>
+
+                                                </section>
+                                            </section>
+                                            <section class="col-sm-12" id="sec1">
+                                                <section class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-button">
+                                                            <div class="pull-right col-md-4">
+                                                                <a href="#" id="btnAddCorporate" class="form-control clsAddCorp" role="button" style="color: white;">Add</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+
+
+                            <div id="dialog1" style="display: none" align="center">
+
+                                <div class="container">
+                                    <article class="col-sm-12">
+                                        <div class="form-box">
+                                            <section class="col-sm-12" id="sec1">
+                                                <section class="row">
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Unit No.
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippingaptno, new { @id = "shippingaptno", @class = "form-control", @placeholder = "Enter Unit No." })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                House No.
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippinghouseno, new { @id = "shippinghouseno", @class = "form-control", @placeholder = "Enter House No." })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Street
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippingstreet, new { @id = "shippingstreet", @class = "form-control", @placeholder = "Enter Street" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                City
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippingcity, new { @id = "shippingcity", @class = "form-control", @placeholder = "Enter City" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                State/Province
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippingstate, new { @id = "shippingstate", @class = "form-control", @placeholder = "Enter State" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-sm-6">
+                                                        <label class="col-md-5 col-sm-12 control-label">
+                                                            <span class="field-tittle">
+                                                                Postal Code
+                                                                <span class="required-field">*</span>
+                                                            </span>
+                                                        </label>
+                                                        <div class="col-md-7 col-sm-12">
+                                                            @Html.TextBoxFor(x => x.hdnshippingpostalcode, new { @id = "shippingpostalcode", @class = "form-control", @placeholder = "Enter PostalCode", maxlength = "6" })
+                                                        </div>
+                                                    </div>
+
+                                                </section>
+                                            </section>
+                                            <section class="col-sm-12" id="sec1">
+                                                <section class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-button">
+                                                            <div class="pull-right col-md-4">
+                                                                <a href="#" id="btnAddShipping" class="form-control clsAddShip" role="button" style="color: white;">Add</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Type of Goods/Services
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.DropDownListFor(x => x.GoodsservicesId, Model.GoodsservicesList, "Type of goods/service offered", new { @id = "Goodsservices", @class = "form-control" })
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Business Number
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.BusinessNumber, new { @id = "businessNumber", maxlength = "20", @class = "form-control", @placeholder = "Business Number" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Trading Currency
+                                        <span class="required-field">*</span>
+                                    </span>
+
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.DropDownListFor(x => x.TradingCurrencyId, Model.TradingCurrencyList, "Trading Currency", new { @id = "tradingcurrency", @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        Email
+                                        <span class="required-field">*</span>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    @Html.TextBoxFor(x => x.EmailTo, new { @id = "email", @class = "form-control multiple-val-input", @placeholder = "Email", onchange = "validateEmail();" })
+                                    <span class="glyphicon glyphicon-plus clsModalEmails" style="right:25px; position:absolute; top:15px"></span>
+                                </div>
+                            </div>
+
+                            <div id="modalEmail" style="display: none" align="center">
+                                <div class="col-lg-12">
+                                    <div id="signupbox" style="margin-top:10px" class="mainbox col-md-12 signup-container">
+                                        <div class="panel panel-info">
+                                            <div class="row">
+                                                <div class="form-group clsAdd col-sm-12">
+                                                    <div class="col-sm-2 col-xs-3" style="text-align:left;">
+                                                        <label for="email" class="control-label" style="padding-top:10px;font-weight:400 !important;">Email</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-6">
+                                                        @Html.TextBoxFor(x => x.EmailCc, new { @id = "txtEmail", @class = "form-control multiple-val-input", @placeholder = "Email", onfocus = "clearInput(this)", onchange = "validateEmailCc();" })
+
+
+                                                    </div>
+                                                    <div class="col-sm-2  col-xs-3">
+                                                        <a href='javascript:;' class="btn btn-primary ClsAdditionalEmail" id="btnSave" style="float:right;color:#fff;">Save</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="dvAdditionalEmails" class="col-sm-12 text-left">
+                                                    <h4 style="font-weight:500;color:#000;">Additional Emails List</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="form-group col-sm-12">
+                                <label class="col-md-5 col-sm-12 control-label">
+                                    <span class="field-tittle">
+                                        <input id="chkTermsConditions" type="checkbox" /><label for="chksumma">&nbsp; </label>
+                                        <a href="@Url.Action("Agreement", "Account")" target="_blank"> I have read & agree to the Terms & Conditions</a>
+                                    </span>
+                                </label>
+                                <div class="col-md-7 col-sm-12">
+                                    <div class="selectBox">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            @*<div id="dialog2" style="display: none" align="center">
+                                <h4 class="form-heading">
+                                    Invoice Registration Successfully Done.
+                                </h4>
+                                <div>
+                                    <input id="btnOk2" type="button" value="OK" />
+
+                                </div>
+                            </div>*@
+
+                            @*<div id="dialog3" style="display: none" align="center">
+                                <h4 class="form-heading">
+                                    Please check your mail for email confirmation.
+                                </h4>
+                                <div>
+                                    <input id="btnOk3" type="button" value="OK" />
+
+                                </div>
+                            </div>*@
+
+                            @*}*@
+                        </form>
+                        <section class="col-sm-12" id="sec1">
+                            <section class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-button">
+                                        <div class="pull-right col-md-4">
+                                            @*<button type="submit" class="btn btn-info"> Register</button>*@
+
+                                            <a href='javascript:;' onclick='return myFunctionLive()' class="btn btn-info" id="btnLives"> Register</a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                        <div style="border-top: 1px solid#888; margin-top:10px;float:left;width:100%;" id="reslogin">
+
+                            <section class="col-sm-12" id="sec1">
+                                <section class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-button">
+                                            <div class="pull-right col-md-4">
+                                                Already have an account!
+                                                <a href="@Url.Action("InvoiceLogin","Account")">
+                                                    Sign In Here
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                        </div>
+
+
+
+                        <div class="modal fade" id="dialog2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content custom-height">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Message</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-info">
+                                            Invoice Registration Successfully Done.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-danger" href="Javascript:;" id="btnOk2">Ok</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="dialog2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content custom-height">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Message</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-info">
+                                            Please check your mail for email confirmation.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-danger" href="Javascript:;" id="btnOk3">Ok</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    @{
+        if (TempData["res"] != null)
+        {
+            if ((int)TempData["res"] > 0)
+            {
+                using (var db = new KF.Entity.KFentities())
+                {
+                    var Id = (int)TempData["res"];
+                    var data = db.UserRegistrations.Where(x => x.Id == Id).FirstOrDefault();
+                    var state = db.Provinces.Where(x => x.Id == data.ProvinceId).FirstOrDefault();
+
+                    <script>
+                        $("#reslogin").css("display", "none");
+                        $("#shippingaddress").text("@data.CorporationAddress" + '\r\n' + "@state.ProvinceName" + '-' + "@data.City" + '\r\n' + "@data.PostalCode");
+                        $("#corporationaddress").text("@data.CorporationAddress" + '\r\n' + "@state.ProvinceName" + '-' + "@data.City" + '\r\n' + "@data.PostalCode");
+
+                        $("#corporatestreet").val("@data.CorporationAddress");
+                        $("#corporatecity").val("@data.City");
+                        $("#corporatestate").val("@state.ProvinceName");
+                        $("#corporatepostalcode").val("@data.PostalCode");
+
+                        $("#shippingstreet").val("@data.CorporationAddress");
+                        $("#shippingcity").val("@data.City");
+                        $("#shippingstate").val("@state.ProvinceName");
+                        $("#shippingpostalcode").val("@data.PostalCode");
+
+                        $("#reslogin").css("display", "none");
+
+                    </script>
+
+                }
+            }
+
+        }
+    }
+</body>
+<!-- Modal -->
+
+</html>

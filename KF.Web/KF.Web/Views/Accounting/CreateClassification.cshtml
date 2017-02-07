@@ -1,0 +1,190 @@
+﻿@model KF.Web.Models.AddClassificationViewModel
+@{
+    ViewBag.Title = "CreateClassification";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+    else
+    {
+        SelectedActiveUser = currentUserData.Id;
+    }
+    //string URL = "/AddClassification.aspx?userid=" + SelectedActiveUser;//Local
+    string URL = "/Kippin/Finance/AddClassification.aspx?userid=" + SelectedActiveUser; //Dev
+}
+
+@section scripts{
+    <style>
+        #errmsg {
+            color: red;
+        }
+
+        .custom-height {
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
+    <style>
+        .modal-lg {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .cls-form .form-group {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+
+        #signupform .form-group {
+            margin-bottom: 0;
+            min-height: 85px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".alpha-only").on("input", function () {
+                var regexp = /[^a-zA-Z]/g;
+                if ($(this).val().match(regexp)) {
+                    $(this).val($(this).val().replace(regexp, ''));
+                }
+            });
+        });
+        $(function () {
+            $("#btnPrintChartNumbers").click(function () {
+                var contents = $("#chartDiv").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>DIV Contents</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                //   frameDoc.document.write('<link href="style.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function AdjustIframeHeightOnLoad() { document.getElementById("form-iframe").style.height = document.getElementById("form-iframe").contentWindow.document.body.scrollHeight + "px"; }
+        function AdjustIframeHeight(i) { document.getElementById("form-iframe").style.height = parseInt(i) + "px"; }
+    </script>
+
+}
+
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Create Classification",
+    HeaderParentPageName = "Statement Reconcilation",
+    HeaderChildPageName = "Create Classification",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        <div class="clearfix"></div>
+
+        @if (ViewBag.Status != null)
+        {
+            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Classification Added Successfully.</p></div></div>
+            <br />
+        }
+
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <iframe id="form-iframe" src="@URL" style="margin:0; width:100%; height:150px; border:none; overflow:hidden;" scrolling="no" onload="AdjustIframeHeightOnLoad()"></iframe>
+        </div>
+        <br />
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="@Url.Action("MannualClassification", "Accounting")" class="btn btn-primary">Manage/Update Created Accounts</a>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <button type="button" class="btn btn-primary" style="margin-bottom:5px;" data-toggle="modal" data-target="#myModal1">
+                        View Chart of Account Listing
+                    </button>
+                </div>
+
+            </div>
+            <br />
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <a class="btn btn-primary" style="margin-top:10px" href="@Url.Action("Reconciliation", "Accounting")">Back</a>
+        </div>
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->
+
+
+
+@*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Available Chart Account Numbers</h4>
+                <button id="btnPrintChartNumbers" type="button" class="btn btn-primary">Print</button>
+            </div>
+            <div id="chartDiv" class="modal-body">
+                @Html.Partial("~/Views/Accounting/Partials/_AvailableChartAccountNumber.cshtml")
+            </div>
+
+        </div>
+    </div>
+</div>*@
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">View Chart of Account Listing</h4>
+                <button id="btnPrintChartNumbers" type="button" class="btn btn-primary">Print</button>
+            </div>
+            <div id="chartDiv" class="modal-body">
+                @Html.Partial("~/Views/Accounting/Partials/_AvailableChartAccountNumber.cshtml")
+            </div>
+        </div>
+    </div>
+</div>

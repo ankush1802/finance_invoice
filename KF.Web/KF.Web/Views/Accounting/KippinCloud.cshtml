@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "KippinCloud";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+<link href="~/ThemeAssets/css/cloud.css" rel="stylesheet" />
+
+<link href="~/ThemeAssets/css/customlistCss.css" rel="stylesheet" />
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Kippin Cloud",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Kippin Cloud",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <div class="row">
+                @*<div class="col-lg-12">
+                <h1 class="page-header">
+                    Kippin Store
+                </h1>
+            </div>*@
+
+                <!-- /.row -->
+                <div class="col-lg-12">
+
+                    <div class="proceed-form">
+
+                        <div class="searchBar">
+                            <div class="col-sm-6">
+                                <h3>Kippin Store</h3>
+                            </div>
+                            @*@{
+                            var userData = KF.Web.Models.UserData.GetCurrentUserData();
+                            if (userData.RoleId == 1)
+                            {
+                                <div class="col-sm-6">
+                                    @Html.Partial("~/Views/Kippinstore/_SearchUser.cshtml", new KF.Web.Models.FolderListViewModel())
+                                </div>
+                            }
+                        }*@
+
+                        </div>
+                        <div class="box-area">
+                            @{
+                                if (ViewBag.UserListError == string.Empty)
+                                {
+                                    foreach (var item in Model.ObjUserList)
+                                    {
+                                        <div class="col-sm-4">
+                                            <div class="picArea">
+                                                <div class="picTitle">
+                                                    <h3 class="headingTitle">
+                                                        <a href="@Url.Action("GetYearList", "Accounting", new { id = @item.UserId })">@item.UserName</a>
+                                                    </h3>
+
+                                                </div>
+                                                @if (@item.IsAssociated == false)
+                                                {
+                                                    <div class="astrickIcon">*</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @ViewBag.UserListError
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

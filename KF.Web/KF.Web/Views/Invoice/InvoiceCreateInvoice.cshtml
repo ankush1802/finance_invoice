@@ -1,0 +1,2518 @@
+﻿@model KF.Web.Models.CreateInvoice
+@{
+    ViewBag.Title = "CreateInvoice";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+
+}
+@{
+    long SelectedActiveUser = 0;
+    int userid = 0;
+    int IsFinance = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+    }
+}
+@{
+
+    var selectedUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+    using (var db = new KF.Entity.KFentities())
+    {
+        userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.EmailTo).Select(s => s.Id).FirstOrDefault());
+    }
+}
+
+@section scripts
+{
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+<style>
+    .form-required-field {
+        color: red;
+    }
+
+    .signup-container input, .signup-container select {
+        max-width: 98%;
+    }
+
+    .mandatoryField {
+        display: block;
+        margin: 10px 0 5px 0;
+    }
+
+    .field-validation-error {
+        color: red;
+    }
+
+    .selectBox > #AreaCode {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        color: #555555;
+        display: block;
+        font-size: 14px;
+        height: 34px;
+        line-height: 1.42857;
+        padding: 6px 12px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        vertical-align: middle;
+        margin-right: 9px;
+        display: inline-block;
+        width: 44%;
+    }
+
+    .selectBox .form-control {
+        display: inline-block;
+        width: 50%;
+    }
+
+    .clearLeft {
+        clear: left;
+    }
+
+    .field-validation-error {
+        font-size: 11px;
+    }
+
+    #tb2 input[readonly] {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        width: 50px;
+    }
+</style>
+
+<script src="~/ThemeAssets/Gridjs/Invoice.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script>
+        setInterval(function(){
+
+            if(($("#InvoiceDate").val()!="") && ($("#pytterms").val()!=""))
+            {
+                var dateTime = new Date($("#InvoiceDate").datepicker("getDate"));
+
+
+                var datepicker = dateTime.getDate() + "/" + (dateTime.getMonth() + 1) + "/" + dateTime.getFullYear();;
+                var parms = datepicker.split("/");
+                var joindate = new Date(parms[1] + "/" + parms[0] + "/" + parms[2]);
+                var numberOfDaysToAdd = parseInt($("#pytterms").val());
+
+                joindate.setDate(joindate.getDate() + numberOfDaysToAdd);
+                var dd = joindate.getDate();
+                var mm = joindate.getMonth() + 1;
+                if (mm < 10) mm = "0" + mm;
+                var y = joindate.getFullYear();
+                var joinFormattedDate = mm + '/' + dd + '/' + y;
+                if (joinFormattedDate == "NaN/NaN/NaN") {
+                    $("#duedate").val('');
+                }
+                else {
+                    $("#duedate").val(joinFormattedDate);
+                }
+            }
+        }, 1000);
+
+    </script>
+
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoiceCreateInvoice") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#createinvoice").addClass("active");
+                $("#createinvoice").css("color", "#1CAF9A");
+            }
+
+            setInterval(function () {
+            }, 10);
+        });
+        $(window).load(function () {
+            $("#load").fadeOut("slow");
+            function HideControls() {
+
+                //alert("IsFinavbe");
+                $("#gsttaxamt").css("display", "none");
+                $("#lblGstAmt").css("display", "none");
+                $("#gsttaxper").css("display", "none");
+                $("#lblGstTax").css("display", "none");
+                $("#qsttaxamt").css("display", "none");
+                $("#lblQstAmt").css("display", "none");
+                $("#qsttaxper").css("display", "none");
+                $("#lblQstTax").css("display", "none");
+                $("#hsttaxamt").css("display", "none");
+                $("#lblHstAmt").css("display", "none");
+                $("#hsttaxper").css("display", "none");
+                $("#lblHstTax").css("display", "none");
+                $("#psttaxamt").css("display", "none");
+                $("#psttaxamt").css("display", "none");
+                $("#lblPstTaxAmt").css("display", "none");
+                $("#psttaxper").css("display", "none");
+                $("#lblPstTax").css("display", "none");
+                $("#taxpercentage").css("display", "block");
+                $("#lblTax").css("display", "block");
+                $("#taxamt").css("display", "block");
+                $("#lbltxtAmt").css("display", "block");
+
+            };
+            function HideControlsTax() {
+
+                //alert("hello");
+                $("#taxpercentage").css("display", "none");
+                $("#lblTax").css("display", "none");
+                $("#taxamt").css("display", "none");
+                $("#lbltxtAmt").css("display", "none");
+                $("#gsttaxamt").css('display', 'block')
+                $("#lblGstAmt").css('display', 'block')
+                $("#gsttaxper").css('display', 'block')
+                $("#lblGstTax").css('display', 'block')
+                $("#qsttaxamt").css('display', 'block')
+                $("#lblQstAmt").css('display', 'block')
+                $("#qsttaxper").css("display", "block");
+                $("#lblQstTax").css("display", "block");
+                $("#hsttaxamt").css("display", "block");
+                $("#lblHstAmt").css("display", "block");
+                $("#hsttaxper").css("display", "block");
+                $("#lblHstTax").css("display", "block");
+                $("#psttaxamt").css("display", "block");
+                $("#lblPstTaxAmt").css("display", "block");
+                $("#psttaxper").css("display", "block");
+                $("#lblPstTax").css("display", "block");
+            };
+        })
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#dialog").dialog({
+                modal: true,
+                autoOpen: false,
+                title: "Item Lists",
+                width: 1040,
+                height: 500
+            });
+
+        });
+    </script>
+
+    <script>
+        function myFunctionLive() {
+
+            if ($("#desc").val() == '' || $("#quantity").val() == '' || $("#rate").val() == '' || $("#ServiceTypeId").val() == '' || (($("#discountamt").val() == '') && ($("#discountpercentage").val() == '')) || $("#subtotal").val() == '') {
+                alert("Please fill mandatory fields.");
+            }
+            else {
+                var sNo = $("#invoiceNumber").val();
+
+                var amount = $("#amount").val();
+                var item = $("#desc").val();
+                //var qstTax = $("#qsttaxamt").val();
+                var qstTax;
+                if ($("#qsttaxamt").val() != "") {
+                    qstTax = "A_" + $("#qsttaxamt").val();
+                }
+                else if ($("#qsttaxper").val() != "") {
+                    qstTax = "P_" + $("#qsttaxper").val();
+                }
+                else { qstTax = 0; }
+                // var hstTax = $("#hsttaxamt").val();
+
+                var hstTax;
+                if ($("#hsttaxamt").val() != "") {
+                    hstTax = "A_" + $("#hsttaxamt").val();
+                }
+                else if ($("#hsttaxper").val() != "") {
+                    hstTax = "P_" + $("#hsttaxper").val();
+                }
+                else { hstTax = 0; }
+
+                var rate = $("#rate").val();
+                // var discount = $("#discountamt").val();
+                var discount;
+                if ($("#discountamt").val() != "") {
+                    discount = "A_" + $("#discountamt").val();
+                }
+                else if ($("#discountpercentage").val() != "") {
+                    discount = "P_" + $("#discountpercentage").val();
+                }
+                else { discount = 0; }
+                // var tax = $("#taxamt").val();
+                var tax;
+                if ($("#taxamt").val() != "") {
+                    tax = "A_" + $("#taxamt").val();
+                }
+                else if ($("#taxpercentage").val() != "") {
+                    tax = "P_" + $("#taxpercentage").val();
+                }
+                else { tax = 0; }
+                //var gstTax = $("#gsttaxamt").val();
+                var gstTax;
+                if ($("#gsttaxamt").val() != "") {
+                    gstTax = "A_" + $("#gsttaxamt").val();
+                }
+                else if ($("#gsttaxper").val() != "") {
+                    gstTax = "P_" + $("#gsttaxper").val();
+                }
+                else { gstTax = 0; }
+                var quantity = $("#quantity").val();
+                var customerService = "";
+                //var pstTax = $("#psttaxamt").val();
+                var pstTax;
+                if ($("#psttaxamt").val() != "") {
+                    pstTax = "A_" + $("#psttaxamt").val();
+                }
+                else if ($("#psttaxper").val() != "") {
+                    pstTax = "P_" + $("#psttaxper").val();
+                }
+                else { pstTax = 0; }
+
+
+                var result = (sNo.charAt(0));
+                var val = 0;
+                if (result == 0) {
+                    val = sNo.substring(1);
+                }
+                var subTotal = $("#subtotal").val();
+                var servicetype = $("#ServiceTypeId option:selected").text();
+                var servicetypeid = $("#ServiceTypeId").val();
+                var found = $.inArray(sNo, Finalinvoiceno) > -1;
+                if (found == true) {
+                    Finalinvoiceno[val - 1] = sNo;
+                    Finaldesc[val - 1] = item;
+                    Finalamount[val - 1] = amount;
+                    FinalqstTax[val - 1] = qstTax;
+                    FinalhstTax[val - 1] = hstTax;
+                    Finalrate[val - 1] = rate;
+                    Finaldiscountamt[val - 1] = discount;
+                    Finaltaxamt[val - 1] = tax;
+                    FinalgstTax[val - 1] = gstTax;
+                    Finalquantity[val - 1] = quantity;
+                    FinalcustomerService[val - 1] = customerService;
+                    FinalpstTax[val - 1] = pstTax;
+                    Finalsubtotal[val - 1] = subTotal;
+                    FinalServiceType[val - 1] = servicetype;
+                    FinalServiceTypeId[val - 1] = servicetypeid;
+                }
+                else {
+                    addItmes(item);
+                    addsNo(sNo);
+                    addamount(amount);
+                    addqstTax(qstTax);
+                    addhstTax(hstTax);
+                    addrate(rate);
+                    adddiscount(discount);
+                    addtax(tax);
+                    addgstTax(gstTax);
+                    addquantity(quantity);
+                    addcustomerService(customerService);
+                    addpstTax(pstTax);
+                    addsubTotal(subTotal);
+                    addserviceType(servicetype);
+                    addserviceTypeId(servicetypeid);
+                }
+                var desc = Finaldesc[val - 1];
+                //alert(val);
+                // $("#txtID").val(desc);
+                //$('#tb2 tr').eq(val).find('td').eq(1).html(desc);
+                $('#tb2 tr').eq(val).find('td').eq(1).html($("#ServiceTypeId option:selected").text());
+                $("#invoiceNumber").val('');
+                //$("#amount").val('');
+                //$("#amount").val();
+                //$("#desc").val('');
+                //$("#qsttaxamt").val('');
+                //$("#hsttaxamt").val('');
+                //$("#rate").val('');
+                //$("#discountamt").val('');
+                //$("#taxamt").val('');
+                //$("#gsttaxamt").val('');
+                //$("#quantity").val('');
+                //$("#psttaxamt").val('');
+                //$("#subtotal").val('');
+                //$("#ServiceTypeId").val('');
+                //$("#psttaxper").val('');
+                $('#dialog').dialog('close');
+
+
+
+                $("#amount").val('');
+                $("#desc").val('');
+                $("#qsttaxamt").val('');
+                $("#hsttaxamt").val('');
+                $("#rate").val('');
+                $("#discountamt").val('');
+                $("#taxamt").val('');
+                $("#gsttaxamt").val('');
+                $("#quantity").val('');
+                $("#psttaxamt").val('');
+                $("#subtotal").val('');
+                $("#ServiceTypeId").val('');
+                $("#psttaxper").val('');
+                $("#discountpercentage").val('');
+                $("#gsttaxper").val('');
+                $("#qsttaxper").val('');
+                $("#hsttaxper").val('');
+                $("#psttaxper").val('');
+
+
+
+                var arr = Finalsubtotal;
+                var total = 0;
+                for (var i in arr) { total += parseFloat(arr[i]); }
+                $("#corporatecity").val(total.toFixed(2));
+                var arr = Finalsubtotal;
+                var total = 0;
+                for (var i in arr) { total += parseFloat(arr[i]); }
+
+                var totalVal= parseFloat(total);
+
+
+                var corporateStreetval=$("#corporatestreet").val();
+                var sum=(parseFloat(totalVal)+(parseFloat(corporateStreetval) || 0));
+                $("#corporatecity").val(sum.toFixed(2));
+
+                var step2=(parseFloat($("#corporatecity").val()) || 0)-(parseFloat($("#corporatestate").val()) || 0)
+                //$("#corporatepostalcode").val(step2);
+
+                $("#corporatestreet").keyup(function () {
+                    debugger;
+                    var arr = Finalsubtotal;
+                    var total = 0;
+                    for (var i in arr) { total += parseFloat(arr[i]); }
+                    if($("#corporatestreet").val()!="")
+                    {
+                        var totalVal= parseFloat(total);
+                        var corporateStreetval=$("#corporatestreet").val();
+                        var sum=(parseFloat(totalVal)+parseFloat(corporateStreetval));
+                        $("#corporatecity").val(sum.toFixed(2));
+
+                        if($("#corporatestate").val()!="")
+                        {
+                            $("#corporatepostalcode").val(((parseFloat(  $("#corporatecity").val()))-(parseFloat($("#corporatestate").val()) || 0)).toFixed(2));
+                        }
+
+                        //$("#corporatepostalcode").val((parseFloat(  $("#corporatecity").val()))-(parseFloat($("#corporatestate").val()) || 0));
+
+
+                    }
+                    else
+                    {
+                        var arr = Finalsubtotal;
+                        var total = 0;
+                        for (var i in arr) { total += parseFloat(arr[i]); }
+                        $("#corporatecity").val(total.toFixed(2));
+                        $("#corporatepostalcode").val(((parseFloat(  $("#corporatecity").val()))-(parseFloat($("#corporatestate").val()) || 0)).toFixed(2));
+
+                    }
+
+
+                });
+
+
+                $("#corporatestate").keyup(function () {
+                    debugger;
+                    if($("#corporatestate").val()!="")
+                    {
+                        var totalVal= $("#corporatecity").val();
+                        var corporateStateVal=$("#corporatestate").val();
+                        var sum=(parseFloat(totalVal)-parseFloat(corporateStateVal));
+                        $("#corporatepostalcode").val(sum.toFixed(2));
+                    }
+                    else
+                    {
+                        $("#corporatepostalcode").val('');
+
+
+                    }
+
+
+
+
+                });
+
+            }
+            //if($("#corporatestreet").val()!="")
+            //{
+            //    var totalVal= $("#corporatecity").val();
+            //    var corporateStreetval=$("#corporatestreet").val();
+            //    var sum=(parseFloat(totalVal)+parseFloat(corporateStreetval));
+            //    $("#corporatecity").val(sum);
+            //}
+            //if($("#corporatestate").val()!="")
+            //{
+            //    var totalVal= $("#corporatecity").val();
+            //    var corporateStateVal=$("#corporatestate").val();
+            //    var sum=(parseFloat(totalVal)-parseFloat(corporateStateVal));
+            //    $("#corporatepostalcode").val(sum);
+            //}
+        };
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#discountamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#discountamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#discountpercentage").on("click", function () {
+                if($("#discountamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#discountamt").focus();
+
+                }
+
+            });
+            $("#discountamt").on("click", function () {
+                if($("#discountpercentage").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#discountpercentage").focus();
+
+                }
+
+            });
+
+            $("#taxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#taxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#taxpercentage").on("click", function () {
+                if($("#taxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#taxamt").focus();
+                }
+
+            });
+            $("#taxamt").on("click", function () {
+                if($("#taxpercentage").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#taxpercentage").focus();
+                }
+
+            });
+
+
+
+
+            $("#gsttaxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#gsttaxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#gsttaxper").on("click", function () {
+                if($("#gsttaxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#gsttaxamt").focus();
+                }
+
+            });
+            $("#gsttaxamt").on("click", function () {
+                if($("#gsttaxper").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#gsttaxper").focus();
+                }
+
+            });
+
+
+
+
+
+            $("#gsttaxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#gsttaxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#gsttaxper").on("click", function () {
+                if($("#gsttaxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#gsttaxamt").focus();
+                }
+
+            });
+            $("#gsttaxamt").on("click", function () {
+                if($("#gsttaxper").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#gsttaxper").focus();
+                }
+
+            });
+
+
+            $("#qsttaxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#qsttaxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#qsttaxper").on("click", function () {
+                if($("#qsttaxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#qsttaxamt").focus();
+                }
+
+            });
+            $("#qsttaxamt").on("click", function () {
+                if($("#qsttaxper").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#qsttaxper").focus();
+                }
+
+            });
+
+
+            $("#psttaxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#psttaxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#psttaxper").on("click", function () {
+                if($("#psttaxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#psttaxamt").focus();
+                }
+
+            });
+            $("#psttaxamt").on("click", function () {
+                if($("#psttaxper").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#psttaxper").focus();
+                }
+
+            });
+
+
+            $("#hsttaxamt").keydown(function (e) {
+                $(this).focus();
+                if (e.keyCode === 9)
+                {
+                    if($("#hsttaxamt").val()!="")
+                    {
+                        alert("You can enter either Amount or Percentage.");
+                        return false;
+                    }
+                }
+
+            });
+            $("#hsttaxper").on("click", function () {
+                if($("#hsttaxamt").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#hsttaxamt").focus();
+                }
+
+            });
+            $("#hsttaxamt").on("click", function () {
+                if($("#hsttaxper").val()!="")
+                {
+                    alert("You can enter either Amount or Percentage.");
+                    $("#hsttaxper").focus();
+                }
+
+            });
+
+            $("#btnLives").on("click", function () {
+                if($("#txtID").val()=="")
+                {
+                    alert("Please fill atleast 1 item details.");
+                }
+                else
+                {
+                if ($("#InvoiceDate").val() == '' || $("#pytterms").val() == '' || $("#corporatestate").val() == '') {
+                    alert("Please fill mandatory fields.");
+                }
+                else {
+                    var Tot=$("#corporatecity").val();
+                    var CashAdv=$("#corporatestate").val();
+
+                    if(parseFloat(Tot)>parseFloat(CashAdv))
+                    {
+                        $("#preloader").css("background-color", "transparent");
+                        $("#preloader").css("display","block");
+                        $("#btnLives").attr("disabled", true);
+                        var userIds = 0;
+                        var url = window.location.href;
+                        if (url.indexOf("id") >= 0) {
+                            var finalURL = url.split("=");
+                            userIds = finalURL[1];
+                        }
+
+
+
+                        Finalinvoiceno = [];
+                        $('input[name="SNo[]"]').each(function () {
+                            var sno = $(this).val();
+                            Finalinvoiceno.push(sno);
+                            FinalCustomerTypeId.push(0);
+                            FinalCustomerType.push("");
+                        });
+                        var dusdateres = $("#duedate").val();
+                        dusdateres = dusdateres.split('/');
+
+                        var invdate = $("#InvoiceDate").val();
+                        invdate = invdate.split('/');
+
+                        var createdInvoice = {
+                            //ServiceType: ["test"],
+                            ServiceType: FinalServiceType,
+                            Amount: Finalamount,
+
+
+                            DueDate: dusdateres[2] + '-' + dusdateres[0] + '-' + dusdateres[1],
+                            UserId: @userid,
+                            DepositePayment: $("#corporatestate").val(),
+                            InvoiceDate: invdate[2] + '-' + invdate[0] + '-' + invdate[1],
+                            PaymentTerms: $("#pytterms").val(),
+                            SalesPerson: $("#corporatehouseno").val(),
+                            //Item: Finaldesc,
+                            Item: Finalinvoiceno,
+                            QST_Tax: FinalqstTax,
+                            Total: $("#corporatecity").val(),
+                            SubTotal: Finalsubtotal,
+                            HST_Tax: FinalhstTax,
+                            CustomerId: userIds,
+                            Rate: Finalrate,
+                            Discount: Finaldiscountamt,
+                            Customer_ServiceTypeId: FinalCustomerTypeId,
+                            ShippingCost: $("#corporatestreet").val(),
+                            // ServiceTypeId: ["" + FinalServiceTypeId.map(parseFloat) + ""],
+                            ServiceTypeId: FinalServiceTypeId,
+                            ButtonType: 'Save',
+                            Type: '1',
+                            Tax: Finaltaxamt,
+                            GST_Tax: FinalgstTax,
+                            Note: $("#shippingaptno").val(),
+                            ItemId: Finalinvoiceno,
+                            Terms: $("#shippinghouseno").val(),
+                            Quantity: Finalquantity,
+                            Description: Finaldesc,
+                            // InvoiceNumber: Finalinvoiceno,
+                            InvoiceNumber: Number($("#invoicenumber").val()).toString(),
+                            Customer_Service: FinalCustomerType,
+                            PST_Tax: FinalpstTax,
+                            DocumentRef: $("#corporateaptno").val(),
+                            BalanceDue: $("#corporatepostalcode").val()
+                        }
+
+                        var dataToSend = JSON.stringify(
+                           createdInvoice
+
+                            );
+
+                        //alert(dataToSend);
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("InvoiceCreateInvoice", "Invoice")',
+                            data: dataToSend,
+                            dataType: 'json',
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                //Here id is BankExpenseId
+                                //alert('Bill Successfully Uploaded!!');
+                                //  window.location.href = 'EditExpense?BankExpenseId=' + $("#Id").val();
+                                //location.reload();
+                                $("#preloader").css("display","none");
+                                alert("Invoice Created Successfully");
+                                location.reload();
+                                $("#pytterms").val('')
+                                $("#duedate").val('')
+                                $("#corporateaptno").val('')
+                                $("#corporatehouseno").val('')
+                                $("#corporatestreet").val('')
+                                $("#corporatecity").val('')
+                                $("#corporatestate").val('')
+                                $("#corporatepostalcode").val('')
+                                $("#shippingaptno").val('')
+                                $("#shippinghouseno").val('')
+                            },
+                            error: function (error) {
+                                $("#preloader").css("display","none");
+                                alert("Invoice Created Successfully");
+
+                                location.reload();
+                                $("#pytterms").val('')
+                                $("#duedate").val('')
+                                $("#corporateaptno").val('')
+                                $("#corporatehouseno").val('')
+                                $("#corporatestreet").val('')
+                                $("#corporatecity").val('')
+                                $("#corporatestate").val('')
+                                $("#corporatepostalcode").val('')
+                                $("#shippingaptno").val('')
+                                $("#shippinghouseno").val('')
+                            }
+                        });
+
+                    }
+                    else
+                    {
+                        alert("Deposit must be less than Total.");
+
+                    }
+
+                }
+            }
+
+
+
+            });
+
+            $("#btnSend").on("click", function () {
+                if($("#txtID").val()=="")
+                {
+                    alert("Please fill atleast 1 item details.");
+                }
+                else
+                {
+                if ($("#InvoiceDate").val() == '' || $("#pytterms").val() == '' || $("#corporatestate").val() == '') {
+                    alert("Please fill mandatory fields.");
+                }
+                else {
+                    var Tot=$("#corporatecity").val();
+                    var CashAdv=$("#corporatestate").val();
+                    if(parseFloat(Tot)>parseFloat(CashAdv))
+                    {
+                        $("#preloader").css("background-color", "transparent");
+                        $("#preloader").css("display","block");
+                        $("#btnSend").attr("disabled", true);
+                        var userIds = 0;
+                        var url = window.location.href;
+                        if (url.indexOf("id") >= 0) {
+                            var finalURL = url.split("=");
+                            userIds = finalURL[1];
+                        }
+
+                        Finalinvoiceno = [];
+                        $('input[name="SNo[]"]').each(function () {
+                            var sno = $(this).val();
+                            Finalinvoiceno.push(sno);
+                            FinalCustomerTypeId.push(0);
+                            FinalCustomerType.push("");
+                        });
+                        var dusdateres = $("#duedate").val();
+                        dusdateres = dusdateres.split('/');
+
+                        var invdate = $("#InvoiceDate").val();
+                        invdate = invdate.split('/');
+                        var createdInvoice = {
+                            //ServiceType: ["test"],
+                            ServiceType: FinalServiceType,
+                            Amount: Finalamount,
+                            DueDate: dusdateres[2] + '-' + dusdateres[0] + '-' + dusdateres[1],
+                            UserId: @userid,
+                            DepositePayment: $("#corporatestate").val(),
+                            InvoiceDate: invdate[2] + '-' + invdate[0] + '-' + invdate[1],
+                            PaymentTerms: $("#pytterms").val(),
+                            SalesPerson: $("#corporatehouseno").val(),
+                            //Item: Finaldesc,
+                            Item: Finalinvoiceno,
+                            QST_Tax: FinalqstTax,
+                            Total: $("#corporatecity").val(),
+                            SubTotal: Finalsubtotal,
+                            HST_Tax: FinalhstTax,
+                            CustomerId: userIds,
+                            Rate: Finalrate,
+                            Discount: Finaldiscountamt,
+                            Customer_ServiceTypeId: FinalCustomerTypeId,
+                            ShippingCost: $("#corporatestreet").val(),
+                            //ServiceTypeId: ["" + FinalServiceTypeId.map(parseFloat) + ""],
+                            ServiceTypeId: FinalServiceTypeId,
+                            ButtonType: 'Send',
+                            Type: '1',
+                            Tax: Finaltaxamt,
+                            GST_Tax: FinalgstTax,
+                            Note: $("#shippingaptno").val(),
+                            ItemId: Finalinvoiceno,
+                            Terms: $("#shippinghouseno").val(),
+                            Quantity: Finalquantity,
+                            Description: Finaldesc,
+                            // InvoiceNumber: Finalinvoiceno,Number(FinalCustomerType).toString()
+                            InvoiceNumber: Number($("#invoicenumber").val()).toString(),
+                            Customer_Service: FinalCustomerType,
+                            PST_Tax: FinalpstTax,
+                            DocumentRef: $("#corporateaptno").val(),
+                            BalanceDue: $("#corporatepostalcode").val()
+                        }
+
+                        var dataToSend = JSON.stringify(
+                           createdInvoice
+
+                            );
+                        // alert(dataToSend);
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("InvoiceCreateInvoice", "Invoice")',
+                            data: dataToSend,
+                            dataType: 'json',
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                //Here id is BankExpenseId
+                                //alert('Bill Successfully Uploaded!!');
+                                //  window.location.href = 'EditExpense?BankExpenseId=' + $("#Id").val();
+                                $("#preloader").css("display","none");
+                                alert("Invoice Send Successfully");
+                                location.reload();
+                                $("#pytterms").val('')
+                                $("#duedate").val('')
+                                $("#corporateaptno").val('')
+                                $("#corporatehouseno").val('')
+                                $("#corporatestreet").val('')
+                                $("#corporatecity").val('')
+                                $("#corporatestate").val('')
+                                $("#corporatepostalcode").val('')
+                                $("#shippingaptno").val('')
+                                $("#shippinghouseno").val('')
+                            },
+                            error: function (error) {
+                                $("#preloader").css("display","none");
+                                alert("Invoice Send Successfully");
+                                location.reload();
+                                $("#pytterms").val('')
+                                $("#duedate").val('')
+                                $("#corporateaptno").val('')
+                                $("#corporatehouseno").val('')
+                                $("#corporatestreet").val('')
+                                $("#corporatecity").val('')
+                                $("#corporatestate").val('')
+                                $("#corporatepostalcode").val('')
+                                $("#shippingaptno").val('')
+                                $("#shippinghouseno").val('')
+                            }
+                        });
+
+
+                    }
+                    else
+                    {
+                        alert("Deposit must be less than Total.");
+
+                    }
+
+                }
+                }
+            });
+
+            //called when key is pressed in textbox
+            $(".numberOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
+                }
+            });
+
+
+
+            $("#pytterms").keyup(function () {
+
+                if ($("#InvoiceDate").val() == "") {
+                    $("#pytterms").val('');
+                    alert("Please Enter Invoice Date First.")
+                }
+                else {
+                    var dateTime = new Date($("#InvoiceDate").datepicker("getDate"));
+
+
+                    var datepicker = dateTime.getDate() + "/" + (dateTime.getMonth() + 1) + "/" + dateTime.getFullYear();;
+                    var parms = datepicker.split("/");
+                    var joindate = new Date(parms[1] + "/" + parms[0] + "/" + parms[2]);
+                    var numberOfDaysToAdd = parseInt($("#pytterms").val());
+
+                    joindate.setDate(joindate.getDate() + numberOfDaysToAdd);
+                    var dd = joindate.getDate();
+                    var mm = joindate.getMonth() + 1;
+                    if (mm < 10) mm = "0" + mm;
+                    var y = joindate.getFullYear();
+                    var joinFormattedDate = mm + '/' + dd + '/' + y;
+                    if (joinFormattedDate == "NaN/NaN/NaN") {
+                        $("#duedate").val('');
+                    }
+                    else {
+                        $("#duedate").val(joinFormattedDate);
+                    }
+                }
+            });
+
+        });
+
+    </script>
+
+    <script>
+        $("#quantity").keyup(function () {
+
+
+            if ($("#quantity").val() == "") {
+                $("#amount").val('');
+            }
+            else {
+                if ($("#rate").val() == "") {
+                    $("#amount").val('');
+                }
+                else {
+
+                    $("#amount").val(parseInt($("#quantity").val()) * parseInt($("#rate").val()));
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+
+                }
+            }
+
+        });
+        $("#rate").keyup(function () {
+            if ($("#quantity").val() == "") {
+                $("#amount").val('');
+            }
+            else {
+                if ($("#rate").val() == "") {
+                    $("#amount").val('');
+                }
+                else {
+                    $("#amount").val(parseInt($("#quantity").val()) * parseInt($("#rate").val()));
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                }
+            }
+        });
+        $("#discountpercentage").keyup(function () {
+            if ($("#amount").val() == "") {
+            }
+            else {
+                if ($("#discountpercentage").val() == "") {
+                    $("#discountamt").val('');
+                    $("#subtotal").val('');
+                }
+                else {
+                    //$("#discountamt").val('');
+                    //var percentage = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    //$("#subtotal").val(parseFloat($("#amount").val()) - parseFloat(percentage));
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        if($("#discountpercentage").val()<=100)
+                        
+                        {
+                            var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                            amt= parseFloat($("#amount").val()) - parseFloat(amt);
+                            debugger;
+                            var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                            var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                            $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+                        }
+                        else
+                        {
+                            alert("Discount Percentage must be less than 100");
+                            $("#discountpercentage").val('');
+                            $("#discountpercentage").focus();
+                            $("#subtotal").val('');
+                        }
+
+                    }
+                }
+            }
+        });
+        $("#discountamt").keyup(function () {
+            if ($("#amount").val() == "") {
+            }
+            else {
+                if ($("#discountamt").val() == "") {
+                    $("#discountpercentage").val('');
+                    $("#subtotal").val('');
+
+                }
+                else {
+                    //$("#discountpercentage").val('');
+                    //var percentage = parseFloat($("#discountamt").val());
+                    //$("#subtotal").val(parseFloat($("#amount").val()) - parseFloat(percentage));
+
+
+
+
+
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+
+                }
+            }
+        });
+        $("#taxamt").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#taxamt").val('');
+            }
+            else {
+                if ($("#taxamt").val() == "") {
+                    //var percentage = parseFloat($("#discountamt").val());
+                    //$("#subtotal").val(parseFloat($("#amount").val()) - parseFloat(percentage));
+                    //$("#taxpercentage").val('');
+
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                }
+                else {
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                }
+            }
+        });
+        $("#taxpercentage").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#taxpercentage").val('');
+            }
+            else {
+
+                if ($("#taxpercentage").val() == "") {
+                    $("#taxamt").val('');
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+
+                }
+                else {
+                    $("#taxamt").val('');
+                    if($("#discountamt").val()!="")
+                    {
+                        var amt = parseFloat($("#discountamt").val());
+                        amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                    else if($("#discountpercentage").val()!="")
+                    {
+                        var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                        amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                        var res1=parseFloat(amt)+(parseFloat($("#taxamt").val())|| 0)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                        var res2=((((parseFloat($("#taxpercentage").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                        $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                    }
+                }
+            }
+        });
+        $("#gsttaxamt").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#gsttaxamt").val('');
+            }
+            else
+            {
+
+                if($("#discountamt").val()!="")
+                {
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+            }
+        });
+        $("#qsttaxamt").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#qsttaxamt").val('');
+            }
+            else
+            {
+                if($("#discountamt").val()!="")
+                {
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+            }
+        });
+        $("#hsttaxamt").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#hsttaxamt").val('');
+            }
+            else
+            {
+                if($("#discountamt").val()!="")
+                {
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+            }
+        });
+        $("#psttaxamt").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#psttaxamt").val('');
+            }
+            else
+            {
+                if($("#discountamt").val()!="")
+                {
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+            }
+        });
+        $("#gsttaxper").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#gsttaxper").val('');
+            }
+            else
+            {
+
+                if($("#discountamt").val()!="")
+                {
+
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+                    //if(($("#gsttaxper").val()=="") &&($("#qsttaxper").val()=="") &&($("#hsttaxper").val()=="") &&($("#psttaxper").val()=="") )
+                    //{
+                    //    $("#subtotal").val(parseFloat(percentage));
+                    //}
+                    //else
+                    //{
+                    //    var res=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    //    $("#subtotal").val(parseFloat(percentage)+parseFloat(res));
+                    //}
+                }
+            }
+        });
+        $("#qsttaxper").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#qsttaxper").val('');
+            }
+            else
+            {
+
+
+                if($("#discountamt").val()!="")
+                {
+
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+                    //if(($("#gsttaxper").val()=="") &&($("#qsttaxper").val()=="") &&($("#hsttaxper").val()=="") &&($("#psttaxper").val()=="") )
+                    //{
+                    //    $("#subtotal").val(parseFloat(percentage));
+                    //}
+                    //else
+                    //{
+                    //    var res=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    //    $("#subtotal").val(parseFloat(percentage)+parseFloat(res));
+                    //}
+                }
+            }
+        });
+        $("#hsttaxper").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#hsttaxper").val('');
+            }
+            else
+            {
+
+                if($("#discountamt").val()!="")
+                {
+
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+                    //if(($("#gsttaxper").val()=="") &&($("#qsttaxper").val()=="") &&($("#hsttaxper").val()=="") &&($("#psttaxper").val()=="") )
+                    //{
+                    //    $("#subtotal").val(parseFloat(percentage));
+                    //}
+                    //else
+                    //{
+                    //    var res=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    //    $("#subtotal").val(parseFloat(percentage)+parseFloat(res));
+                    //}
+                }
+            }
+        });
+        $("#psttaxper").keyup(function () {
+            if ($("#subtotal").val() == "") {
+                $("#psttaxper").val('');
+            }
+            else
+            {
+
+                if($("#discountamt").val()!="")
+                {
+
+                    var amt = parseFloat($("#discountamt").val());
+                    amt=parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+
+                }
+                else if($("#discountpercentage").val()!="")
+                {
+                    var amt = (parseFloat($("#discountpercentage").val()) / parseInt(100))*(parseFloat($("#amount").val()));
+                    amt= parseFloat($("#amount").val()) - parseFloat(amt);
+
+                    var res1=parseFloat(amt)+(parseFloat($("#gsttaxamt").val())|| 0)+(parseFloat($("#qsttaxamt").val())|| 0)+(parseFloat($("#hsttaxamt").val())|| 0)+(parseFloat($("#psttaxamt").val())|| 0);
+                    var res2=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    $("#subtotal").val((parseFloat(res1)+parseFloat(res2)).toFixed(2));
+                    //if(($("#gsttaxper").val()=="") &&($("#qsttaxper").val()=="") &&($("#hsttaxper").val()=="") &&($("#psttaxper").val()=="") )
+                    //{
+                    //    $("#subtotal").val(parseFloat(percentage));
+                    //}
+                    //else
+                    //{
+                    //    var res=((((parseFloat($("#gsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#qsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#hsttaxper").val())||0)/100)*(parseFloat(amt)))+(((parseFloat($("#psttaxper").val())||0)/100)*(parseFloat(amt))));
+                    //    $("#subtotal").val(parseFloat(percentage)+parseFloat(res));
+                    //}
+                }
+            }
+        });
+        $("#corporatestreet").keyup(function () {
+            if ($("#corporatecity").val() == "") {
+                $("#corporatestreet").val('');
+            }
+            else {
+
+                $("#corporatecity").val((parseInt($("#corporatecity").val()) + parseFloat($("#corporatestreet").val())).toFixed(2));
+
+            }
+        });
+        $("#corporatestate").keyup(function () {
+            if ($("#corporatestate").val() != "") {
+                $("#corporatepostalcode").val((parseInt($("#corporatecity").val()) - parseFloat($("#corporatestate").val())).toFixed(2));
+            }
+        });
+    </script>
+
+    <script>
+        $("#pytterms").css("height", 33);
+        $("#duedate").css("height", 33);
+
+
+        $(document).ready(function () {
+            numberRows();
+
+        });
+        $("#addMore2").on("click", function (e) {
+            var flag = "No";
+            $("#tb2 #1A").each(function (e) {
+                var item = $(this).closest("tr").find("td:nth-child(2)").html();
+                if (item.indexOf("ItemDetails") < 0 && item != '') {
+                    flag = "Yes";
+                }
+                else {
+                    flag = "No";
+                }
+
+            });
+            if (flag == "Yes") {
+                var data = $("#tb2 tr:eq(1)").clone(true).appendTo("#tb2");
+                data.find("input").val('');
+                data.find("td").eq(1).html('');
+                numberRows();
+            }
+            else {
+                alert("You cannot add row until you fill previous row");
+            }
+
+        });
+        $(document).on('click', '.remove', function () {
+            var rowCount = $('#tb2 tr').length;
+            if (rowCount < 3) {
+                alert("You must have atleast one item in invoice.");
+            }
+            else {
+                var index = $(this).closest("tr").find("input[name='SNo[]']").val();
+                //alert(index);
+                var trIndex = $(this).closest("tr").index();
+                $(this).closest("tr").remove();
+
+                removeItem(index);
+                var arr = Finalsubtotal;
+                var total = 0;
+                for (var i in arr) {
+                    total += parseFloat(arr[i]);
+
+                }
+                $("#corporatecity").val(total.toFixed(2));
+
+
+                debugger
+                var arr = Finalsubtotal;
+                var total = 0;
+                for (var i in arr) { total += parseFloat(arr[i]); }
+
+                var totalVal= parseFloat(total);
+
+
+                var corporateStreetval=$("#corporatestreet").val();
+                var sum=(parseFloat(totalVal)+(parseFloat(corporateStreetval) || 0));
+                $("#corporatecity").val(sum.toFixed(2));
+
+                if($("#corporatestate").val()!="")
+                {
+                    var step2=(parseFloat($("#corporatecity").val()) || 0)-(parseFloat($("#corporatestate").val()) || 0)
+               
+                    $("#corporatepostalcode").val(step2.toFixed(2));
+                }
+
+
+                //var step2=(parseFloat($("#corporatecity").val()) || 0)-(parseFloat($("#corporatestate").val()) || 0)
+                //corporatepostalcode
+                //$("#corporatepostalcode").val(step2);
+            }
+
+            numberRows();
+
+        });
+        $(document).on('click', '.edit', function () {
+            var editsNo = $(this).closest("tr").find("input[name='SNo[]']").val();
+            var result = (editsNo.charAt(0));
+            var valEdit = "";
+            if (result == 0) {
+                valEdit = editsNo.substring(1);
+            }
+
+            $("#invoiceNumber").val(editsNo);
+            $('#dialog').dialog('open');
+
+            if (Finalinvoiceno[valEdit - 1] != '' && typeof Finalinvoiceno[valEdit - 1] != "undefined") {
+               
+                debugger;
+                var invoiceNo = Finalinvoiceno[valEdit - 1];
+                var desc = Finaldesc[valEdit - 1];
+                var quantity = Finalquantity[valEdit - 1];
+                var rate = Finalrate[valEdit - 1];
+                var amount = Finalamount[valEdit - 1];
+
+                var discAmt = Finaldiscountamt[valEdit - 1];
+                //var discPercent = Finaldiscountpercentage[valEdit - 1];
+
+                var taxAmt = Finaltaxamt[valEdit - 1];
+                // var taxPercentage = Finaltaxpercentage[valEdit - 1];
+
+                var subTotal = Finalsubtotal[valEdit - 1];
+                var itemDetails = FinalItemDetails[valEdit - 1];
+                var qstTax = FinalqstTax[valEdit - 1];
+                var hstTax = FinalhstTax[valEdit - 1];
+                var gstTax = FinalgstTax[valEdit - 1];
+                var pstTax = FinalpstTax[valEdit - 1];
+                var custService = FinalcustomerService[valEdit - 1];
+
+                var ServiceTypeId= FinalServiceTypeId[valEdit - 1];
+                $("#ServiceTypeId").val(ServiceTypeId);
+                $("#invoiceNumber").val(editsNo);
+                $("#desc").val(desc);
+                $("#quantity").val(quantity);
+                $("#rate").val(rate);
+                $("#amount").val(amount);
+                $("#subtotal").val(subTotal);
+                debugger;
+                if(typeof discAmt != "undefined" && discAmt!=0)
+                {
+                    var val=discAmt.split('_');
+                    if(val[0]=='A')
+                    {
+                        $("#discountamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#discountpercentage").val(val[1]);
+                    }
+
+                }
+
+                if(typeof taxAmt != "undefined" && taxAmt!=0)
+                {
+
+                    var val=taxAmt.split('_');
+                    if(val[0]=='A')
+                    {
+                        $("#taxamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#taxpercentage").val(val[1]);
+                    }
+
+                }
+
+
+
+                if(typeof gstTax != "undefined" && gstTax!=0)
+                {
+
+                    var val=gstTax.split('_');
+                    if(val[0]=='A')
+                    {
+                        $("#gsttaxamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#gsttaxper").val(val[1]);
+                    }
+
+                }
+                if(typeof qstTax != "undefined" && qstTax!=0)
+                {
+
+                    var val=qstTax.split('_');
+
+                    if(val[0]=='A')
+                    {
+                        $("#qsttaxamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#qsttaxper").val(val[1]);
+                    }
+
+                }
+
+                if(typeof hstTax != "undefined" && hstTax!=0)
+                {
+                    var val=hstTax.split('_');
+                    if(val[0]=='A')
+                    {
+                        $("#hsttaxamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#hsttaxper").val(val[1]);
+                    }
+
+                }
+
+                if(typeof pstTax != "undefined" && pstTax!=0)
+                {
+                    var val=pstTax.split('_');
+                    if(val[0]=='A')
+                    {
+                        $("#psttaxamt").val(val[1]);
+                    }
+                    else
+                    {
+                        $("#psttaxper").val(val[1]);
+                    }
+
+                }
+                //$("#discountamt").val(discAmt);
+                // $("#discountpercentage").val(discPercent);
+
+                //$("#taxamt").val(taxAmt);
+                //$("#taxpercentage").val(taxPercentage);
+                //$("#gsttaxamt").val(gstTax);
+                //$("#qsttaxamt").val(qstTax);
+                //$("#hsttaxamt").val(hstTax);
+                //$("#psttaxamt").val(pstTax);
+            }
+            else{
+                $("#amount").val('');
+                $("#desc").val('');
+                $("#qsttaxamt").val('');
+                $("#hsttaxamt").val('');
+                $("#rate").val('');
+                $("#discountamt").val('');
+                $("#taxamt").val('');
+                $("#gsttaxamt").val('');
+                $("#quantity").val('');
+                $("#psttaxamt").val('');
+                $("#subtotal").val('');
+                $("#ServiceTypeId").val('');
+                $("#psttaxper").val('');
+                $("#discountpercentage").val('');
+                $("#gsttaxper").val('');
+                $("#qsttaxper").val('');
+                $("#hsttaxper").val('');
+                $("#psttaxper").val('');
+                $("#taxpercentage").val('');
+            }
+
+        });
+
+
+
+
+
+
+        function numberRows() {
+            $("#tb2 tr").each(function () {
+                var res = ($("#tb2 tr").index(this)).toString().length;
+
+                if (res == 1) {
+                    $(this).find("td:first-child input").val("0" + $("#tb2 tr").index(this));
+                }
+                else {
+                    $(this).find("td:first-child input").val($("#tb2 tr").index(this));
+                }
+
+
+            });
+        }
+
+
+    </script>
+
+    <script>
+        $(function () {
+            $("#InvoiceDate").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "CREATE INVOICE",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Create Invoice",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+
+<div id="page-wrapper">
+    <div class="container">
+
+
+        <div class="row">
+            @{
+
+                if ((string)TempData["Invoicesuccessfullycreated"] == "Success")
+                {
+
+                    <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Successfully Created.</p></div>
+
+                }
+            }
+
+
+            <article class="col-sm-12">
+               
+                <button class="btn btn-primary btn-block top-back-button bottom-margin" onclick="goBack()">Back</button>
+            </article>
+            <article class="col-sm-12">
+                <div class="form-box">
+                    <form class="form-horizontal">
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Invoice Number
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.InvoiceNumber, new { @id = "invoicenumber", @class = "form-control", @readonly = "readonly", @placeholder = "Invoice Number", @disabled = "disabled" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Invoice Date
+                                    <span class="required-field">*</span>
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                <input type="text" id="InvoiceDate" readonly="readonly" autocomplete="off" placeholder="Invoice Date" class="form-control pickupDate" style="cursor:text;background-color:#fff;">
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Payment Terms (in days)
+                                    <span class="required-field">*</span>
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.PaymentTerms, new { @id = "pytterms", name = "test", @class = "form-control numberOnly", @placeholder = "Payment Terms" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Due Date
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.DueDate, new { @id = "duedate", @class = "form-control", @readonly = "readonly", @placeholder = "Due Date", @disabled = "disabled" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Document Reference (PO#)
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.DocumentRef, new { @id = "corporateaptno", @name = "test", @class = "form-control", @placeholder = "Document Reference(PO)" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Sales Person
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.SalesPerson, new { @id = "corporatehouseno", @class = "form-control", @placeholder = "Sales Person" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 item-box">
+                            <article class="col-sm-12 item-header">
+                                <h5>
+                                    Item List
+                                </h5>
+                                <i class="fa fa-plus-circle hidden"></i>
+                            </article>
+                            <article class="col-sm-12 item-content">
+                                <div class="bs-example">
+                                    <div class="Container">
+                                        <table class="table small-text" id="tb2">
+                                            <tr class="tr-header">
+
+                                                <th><a href="javascript:void(0);" style="font-size:18px;width:33%;" id="addMore2" title="Add More Person"><i class="fa fa-plus-circle"></i></a></th>
+                                            </tr>
+                                            <tr id="1A" class="item-list-row">
+                                                <td><input type="text" name="SNo[]" readonly class="form-control" /></td>
+                                                <td><input id="txtID" type="text" name="ItemDetails[]" readonly class="form-control" /></td>
+                                                <td><a href='javascript:void(0);' class='edit'><i class="fa fa-pencil"></i> Edit</a></td>
+                                                <td><a href='javascript:void(0);' class='remove'><i class="fa fa-times"></i> Remove</a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 serial-no">
+                                        <input type="text" name="SNo[]" readonly class="form-control" />
+                                    </div>
+                                    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-10">
+                                       <input id="txtID" type="text" name="ItemDetails[]" readonly class="form-control" />
+                                    </div>
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 item-buttons">
+                                        <button>
+                                            <a href='javascript:void(0);' class='edit'><i class="fa fa-pencil"></i> Edit</a>
+                                        </button>
+                                        <button>
+                                            <a href='javascript:void(0);' class='remove'><i class="fa fa-times"></i> Remove</a>
+                                        </button>
+                                    </div>*@
+                            </article>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Shipping Cost
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.ShippingCost, new { @id = "corporatestreet", @class = "form-control numberOnly", @placeholder = "Shipping Cost" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Total
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.Total, new { @id = "corporatecity", @class = "form-control numberOnly", @readonly = "readonly", @placeholder = "Total", @disabled = "disabled" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Cash Advanced Payment
+                                    <span class="required-field">*</span>
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.DepositePayment, new { @id = "corporatestate", @class = "form-control numberOnly", @placeholder = "Cash Advanced Payment" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Balance Due - Outstanding
+
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextBoxFor(x => x.BalanceDue, new { @id = "corporatepostalcode", maxlength = "6", @class = "form-control", @readonly = "readonly", @placeholder = "Balance Due - Outstanding", @disabled = "disabled" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Notes
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextAreaFor(x => x.Note, new { @id = "shippingaptno", @class = "form-control text-area", @placeholder = "Notes" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="col-md-5 col-sm-12 control-label">
+                                <span class="field-tittle">
+                                    Terms
+                                </span>
+                            </label>
+                            <div class="col-md-7 col-sm-12">
+                                @Html.TextAreaFor(x => x.Terms, new { @id = "shippinghouseno", @class = "form-control text-area", @placeholder = "Terms" })
+                                <span class="validation-msg"></span>
+                            </div>
+                        </div>
+                        @{
+                            using (var db = new KF.Entity.KFentities())
+                            {
+                                if (Model != null)
+                                {
+                                    IsFinance = Convert.ToInt32(db.tblCustomerOrSuppliers.Where(s => s.Id == Model.hdnselectuser).Select(s => s.IsFinance).FirstOrDefault());
+
+                                    if (IsFinance == 1)
+                                    {
+                                        <script>
+                                            setInterval(function () {
+
+
+                                                $("#sec2").css("display", "none");
+                                                $("#sec3").css("display", "block");
+
+                                                //$("#taxpercentage").css("display", "none");
+                                                //$("#lblTax").css("display", "none");
+                                                //$("#taxamt").css("display", "none");
+                                                //$("#lbltxtAmt").css("display", "none");
+                                                //$("#gsttaxamt").css('display', 'block')
+                                                //$("#lblGstAmt").css('display', 'block')
+                                                //$("#gsttaxper").css('display', 'block')
+                                                //$("#lblGstTax").css('display', 'block')
+                                                //$("#qsttaxamt").css('display', 'block')
+                                                //$("#lblQstAmt").css('display', 'block')
+                                                //$("#qsttaxper").css("display", "block");
+                                                //$("#lblQstTax").css("display", "block");
+                                                //$("#hsttaxamt").css("display", "block");
+                                                //$("#lblHstAmt").css("display", "block");
+                                                //$("#hsttaxper").css("display", "block");
+                                                //$("#lblHstTax").css("display", "block");
+                                                //$("#psttaxamt").css("display", "block");
+                                                //$("#lblPstTaxAmt").css("display", "block");
+                                                //$("#psttaxper").css("display", "block");
+                                                //$("#lblPstTax").css("display", "block");
+
+                                                //$("#lblgst").css("display", "block");
+                                                //$("#lblgsttax").css("display", "block");
+                                                //$("#lblqst").css("display", "block");
+                                                //$("#lblqsttax").css("display", "block");
+                                                //$("#lblhst").css("display", "block");
+                                                //$("#lblhsttax").css("display", "block");
+                                                //$("#lblpst").css("display", "block");
+                                                //$("#lblpsttax").css("display", "block");
+
+
+                                                //$("#lbltxamt").css("display", "none");
+                                                //$("#lbltxper").css("display", "none");
+
+
+                                            }, 1000);
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        <script>
+                                            setInterval(function () {
+
+
+                                                $("#sec2").css("display", "block");
+                                                $("#sec3").css("display", "none");
+
+                                                //$("#gsttaxamt").css("display", "none");
+                                                //$("#lblGstAmt").css("display", "none");
+                                                //$("#gsttaxper").css("display", "none");
+                                                //$("#lblGstTax").css("display", "none");
+                                                //$("#qsttaxamt").css("display", "none");
+                                                //$("#lblQstAmt").css("display", "none");
+                                                //$("#qsttaxper").css("display", "none");
+                                                //$("#lblQstTax").css("display", "none");
+                                                //$("#hsttaxamt").css("display", "none");
+                                                //$("#lblHstAmt").css("display", "none");
+                                                //$("#hsttaxper").css("display", "none");
+                                                //$("#lblHstTax").css("display", "none");
+                                                //$("#psttaxamt").css("display", "none");
+                                                //$("#psttaxamt").css("display", "none");
+                                                //$("#lblPstTaxAmt").css("display", "none");
+                                                //$("#psttaxper").css("display", "none");
+                                                //$("#lblPstTax").css("display", "none");
+                                                //$("#taxpercentage").css("display", "block");
+                                                //$("#lblTax").css("display", "block");
+                                                //$("#taxamt").css("display", "block");
+                                                //$("#lbltxtAmt").css("display", "block");
+
+                                                //$("#lblgst").css("display", "none");
+                                                //$("#lblgsttax").css("display", "none");
+                                                //$("#lblqst").css("display", "none");
+                                                //$("#lblqsttax").css("display", "none");
+                                                //$("#lblhst").css("display", "none");
+                                                //$("#lblhsttax").css("display", "none");
+                                                //$("#lblpst").css("display", "none");
+                                                //$("#lblpsttax").css("display", "none");
+
+                                                //$("#lbltxamt").css("display", "block");
+                                                //$("#lbltxper").css("display", "block");
+
+
+                                            }, 1000);
+                                        </script>
+                                    }
+                                }
+                            }}
+                        <div class="col-sm-12">
+                            <div class="col-sm-12 form-button">
+                                <!-- <button type="button" class="btn">Submit</button> -->
+                                <!-- <a href='javascript:;' class="btn btn-info" id="btnLives"> Save</a><a href='javascript:;' class="btn btn-info" id="btnLives"> Save</a> -->
+                                <a href='javascript:;' class="btn btn-info" id="btnLives"> Save</a>
+                                <a href='javascript:;' class="btn btn-info" id="btnSend"> Send</a>
+                                <a href='javascript:;' class="btn btn-info" id="" onclick="goBack()"> Cancel</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </article>
+        </div>
+
+
+    </div>
+
+    <div id="dialog" style="display: none" align="center">
+        <div class="container">
+            <form id="signupform" class="form-horizontal" role="form" method="post">
+               
+                <article class="col-sm-12">
+                    <div class="form-box">
+
+                        <section class="col-sm-12" id="sec1">
+                            <section class="row">
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Item No.
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Description, new { @id = "invoiceNumber", @readonly = "readonly", @class = "form-control", @placeholder = "InvoiceNumber" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Service or Product Type
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @{
+                                            if (Model != null)
+                                            {
+                                                if (Model.hdnselectuser == null)
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(x => x.ServiceTypeId, Model.ServiceType, "Select Service or Product Type", new { @class = "form-control" })
+                                                }
+                                                //if (Model.Id == 0)
+                                                //{
+
+                                                //}
+                                                //else
+                                                //{
+
+                                                //}
+                                            }
+                                        }
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Description
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Description, new { @id = "desc", @class = "form-control", @placeholder = "Description" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Quantity/Hours
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Quantity, new { @id = "quantity", name = "test", @class = "form-control numberOnly", @placeholder = "Quantity/Hours" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Rate
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Rate, new { @id = "rate", @class = "form-control numberOnly", @placeholder = "Rate" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Amount
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Amount, new { @id = "amount", @name = "test", @readonly = "readonly", @class = "form-control numberOnly", @placeholder = "Amount(Quantity * Rate)" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Discount Amt
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Discount, new { @id = "discountamt", @class = "form-control numberOnly", @placeholder = "Discount Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Discount %
+                                            <span class="required-field">*</span>
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Discount, new { @id = "discountpercentage", @class = "form-control numberOnly", @placeholder = "Discount %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+
+                        <section class="col-sm-12" id="sec5" style="background-color:#e8e8e8;max-height:40px!Important;margin-bottom:25px;">
+                            <section class="row">
+                                <div class="form-group col-sm-12">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            <strong>TAX</strong>
+                                        </span>
+                                    </label>
+                                </div>
+
+                            </section>
+                        </section>
+
+                        <section class="col-sm-12" id="sec2">
+                            <section class="row">
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lbltxamt">
+                                            Tax Amt
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Tax, new { @id = "taxamt", @class = "form-control numberOnly", @placeholder = "Tax Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lbltxper">
+                                            Tax %
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.Tax, new { @id = "taxpercentage", @class = "form-control", @placeholder = "Tax %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+
+                        <section class="col-sm-12" id="sec3">
+                            <section class="row">
+
+
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblgst">
+                                            GST Tax Amt
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.GST_Tax, new { @id = "gsttaxamt", @class = "form-control", @placeholder = "GST Tax Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblgsttax">
+                                            GST Tax %
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.GST_Tax, new { @id = "gsttaxper", @class = "form-control numberOnly", @placeholder = "GST Tax %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblqst">
+                                            QST Tax Amt
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.QST_Tax, new { @id = "qsttaxamt", @class = "form-control numberOnly", @placeholder = "QST Tax Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblqsttax">
+                                            QST Tax %
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.QST_Tax, new { @id = "qsttaxper", @class = "form-control numberOnly", @placeholder = "QST Tax %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblhst">
+                                            HST Tax Amt
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.HST_Tax, new { @id = "hsttaxamt", @class = "form-control numberOnly", @placeholder = "HST Tax Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblhsttax">
+                                            HST Tax %
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.HST_Tax, new { @id = "hsttaxper", @class = "form-control numberOnly", @placeholder = "HST Tax %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblpst">
+                                            PST Tax Amt
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.PST_Tax, new { @id = "psttaxamt", @class = "form-control numberOnly", @placeholder = "PST Tax Amt" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle" id="lblpsttax">
+                                            PST Tax %
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.PST_Tax, new { @id = "psttaxper", @class = "form-control numberOnly", @placeholder = "PST Tax %" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                            </section>
+                        </section>
+
+                        <section class="col-sm-12" id="sec4">
+                            <section class="row">
+
+                                <div class="form-group col-sm-6">
+                                    <label class="col-md-5 col-sm-12 control-label">
+                                        <span class="field-tittle">
+                                            Sub-Total
+
+                                        </span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-12">
+                                        @Html.TextBoxFor(x => x.SubTotal, new { @id = "subtotal", @class = "form-control numberOnly", @readonly = "readonly", @placeholder = "Sub-Total" })
+                                        <span class="validation-msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-button">
+                                        <div class="pull-right col-md-4">
+
+                                            <a href='javascript:;' onclick='return myFunctionLive()' class="btn btn-info" id="btnSaveInvoiceDetails"> Save</a>
+
+                                            <input type="submit" value="Register" id="Button45" class="btn btn-info" style="display:none;">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </section>
+                        </section>
+
+                    </div>
+                </article>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+

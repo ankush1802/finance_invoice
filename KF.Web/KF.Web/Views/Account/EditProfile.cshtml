@@ -1,0 +1,356 @@
+﻿@model KF.Web.Models.EditProfile
+@{
+    ViewBag.Title = "EditProfile";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //called when key is pressed in textbox
+            $(".numberOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
+                }
+            });
+
+            $('#ProfileImage').bind('change', function () {
+                if (this.files[0].size / 1024 / 1024 > 1) {
+                    alert("Please upload image less than 1MB");
+                }
+
+            });
+
+            $(document).on("click", "#btnUpdateProfile", function (e) {
+                e.preventDefault();
+                var extension = $("#ProfileImage").val().substr(($("#ProfileImage").val().lastIndexOf('.') + 1));
+                if ($("#ProfileImage").val() != "") {
+                    if (extension.toLowerCase() == "png" || extension.toLowerCase() == "jpg") {
+
+                        $("#lblError").text("");
+                        $(this).parents('form').submit();
+                    }
+                    else {
+                        $("#lblError").text("Please select a valid image.");
+
+                    }
+                }
+                else {
+                    $(this).parents('form').submit();
+                }
+
+            });
+        });
+    </script>
+    <link href="~/ThemeAssets/css/EditProfile.css" rel="stylesheet" />
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "EDIT PROFILE",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Edit Profile",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div id="page-wrapper">
+    <div class="container">
+        <div class="row">
+            <article class="col-sm-12">
+                <button class="btn btn-primary btn-block top-back-button bottom-margin" onclick="goBack()">Back</button>
+            </article>
+            <article class="col-sm-12">
+                <div class="form-box">
+                    @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-horizontal">
+                            @Html.HiddenFor(i => i.Id)
+                            @Html.HiddenFor(i => i.RoleId)
+                            <div class="row edit-profile">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">User Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+
+                                                @Html.TextBoxFor(i => i.Username, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Email</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.Email, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">First Name</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.FirstName, new { @class = "form-control", placeholder = "Enter Firstname" })
+                                                @Html.ValidationMessageFor(i => i.FirstName)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Last Name</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.LastName, new { @class = "form-control", placeholder = "Enter Lastname" })
+                                                @Html.ValidationMessageFor(i => i.LastName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Business Number</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.BusinessNumber, new { @class = "form-control numberOnly", maxlength = "10", placeholder = "Enter Business Number" })
+                                                @Html.ValidationMessageFor(i => i.BusinessNumber)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">City</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.City, new { @class = "form-control", placeholder = "Enter City" })
+                                                @Html.ValidationMessageFor(i => i.City)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Company Name</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.CompanyName, new { @class = "form-control", placeholder = "Enter Company name" })
+                                                @Html.ValidationMessageFor(i => i.CompanyName)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Corporation Address</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.CorporationAddress, new { @class = "form-control", placeholder = "Enter Corporation Address" })
+                                                @Html.ValidationMessageFor(i => i.CorporationAddress)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @{
+                        if (Model.RoleId != 1)
+                        {
+                            <div class="col-sm-6">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Ownership</label>
+                                        <span class="form-required-field">*</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(x => x.OwnershipId, new SelectList(Model.OwnershipList, "Id", "OwnershipType"), "--Select Ownership--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(i => i.OwnershipId)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                                    }
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Mobile Number</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                <div class="selectBox">
+                                                    @Html.TextBoxFor(x => x.AreaCode, new { @id = "AreaCode", @class = "form-control numberOnly", maxlength = "3", @placeholder = "Area Code" })
+                                                    @Html.TextBoxFor(x => x.MobileNumber, new { @id = "mobileNumber", @class = "form-control numberOnly", maxlength = "7", @placeholder = "Enter your MobileNumber" })
+                                                    @Html.ValidationMessageFor(i => i.AreaCode)
+                                                    @Html.ValidationMessageFor(i => i.MobileNumber)
+                                                </div>
+                                                @*@Html.TextBoxFor(i => i.MobileNumber, new { @class = "form-control", placeholder = "Enter Mobile Number" })
+                                                    @Html.ValidationMessageFor(i => i.MobileNumber)*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">GSTNumber</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.GSTNumber, new { @class = "form-control numberOnly", maxlength = "10", placeholder = "Enter GSTNumber" })
+                                                @Html.ValidationMessageFor(i => i.GSTNumber)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">PostalCode</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(i => i.PostalCode, new { @class = "form-control", maxlength = "6", placeholder = "Enter Postal Code" })
+                                                @Html.ValidationMessageFor(i => i.PostalCode)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Province</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(x => x.ProvinceId, Model.ProvinceList, "Select province", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(i => i.ProvinceId)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @{
+                        if (Model.RoleId != 1)
+                        {
+                            <div class="col-sm-6">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Industry</label>
+                                        <span class="form-required-field">*</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(x => x.IndustryId, new SelectList(Model.IndustryList, "Id", "IndustryType"), "--Select Industry--", new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(i => i.IndustryId)
+                                    </div>
+                                </div>
+                            </div>
+                        }}
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Profile Image</label>
+                                                <span class="form-required-field">*</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                @{
+                        if (!string.IsNullOrEmpty(Model.ProfileImage))
+                        {
+                            <input type="file" name="ProfileImage" id="ProfileImage">
+                        }
+                        else
+                        {
+                            <input type="file" required name="ProfileImage" id="ProfileImage">
+                        }
+                                                }
+                                                <span id="lblError" style="color: red;"></span>
+                                                <p class="help-block">Upload a .png/.jpg image only.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 pull-right">
+                                    <button id="btnUpdateProfile" type="button" class="btn btn-block btn-primary">Update Profile</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 top-margin-25">
+                                    <span style="color:#b94a48">*</span>
+                                    Mandatory fields are marked. It's recommended that all fields be completed.
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                @{
+                        if (TempData["SuccessUpdate"] == "Success")
+                        {
+                            <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Profile successfully updated.</p></div>
+                        }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </article>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

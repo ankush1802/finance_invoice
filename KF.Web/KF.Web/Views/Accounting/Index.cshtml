@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+
+@section scripts{
+<script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+<link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+<script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+</script>
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Test Page",
+    HeaderSubtitle = "Index",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Index",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <h2>Dashboard</h2>
+            <div class="form-group col-md-4">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

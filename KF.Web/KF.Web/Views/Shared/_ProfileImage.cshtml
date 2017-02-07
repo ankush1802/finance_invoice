@@ -1,0 +1,28 @@
+﻿@{
+    var currentUser = KF.Web.Models.UserData.GetCurrentUserData();
+    if(currentUser == null)
+    {
+       
+        var currentUser1 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+        @*if (!string.IsNullOrEmpty(currentUser1.ProfileImage))
+        {
+            <img class="img-responsive" style="border-radius:100%;height:100%;width:100%" src="@Url.Content(currentUser1.ProfileImage)" />
+        }
+        else
+        {
+            <img class="img-responsive" style="border-radius:100%;height:100%;width:100%" src="~/Content/avatar.png" />
+        }*@
+    }
+    else
+    { 
+        if (!string.IsNullOrEmpty(currentUser.ProfileImage))
+        {
+            <img class="img-responsive" style="border-radius:100%;height:100%;width:100%" src="@Url.Content(currentUser.ProfileImage)" />
+        }
+        else
+        {
+            <img class="img-responsive" style="border-radius:100%;height:100%;width:100%" src="~/Content/avatar.png" />
+        }
+    }
+
+}

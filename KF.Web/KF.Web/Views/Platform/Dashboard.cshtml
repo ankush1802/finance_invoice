@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard</title>
+    <link href="~/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" />
+    <style>
+        .logo-div img {
+            margin: 2% auto 0;
+            max-width: 220px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="logo-div col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <img src="~/ThemeAssets/Images/kippin_logo.png" class="img-responsive" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                @{
+
+                    <div class="col-md-12" style=" margin-top:5%">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-usd fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <h3>KIPPIN-FINANCE</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="@Url.Action("Login", "Account")">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style=" margin-top:5%">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-google-wallet fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <h3>KIPPIN-INVOICE</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="@Url.Action("InvoiceLogin", "Account")">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

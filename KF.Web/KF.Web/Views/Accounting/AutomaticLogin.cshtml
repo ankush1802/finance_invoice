@@ -1,0 +1,48 @@
+﻿@model KF.Web.Models.YodleeAccountLoginViewModel
+@{
+    ViewBag.Title = "AutomaticLogin";
+    Layout = "~/Views/Shared/_MasterPageLoyout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="container">
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title text-center"> Automatic Process Yodlee Sign-In </div>
+                </div>
+
+                <div style="padding-top:30px" class="panel-body">
+
+                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                    <form id="loginform" action="@Url.Action("AutomaticLogin", "Accounting")" class="form-horizontal" role="form" method="post">
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(x => x.Username, new { @id = "login-username", @class = "form-control", @placeholder = "Enter your username or email" })
+                            @Html.ValidationMessageFor(s => s.Username)
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            @Html.PasswordFor(x => x.Password, new { @id = "login-password", @class = "form-control", @placeholder = "Enter your password" })
+                            @Html.ValidationMessageFor(s => s.Password)
+                        </div>
+                    @Html.ValidationMessageFor(s=>s.CustomError)
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Button -->
+
+                            <div class="col-sm-12 controls">
+                                <input type="submit" value="Login" class="btn btn-success">
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

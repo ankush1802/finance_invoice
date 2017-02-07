@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "UploadStatement";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUser = KF.Web.Models.UserData.GetCurrentUserData();
+}
+
+
+@section scripts{
+    @if (currentUser.RoleId == 3)
+    {
+        <link href="~/CustomResources/GridTable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+        <script src="~/CustomResources/GridTable/Scripts/grid-0.4.3.js"></script>
+    <script src="~/CustomResources/js/UserWithAccountreconcillation.js"></script>
+        @*<script src="~/UI_Assets/js/UserWithAccountreconcillation.js"></script>*@
+    }
+    <script>
+        $(document).ready(function () {
+            $("#btnupload").click(function () {
+                $("input[id='my_file']").click();
+
+            });
+
+            $("input[id='my_file']").change(function () {
+                //if (confirm('Are you really want to upload this file?')) {
+                $("#frmupload").submit();
+                //}
+            });
+        });
+    </script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Upload Section",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Upload Section",
+    HeaderFontAwsomeIcon = "fa-upload"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <h2>Upload Section</h2>
+        </div>
+    </div><!-- row -->
+    <br />
+    @{
+
+        if (currentUser.RoleId != 1)
+        {
+            <div class="row">
+                <div class="col-sm-12 center-block">
+                    <input class="btn btn-primary btn-lg col-md-6 col-xs-12 center-block" type="button" value="Download" onclick="location.href='@Url.Action("Banks", "Kippin")'" />
+                </div>
+
+            </div>
+        }
+
+    }
+
+
+    <div class="row" style="margin-top:1%">
+        <div class="col-sm-12">
+            <form action="@Url.Action("Upload","Admin")" method="post" enctype="multipart/form-data" id="frmupload">
+                @{
+                    var userdata = KF.Web.Models.UserData.GetCurrentUserData();
+                    if (userdata.RoleId != 1)
+                    {
+                        if (userdata.ReconciliationType == null)
+                        {
+                            <button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal" data-whatever="getbootstrap"> Upload</button>
+                        }
+                        else if (userdata.ReconciliationType == 1)
+                        {
+                            <!--Mannual-->
+                            <button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal1" data-whatever="getbootstrap"> Upload</button>
+                        }
+                        else
+                        {
+                            <!--Automatic-->
+                            <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "Yes", reconcilationType = 2 })" class="btn btn-primary btn-lg col-md-6 col-xs-12">Upload</a>
+                            @*<button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal2" data-whatever="getbootstrap"> Upload</button>*@
+                        }
+                    }
+                    else
+                    {
+                        long SelectedActiveUser = 0;
+                        if (Request.Cookies["SelectedActiveUser"] != null)
+                        {
+                            if (Request.Cookies["SelectedActiveUser"].Value != null)
+                            {
+                                long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                            }
+
+                        }
+                        if (SelectedActiveUser > 0)
+                        {
+                            var selecteduserdata = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+                            if (selecteduserdata.ReconciliationType == null)
+                            {
+                                <button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal" data-whatever="getbootstrap"> Upload</button>
+                            }
+                            else if (selecteduserdata.ReconciliationType == 1)
+                            {
+                            <!--Mannual-->
+                                <button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal1" data-whatever="getbootstrap"> Upload</button>
+                            }
+                            else
+                            {
+                            <!--Automatic-->
+                                @*<button type="button" class="btn btn-primary btn-lg col-md-6 col-xs-12" data-toggle="modal" data-target="#exampleModal2" data-whatever="getbootstrap"> Upload</button>*@
+                                <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "Yes", reconcilationType = 2 })" class="btn btn-primary btn-lg col-md-6 col-xs-12">Upload</a>
+                            }
+                        }
+
+                    }
+                }
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top:1%">
+        <div class="col-sm-12">
+            <span style="color:red" class="input-validation-error">@ViewBag.Message</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br />
+    @{
+        if (TempData["chkAccNos"] != null)
+        {
+            <div class="row" style="margin-top:1%">
+                <div class="col-sm-12">
+                    <span style="color:red" class="input-validation-error">@TempData["chkAccNos"].ToString()</span>
+                </div>
+            </div>
+        }
+    }
+
+
+    @if (currentUser.RoleId == 3)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tableScroll-container">
+                    <table id="AllUserExpenseGrid" data-source="@Url.Action("AllExpenseListForUserWithAnAccountant", new { userId = currentUser.Id, selectedUserId = currentUser.Id, roleId = currentUser.RoleId })"></table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- Main Content End-->
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Statement reconciliation method information</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-info">If you choose to use this method for account reconciliation, this will be the only method permitted for the remainder of your current fiscal year.</p>
+                <div class="clearfix"></div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">Accept</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Bank statement upload option</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-info">Upload bank statement to existing account</p>
+                <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "No", reconcilationType = 1 })" class="btn btn-primary">No</a>
+                <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "Yes", reconcilationType = 1 })" class="btn btn-primary">Yes</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Bank statement upload option</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-info">Upload bank statement to existing account</p>
+                <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "No", reconcilationType = 2 })" class="btn btn-primary">No</a>
+                <a href="@Url.Action("UploadStatementList", "Accounting", new { status = "Yes", reconcilationType = 2 })" class="btn btn-primary">Yes</a>
+            </div>
+
+        </div>
+    </div>
+</div>

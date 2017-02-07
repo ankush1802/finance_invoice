@@ -1,0 +1,190 @@
+﻿@model KF.Web.Models.ReportUserForAccountant
+@{
+    ViewBag.Title = "FinanceSupplierCustomerDashboard";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+    <script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+    <link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+        <style>
+        .modal-lg {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+
+    </style>
+    <script>
+        $(document).ready(function () {
+
+
+            $('#lnkcustomerNo').click(function () {
+                $('#btncustomer1').modal('toggle');
+            });
+            $('#lnkcustomerYes').click(function () {
+                window.location = "/Kippin/Finance/Invoice/CustomerList";
+            });
+
+            $('#lnksupplierNo').click(function () {
+                $('#btnsupplier1').modal('toggle');
+            });
+            $('#lnksupplierYes').click(function () {
+                window.location = "/Kippin/Finance/Invoice/SupplierList";
+            });
+
+        });
+        $(document).ready(function () {
+            if (window.location.href.indexOf("FinanceSupplierCustomerDashboard") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#suppliercustomer").addClass("active");
+                $("#suppliercustomer").css("color", "#1CAF9A");
+            }
+
+        });
+    </script>
+
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "CUSTOMER/SUPPLIER",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Customer/Supplier",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                @{
+                    var currentUserData = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+
+                    long SelectedActiveUser = 0;
+                    if (Request.Cookies["SelectedActiveUser"] != null)
+                    {
+                        if (Request.Cookies["SelectedActiveUser"].Value != null)
+                        {
+                            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                        }
+
+                    }
+                    if (SelectedActiveUser > 0)
+                    {
+                        var selectedUserData = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+
+                    }
+                }
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-12">
+
+                @Html.Partial("~/Views/Shared/_PageHeader.cshtml")
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+        <div class="row report-section-width">
+            @{
+                using (Html.BeginForm("ReportFilter", "Invoice", FormMethod.Post))
+                {
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>CUSTOMER</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <a data-toggle="modal" data-target="#btncustomer1" href="javascript:void(0)" id="btnCustomer" class="btn btn-info">CUSTOMER</a>                                 
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div>SUPPLIER</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <div class="pull-right">
+                                    <a data-toggle="modal" data-target="#btnsupplier1" href="javascript:void(0)" id="btnSupplier" class="btn btn-info">SUPPLIER</a>
+                                  
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="btncustomer1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content custom-height">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Customer</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-info">
+                                        Do you want to Create/Update Customer list?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <a class="btn btn-danger" href="Javascript:;" id="lnkcustomerNo">No</a>
+                                    <a class="btn btn-success" href="Javascript:;" id="lnkcustomerYes">Yes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="btnsupplier1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content custom-height">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Supplier</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-info">
+                                        Do you want to Create/Update Supplier list?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <a class="btn btn-danger" href="Javascript:;" id="lnksupplierNo">No</a>
+                                    <a class="btn btn-success" href="Javascript:;" id="lnksupplierYes">Yes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+
+

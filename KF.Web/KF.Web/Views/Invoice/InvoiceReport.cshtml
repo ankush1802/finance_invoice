@@ -1,0 +1,421 @@
+﻿@model KF.Web.Models.ReceivedInvoiceListViewModel
+@{
+    ViewBag.Title = "InvoiceReport";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@{
+    long SelectedActiveUser = 0;
+    int userid = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+    }
+}
+@section scripts{
+<link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+<script src="~/ThemeAssets/Gridjs/ActiverInvoiceReportListGrids.js"></script>
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+    <script>
+
+        var TypeInvoice = "";
+        var Flow = "";
+
+
+        function goBack() {
+            window.history.back();
+        }
+
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoiceReport") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+
+                $("#invoicereport").addClass("active");
+                $("#invoicereport").css("color", "#1CAF9A");
+            }
+
+        });
+        //called when key is pressed in textbox
+        $(".numberOnly").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+        var checking = function (event) {
+            var data = this.value;
+            if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46 || event.charCode == 0) {
+                if (data.indexOf('.') > -1) {
+                    if (event.charCode == 46)
+                        event.preventDefault();
+                }
+            } else
+                event.preventDefault();
+        };
+
+        function addListener(list) {
+            for (var i = 0; i < list.length; i++) {
+                list[i].addEventListener('keypress', checking);
+            }
+        }
+        var classList = document.getElementsByClassName('number');
+        addListener(classList);
+    </script>
+
+
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "INVOICE REPORT",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Invoice Report",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper" class="invoice-report">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-sm-12">
+
+                @Html.Partial("~/Views/Shared/_PageHeader.cshtml")
+            </div>
+        </div>
+        @{
+            if ((string)TempData["Invoicereportmanualpayment"] == "Success")
+            {
+                <script>
+                    alert('Payment Successfully');
+                </script>
+                <br />
+                <div class="row">
+                    <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Manual Payment Successfully.</p></div>
+                </div>
+                <br />
+            }
+
+            if ((string)TempData["Invoicereportstripepayment"] == "Success")
+            {
+                <br />
+                <div class="row">
+                    <div id="Update-alert" class="alert alert-success col-sm-12"> <p>Stripe Payment Successfully.</p></div>
+                </div>
+                <br />
+            }
+
+        }
+
+        <!--User's List-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+
+                    <!-- /.row -->
+                    @{
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Save")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Save Successfully.</p></div></div>
+                            <br />
+                        }
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Send")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Sent Successfully.</p></div></div>
+                            <br />
+                        }
+                        if ((string)TempData["updatereceivedinvoicesuccesfuly"] == "Delete")
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-success col-sm-12"> <p>Invoice Deleted Successfully.</p></div></div>
+                            <br />
+                        }
+                    }
+
+                    @using (Html.BeginForm("InvoiceReport", "Invoice"))
+                    {
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row invoice-report-search">
+                                    <div class="col-md-5 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="icode" class="control-label">Type Of Invoice</label>
+                                            @Html.DropDownListFor(x => x.selectedStatementTypeId, new SelectList(Model.StatementTypeList, "Value", "Text"), "Select Type Of Invoice", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="icode" class="control-label">Flow Status</label>
+                                            @Html.DropDownListFor(x => x.selectedStatementTypeId2, new SelectList(Model.StatementTypeList2, "Value", "Text"), "Select Flow Status", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12">
+                                        <div class="form-group">
+                                            <!--<label for="icode" class="control-label"></label>-->
+                                            <input class="btn btn-primary btn-lg col-md-12 col-xs-12 action-button" type="submit" value="Search" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <br />
+                            <div class="col-sm-12">
+                                <h5 class="sub-heading">Invoice Report Details</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="tableScroll-container customer-list-table">
+                                    @{
+                        var selectedUser1 = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+                        if (selectedUser1 == null)
+                        {
+                            var selectedUser2 = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                            userid = Convert.ToInt32(selectedUser2.Id);
+                        }
+                        else
+                        {
+                            using (var db = new KF.Entity.KFentities())
+                            {
+                                userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser1.Email).Select(s => s.Id).FirstOrDefault());
+                            }
+                        }
+                        string EmailToo = string.Empty;
+
+                        <table id="ActiverInvoiceReportListGrid" data-source="@Url.Action("InvoiceReportList", new { Id = userid, typeofinvoice = @Model.selectedStatementTypeId, flow = @Model.selectedStatementTypeId2 })"></table>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalamtpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Amount to be paid</h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="form-group">
+
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">Amount to be paid</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.TextBox("AmountPaid", null, new { @id = "txtAmountPaid", @placeholder = "Amount to be paid", @class = "form-control number" })
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success clsSubmitManualPayment" href="Javascript:;" id="lnkSubmitManualPayment">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalJVIDpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">JVID Payment</h4>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">JVID#</label>
+                        </div>
+                        <div class="col-lg-7">
+                            @Html.TextBox("Pay JVID", null, new { @id = "txtJVIDPaid", @placeholder = "JVID#", @class = "form-control numberOnly", @maxlength = "4" })
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success clsSubmitJVIDPayment" href="Javascript:;" id="lnkSubmitJVIDPayment">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+
+    var years = Enumerable
+    .Range(DateTime.Now.Year, 15)
+    .Select(year => new SelectListItem
+    {
+        Value = year.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        Text = year.ToString(System.Globalization.CultureInfo.InvariantCulture)
+    });
+
+}
+@{var months = System.Globalization.DateTimeFormatInfo
+    .InvariantInfo
+    .MonthNames
+    .TakeWhile(monthName => monthName != String.Empty)
+    .Select((monthName, index) => new SelectListItem
+    {
+        Value = (index + 1).ToString(System.Globalization.CultureInfo.InvariantCulture),
+        Text = string.Format("({0}) {1}", index + 1, monthName)
+    });
+}
+<div class="modal fade" id="modalStripPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Strip Payment</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">Balance Amount:</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.TextBox("OutBal", null, new { @id = "txtOutstandingBal", @placeholder = "Outstanding Balance", @class = "form-control numberOnly", disabled = "true" })
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">Amount To be paid:</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.TextBox("AmountPaid", null, new { @id = "txtBalAmountTobePaid", @placeholder = "Amount To be Paid", @class = "form-control number", disabled = "true" })
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">Card Number</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.TextBox("CardNumber", null, new { @id = "txtCardNumber", @placeholder = "Card Number", @maxlength = "20", @class = "form-control numberOnly" })
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">CVV</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.TextBox("CVV", null, new { @id = "txtCvv", @placeholder = "CVV", @maxlength = "4", @class = "form-control numberOnly" })
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">ExpiryMonth</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.DropDownList("month", months, "Select Months", new { @id = "drdMonths", @class = "form-control numberOnly" })
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-4">
+                            <label for="email" class="control-label">ExpiryYear</label>
+
+                        </div>
+
+                        <div class="col-lg-7">
+                            @Html.DropDownList("year", years, "Select Years", new { @id = "drdYears", @class = "form-control numberOnly" })
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success clsSubmitStripPayment" href="Javascript:;" id="lnkSubmitStripPayment">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

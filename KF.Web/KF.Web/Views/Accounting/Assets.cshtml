@@ -1,0 +1,177 @@
+﻿@model IEnumerable<KF.Dto.Modules.FinanceReport.CategoryReportDto>
+@{
+    ViewBag.Title = "Assets";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+@section scripts{
+    <script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+<link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+<script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+    <link href="~/ThemeAssets/css/main.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            $('#txtStartDate').datetimepicker(
+                {
+                    format: 'YYYY-MM-DD HH:mm'
+                });
+            $('#txtEndDate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+        $(function () {
+            $("#btnPrintAssetReport").click(function () {
+                var contents = $("#AssetData").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>Asset Report</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                frameDoc.document.write('<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />');
+                frameDoc.document.write('<link href="~/UI_Assets/css/main.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+
+
+    </script>
+
+
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Assets Sheet",
+    HeaderParentPageName = "Report",
+    HeaderChildPageName = "Assets Sheet",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="col-md-12">
+        <div id="AssetData" class="generalLedger mobileViewReport">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12">
+                    <h2>Asset Sheet Report</h2>
+                    <hr />
+                    @{
+                        <div class="inputBlocks">
+                            @using (Html.BeginForm("AssetFilter", "Accounting", FormMethod.Post))
+                            {
+                                if (TempData["UserId"] != null)
+                                {
+                                    string userid = TempData["UserId"].ToString();
+                                    <input type="hidden" id="selectedUserId" name="selectedUserId" value="@userid">
+                                }
+                                <input id="txtStartDate" required name="txtStartDate" value="@ViewBag.Startdate" type="text" placeholder="Start Date" />
+                                <input id="txtEndDate" required name="txtEndDate" type="text" value="@ViewBag.Enddate" p placeholder="End Date" />
+                                <input type="submit" value="Search" />
+                                <button id="btnPrintAssetReport" type="button" class="btn btn-primary">Print</button>
+
+                                <div class="inputBlocks row filter">
+                                    <div class="col-sm-12">
+
+                                        <div class="filter-buttons">
+                                            <label for="checkbox_id" class="btn btn-primary" data-group-cls="btn-group-justified">Sub Accounts(A)</label>
+                                            <input id="chkA" type="checkbox" class="chk" />
+                                        </div>
+                                        <div class="filter-buttons">
+                                            <label for="checkbox_id" class="btn btn-primary">Accounts(G)</label>
+                                            <input id="chkG" type="checkbox" class="chk" />
+                                        </div>
+                                        <div class="filter-buttons">
+                                            <label for="checkbox_id" class="btn btn-primary">Sub Accounts Total(S)</label>
+                                            <input id="chkS" type="checkbox" class="chk" />
+                                        </div>
+                                        <div class="filter-buttons">
+                                            <label for="checkbox_id" class="btn btn-primary">Group Accounts Total(T)</label>
+                                            <input id="chkT" type="checkbox" class="chk" checked="checked" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <style>
+                                    .filter-buttons {
+                                        display: inline-block;
+                                        margin-bottom: 15px;
+                                        margin-right: 20px;
+                                    }
+
+                                    .inputBlocks.filter label {
+                                        margin-top: -10px;
+                                        width: 180px;
+                                    }
+
+                                    .inputBlocks.filter input[type="checkbox"] {
+                                        margin: 10px 5px 0 !important;
+                                        width: auto !important;
+                                    }
+                                </style>
+                            }
+                        </div>
+                        if (ViewBag.ReportHeader == null)
+                        {
+                            int userId = Convert.ToInt32(TempData["UserId"]);
+                            var userdata = KF.Web.Models.UserData.GetUserData(userId);
+                            string datetime = userdata.TaxStartMonthId + "/" + userdata.TaxationStartDay + "/" + userdata.TaxStartYear;
+                            if (datetime == "//")
+                            {
+                                datetime = DateTime.Now.ToShortDateString();
+                            }
+                            DateTime dt = Convert.ToDateTime(datetime);
+                            DateTime enddt = dt.AddYears(1).AddDays(-1);
+                            string endDate = enddt.ToShortDateString();
+                            <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @datetime to @endDate.</p></div>
+
+                        }
+                        else
+                        {
+                            <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.Startdate to @ViewBag.Enddate</p></div>
+
+                        }
+                        @Html.Partial("_AssetReport", Model)
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Main Content End-->

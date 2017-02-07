@@ -1,0 +1,143 @@
+﻿@model ICollection<YodleeBase.model.Transactions>
+    @{
+        ViewBag.Title = "ViewTransaction";
+        Layout = "~/Views/Shared/_MasterPageLoyout.cshtml";
+    }
+
+@using YodleeBase.model;
+
+<!-- Format YMoney in an string representation wrapped by an span element -->
+@helper FormatMoney(YMoney yMoney)
+{
+    if (yMoney != null)
+    {
+        <span class="y-money">@(yMoney.currencyCode + " " + yMoney.amount)</span>
+    }
+    else
+    {
+        <span class="y-money"></span>
+    }
+
+}
+<!-- Date formatting helper methods -->
+@helper FormatDate(long timestamp)
+{
+    var date = new DateTime(1970, 1, 1, 0, 0, 0, 0)
+                            .AddSeconds(timestamp)
+                            .ToLocalTime();
+
+                            <text>@date.ToString("MM/dd/yyyy")</text>
+}
+<!-- TODO: Verify this method -->
+@helper FormatDate(YDate yDate)
+{
+    DateTime parseDate;
+
+    DateTime.TryParseExact(yDate.date, yDate.localFormat, null, System.Globalization.DateTimeStyles.None, out parseDate);
+
+    <text>@(parseDate.ToString(yDate.localFormat))</text>
+}
+
+
+
+
+
+
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "View Transaction",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "View Transaction",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    @{
+                        if (TempData["TransactionUploadMsg"] != null)
+                        {
+                            <div class=""><div id="Update-alert" class="alert alert-info col-sm-12"> <p>Note:  @TempData["TransactionUploadMsg"].ToString()</p></div></div>
+                        }
+                    }
+                </div>
+                @*<div class="col-lg-12">
+                <a id="btnUploadTransaction" href="@Url.Action("UploadTrasactions", "AutomaticUploadProcess", new { itemAccountId = ViewBag.itemAccountId,BankName= ViewBag.BankName })" class="btn btn-primary pull-right">Upload Trasaction</a>
+            </div>*@
+                <div class="clearfix"></div>
+                <div class="col-lg-12" style="overflow:auto;margin-top:10px;">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>description</td>
+                                <td>transactionDate</td>
+                                @*<td>postDate</td>*@
+                                <td>amount</td>
+                                <td>Site Name</td>
+                                <td>status</td>
+                                <td>transactionBaseType</td>
+                                <td>account name</td>
+                                <td>account balance</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+
+                                foreach (var transaction in Model)
+                                {
+                                    var stransactionDate = "N/A";
+                                    string date_ = "";
+                                    if (transaction.postDate != null)
+                                    {
+                                        date_ = transaction.postDate.ToString();
+                                        stransactionDate = String.Format("{0:dd/MM/yyyy}", Convert.ToDateTime(date_));
+                                    }
+                                    else
+                                    {
+                                        if (transaction.transactionDate != null)
+                                        {
+                                            date_ = transaction.transactionDate.ToString();
+                                            stransactionDate = String.Format("{0:dd/MM/yyyy}", Convert.ToDateTime(date_));
+                                        }
+                                    }
+
+                                    //site_account.siteInfo.defaultDisplayName
+                                    var description = transaction.description.description;
+                                    var amount = transaction.amount.amount;
+                                    var status = transaction.status.description;
+                                    var transactionBaseType = (transaction.transactionBaseType == null) ? "N/A" : transaction.transactionBaseType;
+                                    var accountName = transaction.account.accountName;
+                                    var accountBalance = transaction.account.accountBalance.amount;
+                                    <tr>
+                                        <td>@description</td>
+                                        <td>@stransactionDate</td>
+                                        @*<td>@date_</td>*@
+                                        <td>@amount</td>
+                                        <td>@transaction.account.siteName</td>
+                                        <td>@status</td>
+                                        <td>@transactionBaseType</td>
+                                        <td>@accountName</td>
+                                        <td>@accountBalance</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->
+

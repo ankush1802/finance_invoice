@@ -1,0 +1,526 @@
+﻿@model KF.Web.Models.AddCashExpenseViewModel
+@{
+    ViewBag.Title = "AddManualEntry";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    ViewBag.Title = "Reconciliation";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Add Mannual Entry",
+    HeaderParentPageName = "Reconciliation Panel",
+    HeaderChildPageName = "Add Mannual Entry",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+@section scripts{
+    <link href="~/ThemeAssets/css/manualEntry.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .custom-date-style {
+            background-color: red !important;
+        }
+
+        .input {
+        }
+
+        .input-wide {
+            width: 500px;
+        }
+    </style>
+    <script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+    <link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+    <script>
+
+        $(function () {
+            $('#Date').datetimepicker();
+        });
+        $(document).ready(function () {
+            $("#BankClassificationId").val(@Model.ClassificationId);
+            GetChartAccountNumber();
+            $("#BankClassificationId").change(function (e) {
+                var selectedClassificationId = $("#BankClassificationId").val();
+                if (selectedClassificationId != "1") {
+                    return GetChartAccountNumber();
+                }
+            });
+            function GetChartAccountNumber() {
+                var selectedClassificationId = $("#BankClassificationId").val();
+                var url = "/Kippin/Finance/Accounting/GetChartAccountNumberByClassificationId";//Dev
+             //   var url = "/Accounting/GetChartAccountNumberByClassificationId";//Local
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: '{"id":"' + selectedClassificationId + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#txtChartAccountNumber").val(data.ClassificationChartNumber);
+                        $("#Description").val(data.ClassificationDesc);
+                        $("#CategoryId").val(data.Id);
+                        $("#Category").val(data.CategoryType);
+                    },
+                    error: function (data) {
+                        // alert("fail");
+                    }
+                });
+            }
+            function GetCategoryDetails() {
+                var selectedClassificationId = $("#BankClassificationId").val();
+                var url = "/Kippin/Finance/Accounting/GetCategoryById";
+              //  var url = "/Accounting/GetCategoryById";
+                //var formData = new FormData();
+                //formData.append("id", selectedClassificationId);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: '{"id":"' + selectedClassificationId + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#CategoryId").val(data.Id);
+                        $("#Category").val(data.CategoryType);
+                        $("#ClassificationDescription").val(data.ClassificationDesc);
+                    },
+                    error: function (data) {
+                        alert("fail");
+                    }
+                });
+
+            }
+
+            //Claculate total
+            $('input.qty').change(function () {
+                if ($("#Credit").val() > 0 && $("#Debit").val() > 0) {
+                    if ($("#Credit").val() > $("#Debit").val()) {
+                        $("#BillTotal").val($("#Credit").val() - $("#Debit").val());
+                        //        CreditDebitSum = Convert.ToDecimal(Model.Credit - Model.Debit);
+                    }
+
+                    if ($("#Debit").val() > $("#Credit").val()) {
+                        $("#BillTotal").val($("#Debit").val() - $("#Credit").val());
+                        //        CreditDebitSum = Convert.ToDecimal(Model.Debit - Model.Credit);
+                    }
+                    if ($("#Debit").val() == $("#Credit").val()) {
+                        $("#BillTotal").val($("#Debit").val() - $("#Credit").val());
+                        //        CreditDebitSum = Convert.ToDecimal(Model.Debit - Model.Credit);
+                    }
+                }
+                else if ($("#Credit").val() > 0 && $("#Debit").val() == 0) {
+                    $("#BillTotal").val($("#Credit").val() - $("#Debit").val());
+                    //        CreditDebitSum = Convert.ToDecimal(Model.Credit - Model.Debit);
+
+                }
+                else if ($("#Credit").val() == 0 && $("#Debit").val() > 0)
+                { $("#BillTotal").val($("#Debit").val() - $("#Credit").val()); }
+                else
+                {
+                    $("#BillTotal").val($("#Credit").val() + $("#Debit").val());
+                }
+
+
+            });
+            //Enter decimal only
+            $(".DecimalOnly").keydown(function (event) {
+                if (event.shiftKey == true) {
+                    event.preventDefault();
+                }
+                if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) { }
+                else { event.preventDefault(); }
+                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                    event.preventDefault();
+            });
+            //Html file upload
+            $(".fileToUpload").change(function () {
+                var files = $('#file')[0].files;
+                var len = $('#file').get(0).files.length;
+
+                for (var i = 0; i < len; i++) {
+
+                    f = files[i];
+
+                    var ext = f.name.split('.').pop().toLowerCase();
+                    if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                        alert('invalid file!');
+                        return false;
+                    }
+                }
+                var formData = new FormData();
+                var totalFiles = document.getElementById("file").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("file").files[i];
+                    formData.append("file", file);
+                    formData.append("UserId", $("#UserId").val());
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/Kippin/Finance/Accounting/UploadManualEntryBill',
+                   // url: '/Accounting/UploadManualEntryBill',
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        //Here id is BankExpenseId
+                        // alert(response);
+                        $("#BillPath").val(response);
+                        alert('Bill Successfully Uploaded!!');
+                    },
+                    error: function (error) {
+                        alert("Error while uploading bill");
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
+
+    <!--cloud section-->
+    <script>
+        $(document).ready(function () {
+            $("#KippinCloudStore").html("");
+            $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudHome");
+            //$("#KippinCloudStore").load("/Accounting/KippinCloudHome");
+
+            $(document).on("click", ".OpenKippinCloudImage", function (e) {
+                e.preventDefault();
+                var storeImage = "/Finance" + $(this).attr('data-imagesource');
+               // var storeImage = $(this).attr('data-imagesource');
+                $("#imgSelectedImage").attr('src', storeImage);
+                $("#btnUploadSelectedCloudImage").attr('data-imagesource', $(this).attr('data-imagesource'));
+                $('#kippinStorePopUpImages').modal({ backdrop: 'static', keyboard: false })
+                $('#kippinStorePopUpImages').modal('show');
+
+            });
+            //OpenKippinCloudImage
+            $(document).on("click", ".cloudGetYearFolders", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudYearListing/" + $(this).attr("data-userId"));
+               // $("#KippinCloudStore").load("/Accounting/KippinCloudYearListing/" + $(this).attr("data-userId"));
+            });
+            //Backbtn
+            $(document).on("click", ".btnYearBack", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                 $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudHome");
+               // $("#KippinCloudStore").load("/Accounting/KippinCloudHome");
+            });
+
+
+            //GetCloudMonths
+            $(document).on("click", ".GetCloudMonths", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                 $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudMonthListing?userId=" + $(this).attr("data-UserId") + "&year=" + $(this).attr("data-Year"));
+                //$("#KippinCloudStore").load("/Accounting/KippinCloudMonthListing?userId=" + $(this).attr("data-UserId") + "&year=" + $(this).attr("data-Year"));
+            });
+            //btnMonthBack
+            $(document).on("click", ".btnMonthBack", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                 $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudYearListing/" + $(this).attr("data-userid"));
+                //$("#KippinCloudStore").load("/Accounting/KippinCloudYearListing/" + $(this).attr("data-userid"));
+            });
+            //GetCloudImages
+            $(document).on("click", ".GetCloudImages", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                 $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudImageListing?userId=" + $(this).attr("data-userid") + "&year=" + $(this).attr("data-year") + "&month=" + $(this).attr("data-month"));
+                //$("#KippinCloudStore").load("/Accounting/KippinCloudImageListing?userId=" + $(this).attr("data-userid") + "&year=" + $(this).attr("data-year") + "&month=" + $(this).attr("data-month"));
+            });
+            $(document).on("click", ".btnImageBack", function (e) {
+                e.preventDefault();
+                $("#KippinCloudStore").html("");
+                 $("#KippinCloudStore").load("/Kippin/Finance/Accounting/KippinCloudMonthListing?userId=" + $(this).attr("data-userid") + "&year=" + $(this).attr("data-year"));
+                //$("#KippinCloudStore").load("/Accounting/KippinCloudMonthListing?userId=" + $(this).attr("data-userid") + "&year=" + $(this).attr("data-year"));
+            });
+            //uploadCloudImage
+            $(document).on("click", ".uploadCloudImage", function (e) {
+                e.preventDefault();
+                var imagePath = $(this).attr("data-ImageSource");
+                if (imagePath != null) {
+                    var formData = new FormData();
+                    formData.append("UserId", '@Model.UserId');
+                    formData.append("FilePath", imagePath);
+                    $.ajax({
+                        type: "POST",
+                         url: '/Kippin/Finance/Accounting/UploadManualEntryBillFromCloud',
+                        //url: '/Accounting/UploadManualEntryBillFromCloud',
+                        data: formData,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            $("#BillPath").val(response);
+                            alert('Image Successfully Uploaded!!');
+                        },
+                        error: function (error) {
+                            alert("Error while uploading Image");
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
+
+}
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("AddManualEntry", "Accounting", FormMethod.Post))
+            {
+                @Html.ValidationMessageFor(a => a.CustomError)
+                @Html.ValidationMessageFor(a => a.FiscalYear)
+                @Html.HiddenFor(k => k.BillPath)
+                @Html.HiddenFor(a => a.UserId)
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="singRow">
+                            <div class="manualBox_input">
+                                <label class="control-label">Acc. Number:</label>
+                                <div class="inputBlock">
+                                    <div style="display:none">
+                                        @Html.DropDownListFor(x => x.CategoryId, Model.CategoryList, "-select category- ", new { @class = "form-control" })
+                                    </div>
+                                    <input class="form-control" id="txtChartAccountNumber" value="1030" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="manualBox_input largeBox">
+                                <label class="control-label">Classification:</label>
+                                <div class="inputBlock">
+                                    @Html.DropDownGroupList("classification", Model.CustomClassificationList, "-- Select classification --", new { @id = "BankClassificationId", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="manualBox_input largeBox">
+                                <label class="control-label">Description:</label>
+                                <div class="inputBlock">
+
+                                    @Html.TextBoxFor(m => m.Description, new { @class = "form-control", maxlength = "1000", @readonly = "readonly" })
+
+                                </div>
+                            </div>
+                            <div class="manualBox_input">
+                                <label class="control-label">Debit:</label>
+                                <div class="inputBlock">
+                                    @Html.TextBoxFor(m => m.Debit, new { @class = "form-control DecimalOnly qty" })
+                                </div>
+                            </div>
+                            <div class="manualBox_input">
+                                <label class="control-label">Credit:</label>
+                                <div class="inputBlock">
+                                    @Html.TextBoxFor(m => m.Credit, new { @class = "form-control DecimalOnly qty" })
+                                </div>
+                            </div>
+                            <div class="manualBox_input dateSection">
+                                <label class="control-label">Date:</label>
+                                <div class="inputBlock">
+                                    @Html.TextBoxFor(m => m.Date, new { @class = "form-control dtPick" })
+
+                                </div>
+                            </div>
+                            <div class="manualBox_input largeBox">
+                                <label class="control-label">Comment:</label>
+                                <div class="inputBlock">
+                                    @Html.TextBoxFor(m => m.Comment, new { @class = "form-control", maxlength = "1000" })
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="singRow secondRow">
+                            <div class="manualBox_input uploadFile">
+                                <label class="control-label">Upload Bill:</label>
+                                <div class="inputBlock">
+                                    <input type="file" class="fileToUpload" accept=".png, .jpg, .jpeg" name="file" id="file" />
+                                    <a class="btn btn-info" data-toggle="modal" data-target="#kippinStore">Upload From Store</a>
+                                </div>
+                            </div>
+                            <div class="manualBox_input manualEntry">
+                                <div class="inputBlock">
+                                    <label class="control-label">&nbsp;</label>
+                                    <div class="inputBlock">
+                                        <input type="submit" value="Add Manual Entry" class="btn btn-info fileUploadBtn" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+           <!--Getting cash entries from session-->
+                <div class="row">
+                    <div class="col-lg-12 overflow_row">
+                        <h3 class="uploadEntry_heading">Uploaded Manual Entries</h3>
+                        <p class="text-info">Note: Total of Credit and Debit must be equal to be able to save the manual entries.</p>
+                        <table class="table table-bordered table-responsive singleRow_Manual">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Classification</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+
+                                    <th>Date</th>
+                                    <th>Description</th>
+
+                                    <th>Comment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            @{
+                if (Session["ManualEntriesList"] != null)
+                {
+
+                    List<KF.Web.Models.AddCashExpenseViewModel> objManualEntriesList = new List<KF.Web.Models.AddCashExpenseViewModel>();
+                    objManualEntriesList = (List<KF.Web.Models.AddCashExpenseViewModel>)Session["ManualEntriesList"];
+                    if (objManualEntriesList.Count > 0)
+                    {
+                        <tbody>
+                            @foreach (var item in objManualEntriesList)
+                            {
+                                string CategoryName = KF.Web.Models.UserData.GetCategoryId(Convert.ToInt32(item.CategoryId));
+                                string ClassificationName = KF.Web.Models.UserData.GetClassificationById(Convert.ToInt32(item.Classification));
+                                <tr>
+                                    <td>@CategoryName</td>
+                                    <td>@ClassificationName</td>
+                                    <td>@item.Debit</td>
+                                    <td>@item.Credit</td>
+                                    <td>@item.Date</td>
+                                    <td>@item.Description</td>
+
+                                    <td>@item.Comment</td>
+                                    <td> <a class="btn btn-danger" href="@Url.Action("RemoveManualEnrty", new {manualEntryId=@item.Id,userId=@Model.UserId })">Remove</a></td>
+                                </tr>
+                            }
+                            <tr>
+                                @{
+                            var debitsum = decimal.Round(Convert.ToDecimal(objManualEntriesList.Select(s => s.Debit).Sum()), 2, MidpointRounding.AwayFromZero);
+                            var creditsum = decimal.Round(Convert.ToDecimal(objManualEntriesList.Select(s => s.Credit).Sum()), 2, MidpointRounding.AwayFromZero);
+                                }
+
+                                <td><strong>Total</strong></td>
+                                <td></td>
+                                <td style="background-color:yellow">@debitsum</td>
+                                <td style="background-color:yellow">@creditsum</td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr>
+                                <td colspan="13">No entry added yet</td>
+                            </tr>
+                        </tbody>
+                    }
+
+                }
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <td colspan="13">No entry added yet</td>
+                        </tr>
+                    </tbody>
+                }
+
+                            }
+
+
+
+
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="saveDetails">
+                    <a class="btn btn-info pull-right" href="@Url.Action("SaveManualEntries", "Accounting", new {  userId=@Model.UserId})">Save Manual Entries</a>
+                </div>
+            }
+        </div>
+
+    </div><!-- row -->
+</div>
+
+
+<!--Cloud-->
+<div id="kippinStore" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Kippin Store</h4>
+            </div>
+            <div id="KippinCloudStore" class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--kippinStorePopUpImages-->
+<div id="kippinStorePopUpImages" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Kippin Store Image</h4>
+            </div>
+            <div id="KippinCloudStoreImages" class="modal-body">
+                <img id="imgSelectedImage" class="img-responsive" alt="" src="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnUploadSelectedCloudImage" class="btn btn-success uploadCloudImage" data-imagesource="">Upload Image</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

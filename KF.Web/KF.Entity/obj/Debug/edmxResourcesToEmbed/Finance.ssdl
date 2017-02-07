@@ -1,0 +1,1142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KIppinFinance.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ArchiveBankExpense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatementId" Type="int" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="AccountantEmail" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Username" Type="varchar(max)" />
+    <Property Name="Email" Type="varchar(max)" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Credit" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="Debit" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="Total" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="BillTax" Type="decimal" Precision="9" Scale="4" />
+    <Property Name="BillTotal" Type="decimal" Precision="19" Scale="5" />
+    <Property Name="AccountType" Type="varchar" MaxLength="20" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Expense" Type="varchar" MaxLength="500" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="TransactionType" Type="varchar" MaxLength="50" />
+    <Property Name="Purpose" Type="varchar" MaxLength="50" />
+    <Property Name="Vendor" Type="varchar" MaxLength="50" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="Comments" Type="nvarchar(max)" />
+    <Property Name="AccountName" Type="varchar(max)" />
+    <Property Name="CompanyName" Type="varchar(max)" />
+    <Property Name="ClassificationId" Type="int" />
+    <Property Name="Classification" Type="varchar(max)" />
+    <Property Name="IsDownload" Type="bit" />
+    <Property Name="BankId" Type="int" />
+    <Property Name="GSTtax" Type="decimal" Precision="9" Scale="4" />
+    <Property Name="QSTtax" Type="decimal" Precision="9" Scale="4" />
+    <Property Name="HSTtax" Type="decimal" Precision="9" Scale="4" />
+    <Property Name="PSTtax" Type="decimal" Precision="9" Scale="4" />
+    <Property Name="AccountClassificationId" Type="int" />
+    <Property Name="FriendlyName" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ArchiveDirectorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="PercentageAmount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Percentage" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="StatementId" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="BankCode" Type="varchar" MaxLength="10" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="BankType" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="BankExpense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="BankId" Type="int" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Credit" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Debit" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TotalTax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ActualTotal" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="GSTtax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="QSTtax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="HSTtax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PSTtax" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="GSTPercentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="QSTPercentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="HSTPercentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PSTPercentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ActualPercentage" Type="float" />
+    <Property Name="AccountNumber" Type="varchar" MaxLength="50" />
+    <Property Name="AccountType" Type="varchar" MaxLength="20" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="ClassificationId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="TransactionType" Type="varchar" MaxLength="50" />
+    <Property Name="Purpose" Type="varchar" MaxLength="50" />
+    <Property Name="Vendor" Type="varchar" MaxLength="50" />
+    <Property Name="Comments" Type="nvarchar(max)" />
+    <Property Name="AccountName" Type="varchar(max)" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="UploadedStatementName" Type="varchar(max)" />
+    <Property Name="UploadType" Type="varchar" MaxLength="1" />
+    <Property Name="AccountClassificationId" Type="int" />
+    <Property Name="TransactionId" Type="bigint" />
+    <Property Name="AccountId" Type="bigint" />
+    <Property Name="IsYodlee" Type="bit" Nullable="false" />
+    <Property Name="IsVirtualEntry" Type="bit" />
+    <Property Name="StatementReferenceNumber" Type="int" />
+    <Property Name="JVID" Type="int" />
+  </EntityType>
+  <EntityType Name="CardDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CardHolderName" Type="varchar" MaxLength="500" />
+    <Property Name="ExpiryMonth" Type="int" />
+    <Property Name="ExpiryYear" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+    <Property Name="CVV" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="CardNumber" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CategoryTypeCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="Classification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="ClassificationType" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="ChartAccountNumber" Type="int" Nullable="false" />
+    <Property Name="ChartAccountDisplayNumber" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsSole" Type="bit" />
+    <Property Name="IsIncorporated" Type="bit" />
+    <Property Name="IsPartnerShip" Type="bit" />
+    <Property Name="Desc" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="IndustryId" Type="int" />
+    <Property Name="SubIndustryId" Type="int" />
+    <Property Name="Type" Type="varchar" MaxLength="10" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="ReportingSubTotalNumber" Type="int" />
+    <Property Name="ReportingSubTotalDisplayNumber" Type="varchar" MaxLength="100" />
+    <Property Name="ReportingTotalNumber" Type="int" />
+    <Property Name="ReportingTotalDisplayNumber" Type="varchar" MaxLength="100" />
+    <Property Name="RangeofAct" Type="varchar" MaxLength="50" />
+    <Property Name="CategoryValue" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ClassificationType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClassificationType" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="CloudImagesRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ImageName" Type="varchar(max)" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="IsAssociated" Type="bit" />
+    <Property Name="StatementId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="int" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CountryName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CurrencyType" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'kippin1.dbo.DirectorAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DirectorAccount">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="StatementId" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="PercentageAmount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Percentage" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="StatementId" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+  </EntityType>
+  <EntityType Name="DirectorAccountLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="PercentageAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Percentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="StatementId" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FiscalYearPosting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="TaxStartYear" Type="datetime" />
+    <Property Name="TaxEndYear" Type="datetime" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="IsPosted" Type="bit" />
+    <Property Name="SubAccountantId" Type="int" />
+  </EntityType>
+  <EntityType Name="Industry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IndustryType" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="IndustryClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClassificationId" Type="int" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="ClassificationType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ChartAccountNumber" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsSole" Type="bit" />
+    <Property Name="IsIncorporated" Type="bit" />
+    <Property Name="IsPartnerShip" Type="bit" />
+    <Property Name="Desc" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="IndustryId" Type="int" />
+    <Property Name="Type" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'kippin1.dbo.InvoicetblColumnDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="InvoicetblColumnDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Pro_Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Invoice_ReportStatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pro_FlowStatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="Invoice_ReportFlowStatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="InvoiceUserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyLogo" Type="varchar" MaxLength="100" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="250" />
+    <Property Name="ContactPerson" Type="varchar" MaxLength="50" />
+    <Property Name="CorporateAptNo" Type="varchar" MaxLength="50" />
+    <Property Name="CorporateHouseNo" Type="varchar" MaxLength="50" />
+    <Property Name="CorporateStreet" Type="varchar" MaxLength="250" />
+    <Property Name="CorporateCity" Type="varchar" MaxLength="50" />
+    <Property Name="CorporateState" Type="varchar" MaxLength="50" />
+    <Property Name="CorporatePostalCode" Type="varchar" MaxLength="50" />
+    <Property Name="ShippingAptNo" Type="varchar" MaxLength="50" />
+    <Property Name="ShippingHouseNo" Type="varchar" MaxLength="50" />
+    <Property Name="ShippingStreet" Type="varchar" MaxLength="250" />
+    <Property Name="ShippingCity" Type="varchar" MaxLength="50" />
+    <Property Name="ShippingState" Type="varchar" MaxLength="50" />
+    <Property Name="ShippingPostalCode" Type="varchar" MaxLength="50" />
+    <Property Name="GoodsType" Type="varchar" MaxLength="50" />
+    <Property Name="BusinessNumber" Type="varchar" MaxLength="50" />
+    <Property Name="TradingCurrency" Type="varchar" MaxLength="50" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
+    <Property Name="EmailTo" Type="varchar" MaxLength="50" />
+    <Property Name="EmailCc" Type="varchar" MaxLength="250" />
+    <Property Name="Website" Type="varchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="IsTrial" Type="bit" />
+    <Property Name="IsPaid" Type="bit" />
+    <Property Name="IsVerified" Type="bit" />
+    <Property Name="IsOnlyInvoice" Type="bit" />
+    <Property Name="Password" Type="varchar" MaxLength="500" />
+    <Property Name="Username" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="KippinStoreImages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ImageName" Type="varchar(max)" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Year" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="IsAssociated" Type="bit" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="License">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LicenseType" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Cost" Type="decimal" Precision="9" Scale="5" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="MasterClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportingTotal" Type="varchar" MaxLength="250" />
+    <Property Name="RepotingTotalType" Type="varchar" MaxLength="3" />
+    <Property Name="ReportingTotalRange" Type="varchar" MaxLength="50" />
+    <Property Name="NewClassificationVerb" Type="varchar" MaxLength="50" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="SubTotalDisplayNumber" Type="varchar" MaxLength="50" />
+    <Property Name="TotalDisplayNumber" Type="varchar" MaxLength="50" />
+    <Property Name="UserId" Type="int" />
+  </EntityType>
+  <EntityType Name="Ownership">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OwnershipType" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProvinceName" Type="varchar" MaxLength="10" />
+    <Property Name="DateCreated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ReconcilationMethodTypename">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReconcilationMethodName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ReportRange">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="StartRange" Type="int" />
+    <Property Name="Endrange" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="SubHeading" Type="int" />
+    <Property Name="HeadingName" Type="varchar" MaxLength="500" />
+    <Property Name="SubHeadingName" Type="varchar" MaxLength="500" />
+    <Property Name="TotalName" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="RetainedEarning">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="SubAccountantId" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+    <Property Name="ReatinedYearEarning" Type="decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="RetainedEarningLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="SubAccountantId" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="ReatinedYearEarning" Type="decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleType" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="ShadowEntryRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankExpenseId" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+    <Property Name="BankExpenseShadowId" Type="int" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusType" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="StripeKeyDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StripePrivateKey" Type="varchar" MaxLength="100" />
+    <Property Name="StripePublishKey" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'kippin1.dbo.StripePayCardDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="StripePayCardDetail">
+    <Key>
+      <PropertyRef Name="CardD_Id" />
+    </Key>
+    <Property Name="CardD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CardNumber" Type="varchar(max)" />
+    <Property Name="ExpieryDate" Type="varchar" MaxLength="100" />
+    <Property Name="CVV" Type="varchar" MaxLength="50" />
+    <Property Name="isDeleted" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StripePaymnt">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceID" Type="int" />
+    <Property Name="IsPaymentbyStripe" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SubAccountantUserPermission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="SubAccountantId" Type="int" Nullable="false" />
+    <Property Name="UserWithAnAccountantId" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="DateModified" Type="datetime" />
+  </EntityType>
+  <EntityType Name="SubIndustry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IndustryId" Type="int" />
+    <Property Name="SubIndustryName" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="tblCurrency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CurrencyName" Type="varchar" MaxLength="200" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Country" Type="varchar(max)" />
+    <Property Name="Symbol" Type="varchar" MaxLength="50" />
+    <Property Name="SymbolCode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblCustomerOrSupplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Company_Name" Type="varchar" MaxLength="100" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="100" />
+    <Property Name="State" Type="varchar" MaxLength="100" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="100" />
+    <Property Name="ServiceOffered" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Website" Type="varchar" MaxLength="50" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModify" Type="datetime" />
+    <Property Name="Isdeleted" Type="bit" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="AdditionalEmail" Type="varchar" MaxLength="100" />
+    <Property Name="ShippingAddress" Type="varchar" MaxLength="500" />
+    <Property Name="ShippingCity" Type="varchar" MaxLength="100" />
+    <Property Name="ShippingState" Type="varchar" MaxLength="100" />
+    <Property Name="ShippingPostalCode" Type="varchar" MaxLength="100" />
+    <Property Name="Telephone" Type="varchar" MaxLength="20" />
+    <Property Name="Debtors" Type="varchar" MaxLength="500" />
+    <Property Name="Credetor" Type="varchar" MaxLength="500" />
+    <Property Name="IsFinance" Type="bit" />
+    <Property Name="IsEmailExist" Type="bit" />
+  </EntityType>
+  <EntityType Name="tblExpenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExpenseName" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tblFlowStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FlowStatus" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblInvoiceDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceNumber" Type="varchar" MaxLength="100" />
+    <Property Name="PaymentTerms" Type="varchar" MaxLength="500" />
+    <Property Name="DueDate" Type="varchar" MaxLength="500" />
+    <Property Name="DocumentRef" Type="varchar" MaxLength="500" />
+    <Property Name="SalesPerson" Type="varchar" MaxLength="100" />
+    <Property Name="ShippingCost" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DepositePayment" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BalanceDue" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Note" Type="varchar" MaxLength="500" />
+    <Property Name="Terms" Type="varchar" MaxLength="500" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="InvoiceDate" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Pro_Status" Type="varchar" MaxLength="100" />
+    <Property Name="Pro_FlowStatus" Type="varchar" MaxLength="100" />
+    <Property Name="Type" Type="int" />
+    <Property Name="IsInvoiceReport" Type="bit" />
+    <Property Name="In_R_Status" Type="varchar" MaxLength="100" />
+    <Property Name="In_R_FlowStatus" Type="varchar" MaxLength="100" />
+    <Property Name="TaxType" Type="varchar" MaxLength="100" />
+    <Property Name="IsSupplierManualPaid" Type="bit" />
+    <Property Name="SupplierManualPaidAmount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="SupplierManualPaidJVID" Type="nvarchar(max)" />
+    <Property Name="IsCustomerManualPaid" Type="bit" />
+    <Property Name="CustomerManualPaidAmount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="CustomerManualPaidJVID" Type="nvarchar(max)" />
+    <Property Name="PaymentDate" Type="datetime" />
+    <Property Name="StripeJVID" Type="nvarchar(max)" />
+    <Property Name="InvoiceJVID" Type="nvarchar(max)" />
+    <Property Name="CustomerInvoiceJVID" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="tblInvoiceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblItemDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceType" Type="varchar" MaxLength="100" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Rate" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Item" Type="varchar" MaxLength="100" />
+    <Property Name="InvoiceId" Type="int" />
+    <Property Name="Discount" Type="varchar" MaxLength="500" />
+    <Property Name="ServiceTypeId" Type="int" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="Customer_ServiceTypeId" Type="int" />
+    <Property Name="Customer_Service" Type="varchar" MaxLength="100" />
+    <Property Name="Tax" Type="nvarchar" MaxLength="100" />
+    <Property Name="GST_Tax" Type="nvarchar" MaxLength="100" />
+    <Property Name="HST_Tax" Type="nvarchar" MaxLength="100" />
+    <Property Name="PST_Tax" Type="nvarchar" MaxLength="100" />
+    <Property Name="QST_Tax" Type="nvarchar" MaxLength="100" />
+    <Property Name="SubTotal" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="tblMonth">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" Nullable="false" />
+    <Property Name="Month" Type="varchar" MaxLength="10" />
+    <Property Name="DateCreated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblSTypeCategories">
+    <Key>
+      <PropertyRef Name="SId" />
+    </Key>
+    <Property Name="SId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SName" Type="varchar" MaxLength="100" />
+    <Property Name="SCategoryId" Type="int" />
+    <Property Name="SValues" Type="int" />
+  </EntityType>
+  <EntityType Name="tblT1TypeCategories">
+    <Key>
+      <PropertyRef Name="T1Id" />
+    </Key>
+    <Property Name="T1Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="T1Name" Type="varchar" MaxLength="100" />
+    <Property Name="T1CategoryId" Type="int" />
+    <Property Name="T1Values" Type="int" />
+  </EntityType>
+  <EntityType Name="tblT2TypeCategories">
+    <Key>
+      <PropertyRef Name="T2Id" />
+    </Key>
+    <Property Name="T2Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="T2Name" Type="varchar" MaxLength="100" />
+    <Property Name="T2CategoryId" Type="int" />
+    <Property Name="T2Values" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'kippin1.dbo.tblTemplateClassification' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblTemplateClassification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClassifinationName" Type="varchar" MaxLength="1000" />
+    <Property Name="Type" Type="varchar" MaxLength="10" />
+    <Property Name="ChartAccountNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tblTypeOfInvoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceType" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblYear">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblZTypeCategories">
+    <Key>
+      <PropertyRef Name="ZId" />
+    </Key>
+    <Property Name="ZId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ZName" Type="varchar" MaxLength="100" />
+    <Property Name="ZCategoryId" Type="int" />
+    <Property Name="ZValues" Type="int" />
+  </EntityType>
+  <EntityType Name="UnlinkRecordLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountantId" Type="int" Nullable="false" />
+    <Property Name="NewAccountantId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="UserLincensePayment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentAmount" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="SubscriptionStartDate" Type="datetime" />
+    <Property Name="SubscriptionEndDate" Type="datetime" />
+    <Property Name="IsActiveSubscription" Type="bit" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="DateModified" Type="datetime" />
+    <Property Name="ChargeId" Type="varchar(max)" />
+    <Property Name="Name" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="UserPrice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoldeId" Type="tinyint" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="UserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReconciliationType" Type="tinyint" />
+    <Property Name="AccountantId" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Username" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
+    <Property Name="CountryId" Type="int" />
+    <Property Name="ProvinceId" Type="tinyint" />
+    <Property Name="City" Type="varchar" MaxLength="100" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="30" />
+    <Property Name="SectorId" Type="int" />
+    <Property Name="IndustryId" Type="int" />
+    <Property Name="SubIndustryId" Type="int" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="250" />
+    <Property Name="CorporationAddress" Type="varchar" MaxLength="250" />
+    <Property Name="GSTNumber" Type="varchar" MaxLength="20" />
+    <Property Name="BusinessNumber" Type="varchar" MaxLength="50" />
+    <Property Name="OwnershipId" Type="int" />
+    <Property Name="CurrencyId" Type="int" />
+    <Property Name="LicenseId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="PrivateKey" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsEmailSent" Type="bit" />
+    <Property Name="IsVerified" Type="bit" />
+    <Property Name="IsTrial" Type="bit" />
+    <Property Name="IsPaid" Type="bit" />
+    <Property Name="IsExpired" Type="bit" />
+    <Property Name="ExpiredDate" Type="datetime" />
+    <Property Name="TaxationStartDay" Type="int" />
+    <Property Name="TaxationEndDay" Type="int" />
+    <Property Name="TaxStartMonthId" Type="tinyint" />
+    <Property Name="TaxEndMonthId" Type="tinyint" />
+    <Property Name="TaxStartYear" Type="int" />
+    <Property Name="TaxEndYear" Type="int" />
+    <Property Name="IsDownload" Type="bit" Nullable="false" />
+    <Property Name="IsNewUser" Type="bit" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsUnlink" Type="bit" />
+    <Property Name="IsTermsAndConditionAccepted" Type="bit" />
+    <Property Name="ProfileImage" Type="varchar(max)" />
+    <Property Name="IsYodleeAccountCreated" Type="bit" />
+    <Property Name="Country" Type="varchar" MaxLength="100" />
+    <Property Name="IsEmployeeActivated" Type="bit" />
+    <Property Name="IsOnlyInvoice" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="LastLoginDate" Type="datetime" />
+    <Property Name="IsLoggedInWeb" Type="bit" />
+    <Property Name="IsLoggedInMobile" Type="bit" />
+  </EntityType>
+  <EntityType Name="UserUpdateProfileLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FieldUpdatedDetails" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="IsSuperAdminUpdated" Type="bit" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="IsPasswordUpdated" Type="bit" />
+    <Property Name="IsLogin" Type="bit" />
+  </EntityType>
+  <EntityType Name="YodleeAccountDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemAccountId" Type="bigint" Nullable="false" />
+    <Property Name="AccountName" Type="varchar(max)" />
+    <Property Name="AccountUserName" Type="varchar(max)" />
+    <Property Name="AccountPassword" Type="varchar(max)" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="CobrandToken" Type="varchar(max)" />
+    <Property Name="UserToken" Type="varchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="50" />
+    <Property Name="BankId" Type="int" />
+    <Property Name="AccountType" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="YodleeErrorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ErrorMessage" Type="varchar(max)" />
+    <Property Name="ErrorMethod" Type="varchar" MaxLength="1000" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="KippinUserId" Type="int" />
+  </EntityType>
+  <EntityType Name="YodleeUserRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UName" Type="varchar" MaxLength="500" />
+    <Property Name="UPassword" Type="varchar" MaxLength="500" />
+    <Property Name="CobrandName" Type="nvarchar" MaxLength="500" />
+    <Property Name="CobrandPassword" Type="nvarchar" MaxLength="1000" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="KippinUserId" Type="int" />
+  </EntityType>
+  <Association Name="FK_BankExpense_Bank">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+    <End Role="BankExpense" Type="Self.BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="BankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="BankExpense" Type="Self.BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_Classification">
+    <End Role="Classification" Type="Self.Classification" Multiplicity="0..1" />
+    <End Role="BankExpense" Type="Self.BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="ClassificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="BankExpense" Type="Self.BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExpense_UserRegistration">
+    <End Role="UserRegistration" Type="Self.UserRegistration" Multiplicity="1" />
+    <End Role="BankExpense" Type="Self.BankExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankExpense">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SubAccountantUserPermission_UserRegistration">
+    <End Role="UserRegistration" Type="Self.UserRegistration" Multiplicity="1" />
+    <End Role="SubAccountantUserPermission" Type="Self.SubAccountantUserPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubAccountantUserPermission">
+        <PropertyRef Name="SubAccountantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLincensePayment_UserRegistration">
+    <End Role="UserRegistration" Type="Self.UserRegistration" Multiplicity="0..1" />
+    <End Role="UserLincensePayment" Type="Self.UserLincensePayment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRegistration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLincensePayment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="KI_GetFlowStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="flowStatus" Type="varchar" Mode="In" />
+    <Parameter Name="DepositePayment" Type="decimal" Mode="In" />
+    <Parameter Name="BalanceDue" Type="decimal" Mode="In" />
+    <Parameter Name="Pro_Status" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="KI_getIndustryID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="KI_GetInvoiceDataforpdf" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="isCustomer" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_BlockAccNoList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserdId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_BlockAccNoList_forUserIdNull" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserdId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_ExitinStripe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="customerid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_GetCompanyNameSend" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+    <Parameter Name="invoiceid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_GetCompanyNamr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+    <Parameter Name="customer" Type="int" Mode="In" />
+  </Function>
+  <Function Name="kl_getCustomerEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="useid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_GetSupplierDataforUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+    <Parameter Name="invoiceid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_getSupplierEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="useid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="kl_Invoicedata_email" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="useid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_ReceivedInvoiceList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="kl_ReceivedProformaList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_ReportingList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="kl_ReportingListwithoutDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_SendInvoiceList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Kl_SendProformaList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetSupplierLists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="RoleId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_SType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_TType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="KIppinFinanceStoreContainer">
+    <EntitySet Name="ArchiveBankExpense" EntityType="Self.ArchiveBankExpense" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ArchiveDirectorLog" EntityType="Self.ArchiveDirectorLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BankExpense" EntityType="Self.BankExpense" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CardDetails" EntityType="Self.CardDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Classification" EntityType="Self.Classification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClassificationType" EntityType="Self.ClassificationType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CloudImagesRecord" EntityType="Self.CloudImagesRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DirectorAccountLog" EntityType="Self.DirectorAccountLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FiscalYearPosting" EntityType="Self.FiscalYearPosting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Industry" EntityType="Self.Industry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IndustryClassification" EntityType="Self.IndustryClassification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoiceUserRegistration" EntityType="Self.InvoiceUserRegistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KippinStoreImages" EntityType="Self.KippinStoreImages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="License" EntityType="Self.License" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterClassification" EntityType="Self.MasterClassification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ownership" EntityType="Self.Ownership" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReconcilationMethodTypename" EntityType="Self.ReconcilationMethodTypename" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReportRange" EntityType="Self.ReportRange" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RetainedEarning" EntityType="Self.RetainedEarning" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RetainedEarningLog" EntityType="Self.RetainedEarningLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShadowEntryRecord" EntityType="Self.ShadowEntryRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StripeKeyDetails" EntityType="Self.StripeKeyDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StripePaymnt" EntityType="Self.StripePaymnt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubAccountantUserPermission" EntityType="Self.SubAccountantUserPermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubIndustry" EntityType="Self.SubIndustry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCurrency" EntityType="Self.tblCurrency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCustomerOrSupplier" EntityType="Self.tblCustomerOrSupplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblExpenses" EntityType="Self.tblExpenses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblFlowStatus" EntityType="Self.tblFlowStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblInvoiceDetails" EntityType="Self.tblInvoiceDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblInvoiceType" EntityType="Self.tblInvoiceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblItemDetail" EntityType="Self.tblItemDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSTypeCategories" EntityType="Self.tblSTypeCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblT1TypeCategories" EntityType="Self.tblT1TypeCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblT2TypeCategories" EntityType="Self.tblT2TypeCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTypeOfInvoice" EntityType="Self.tblTypeOfInvoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblYear" EntityType="Self.tblYear" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblZTypeCategories" EntityType="Self.tblZTypeCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UnlinkRecordLog" EntityType="Self.UnlinkRecordLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLincensePayment" EntityType="Self.UserLincensePayment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserPrice" EntityType="Self.UserPrice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRegistration" EntityType="Self.UserRegistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserUpdateProfileLog" EntityType="Self.UserUpdateProfileLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="YodleeAccountDetails" EntityType="Self.YodleeAccountDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="YodleeErrorLog" EntityType="Self.YodleeErrorLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="YodleeUserRegistration" EntityType="Self.YodleeUserRegistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DirectorAccount" EntityType="Self.DirectorAccount" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DirectorAccount].[Id] AS [Id], 
+    [DirectorAccount].[UserId] AS [UserId], 
+    [DirectorAccount].[PercentageAmount] AS [PercentageAmount], 
+    [DirectorAccount].[Percentage] AS [Percentage], 
+    [DirectorAccount].[StatementId] AS [StatementId], 
+    [DirectorAccount].[DateCreated] AS [DateCreated], 
+    [DirectorAccount].[DateModified] AS [DateModified]
+    FROM [dbo].[DirectorAccount] AS [DirectorAccount]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="InvoicetblColumnDetails" EntityType="Self.InvoicetblColumnDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [InvoicetblColumnDetails].[ID] AS [ID], 
+    [InvoicetblColumnDetails].[Pro_Status] AS [Pro_Status], 
+    [InvoicetblColumnDetails].[Invoice_ReportStatus] AS [Invoice_ReportStatus], 
+    [InvoicetblColumnDetails].[Pro_FlowStatus] AS [Pro_FlowStatus], 
+    [InvoicetblColumnDetails].[Invoice_ReportFlowStatus] AS [Invoice_ReportFlowStatus], 
+    [InvoicetblColumnDetails].[Type] AS [Type]
+    FROM [dbo].[InvoicetblColumnDetails] AS [InvoicetblColumnDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="StripePayCardDetail" EntityType="Self.StripePayCardDetail" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [StripePayCardDetail].[CardD_Id] AS [CardD_Id], 
+    [StripePayCardDetail].[CardNumber] AS [CardNumber], 
+    [StripePayCardDetail].[ExpieryDate] AS [ExpieryDate], 
+    [StripePayCardDetail].[CVV] AS [CVV], 
+    [StripePayCardDetail].[isDeleted] AS [isDeleted], 
+    [StripePayCardDetail].[CreatedDate] AS [CreatedDate], 
+    [StripePayCardDetail].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[StripePayCardDetail] AS [StripePayCardDetail]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblTemplateClassification" EntityType="Self.tblTemplateClassification" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblTemplateClassification].[Id] AS [Id], 
+    [tblTemplateClassification].[ClassifinationName] AS [ClassifinationName], 
+    [tblTemplateClassification].[Type] AS [Type], 
+    [tblTemplateClassification].[ChartAccountNumber] AS [ChartAccountNumber], 
+    [tblTemplateClassification].[Description] AS [Description]
+    FROM [dbo].[tblTemplateClassification] AS [tblTemplateClassification]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_BankExpense_Bank" Association="Self.FK_BankExpense_Bank">
+      <End Role="Bank" EntitySet="Bank" />
+      <End Role="BankExpense" EntitySet="BankExpense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_Category" Association="Self.FK_BankExpense_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="BankExpense" EntitySet="BankExpense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_Classification" Association="Self.FK_BankExpense_Classification">
+      <End Role="Classification" EntitySet="Classification" />
+      <End Role="BankExpense" EntitySet="BankExpense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_Status" Association="Self.FK_BankExpense_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="BankExpense" EntitySet="BankExpense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExpense_UserRegistration" Association="Self.FK_BankExpense_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistration" />
+      <End Role="BankExpense" EntitySet="BankExpense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SubAccountantUserPermission_UserRegistration" Association="Self.FK_SubAccountantUserPermission_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistration" />
+      <End Role="SubAccountantUserPermission" EntitySet="SubAccountantUserPermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLincensePayment_UserRegistration" Association="Self.FK_UserLincensePayment_UserRegistration">
+      <End Role="UserRegistration" EntitySet="UserRegistration" />
+      <End Role="UserLincensePayment" EntitySet="UserLincensePayment" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

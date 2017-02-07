@@ -1,0 +1,400 @@
+﻿@model KF.Dto.Modules.FinanceReport.BalanceSheetDto
+@{
+    ViewBag.Title = "BalanceSheet";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+}
+
+
+@section scripts{
+    <script src="~/CustomResources/DateTimePicker/V1/moment-with-locales.js"></script>
+    <link href="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/CustomResources/DateTimePicker/V1/bootstrap-datetimepicker.js"></script>
+    <link href="~/ThemeAssets/css/main.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            $('#txtStartDate').datetimepicker(
+               {
+                   format: 'YYYY-MM-DD HH:mm'
+               });
+            $('#txtEndDate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+
+            $('#txtSecondStartDate').datetimepicker(
+             {
+                 format: 'YYYY-MM-DD HH:mm'
+             });
+            $('#txtSecondEndDate').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+
+        });
+        $(function () {
+            $("#btnPrintBalanceReport").click(function () {
+                var contents = $("#printBalanceDiv").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head><title>Balance Report</title>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                //   frameDoc.document.write('<link href="style.css" rel="stylesheet" type="text/css" />');
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            $('.A').fadeOut('slow');
+            $('.G').fadeOut('slow');
+            $('.S').fadeOut('slow');
+            //$('.T').fadeOut('slow');
+            $('.T').fadeIn('slow');
+
+
+
+            $('#chkA').change(function () {
+                if (!this.checked)
+                    $('.A').fadeOut('slow');
+                else
+                    $('.A').fadeIn('slow');
+            });
+            $('#chkG').change(function () {
+                if (!this.checked)
+                    $('.G').fadeOut('slow');
+                else
+                    $('.G').fadeIn('slow');
+            });
+            $('#chkS').change(function () {
+                if (!this.checked)
+                    $('.S').fadeOut('slow');
+                else
+                    $('.S').fadeIn('slow');
+            });
+            $('#chkT').change(function () {
+                if (!this.checked)
+                    $('.T').fadeOut('slow');
+                else
+                    $('.T').fadeIn('slow');
+            });
+        });
+    </script>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+
+        .balance_width {
+            min-width: auto;
+        }
+
+        .border-top {
+            border-top: 1px solid #333;
+        }
+
+        .border_section {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .genLeadger {
+            min-width: auto;
+        }
+
+        .doubleborder {
+            border-bottom: 2px solid #000000;
+            position: relative;
+        }
+
+            .doubleborder::after {
+                background: #000000 none repeat scroll 0 0;
+                bottom: -8px;
+                content: "";
+                height: 2px;
+                left: 0;
+                position: absolute;
+                width: 100%;
+            }
+
+        .chk {
+            height: 1.6em;
+            margin-left: -2.5em;
+        }
+    </style>
+    <script>
+        //Net worth calculations
+        var netTotalVal=$("#totalAssetValue").val() - $("#totalLiablityValue").val();
+
+        if(netTotalVal != "NaN")
+        {
+            $("#netWorthFirst").html("");
+            var istIncomeHtml="<table class='expense-table'>";
+            istIncomeHtml += "<tr>";
+            istIncomeHtml += "<td><strong>Net Worth : </strong></td>";
+            istIncomeHtml += "<td>&nbsp;</td>";
+            istIncomeHtml += "<td class='doubleborder currencyFormat'><strong>"+ parseFloat(netTotalVal).toFixed(2)+"</strong></td>";
+            istIncomeHtml += "</tr>";
+            istIncomeHtml += "</table>";
+            $("#netWorthFirst").html(istIncomeHtml);
+        }
+
+        if (@Model.objSecondAssetList.Count > 0 ||@Model.objSecondLiablityList.Count > 0)
+        {
+            var revTotal2=0;
+            var expTotal2=0;
+            if($("#totalAssetValue2").val()!="NaN")
+            {
+                revTotal2=$("#totalAssetValue2").val();
+            }
+            if($("#totalLiablityValue2").val()!="NaN")
+            {
+                expTotal2=$("#totalLiablityValue2").val();
+            }
+            var netTotalSecondVal=revTotal2 - expTotal2;
+            if(netTotalSecondVal !="NaN")
+            {
+                var totalSec=parseFloat((revTotal2 - expTotal2)).toFixed(2);
+                $("#netWorthSecond").html("");
+                var secondIncomeHtml="<table class='expense-table'>";
+                secondIncomeHtml += "<tr>";
+                secondIncomeHtml += "<td><strong>Net Worth : </strong></td>";
+                secondIncomeHtml += "<td></td>";
+                secondIncomeHtml += "<td class='doubleborder currencyFormat'><strong>"+parseFloat(totalSec).toFixed(2) +"</strong></td>";
+                secondIncomeHtml += "</tr>";
+                secondIncomeHtml += "</table>";
+                $("#netWorthSecond").html(secondIncomeHtml);
+                // $("#lblSecondNetIncome").text("Net Income : " + parseFloat(($("#totalRevenueValue2").val() - $("#totalExpenseValue2").val())).toFixed(2));
+            }
+
+        }
+    </script>
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Balance Sheet",
+    HeaderParentPageName = "Report",
+    HeaderChildPageName = "Balance Sheet",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="col-lg-12">
+        <div class="generalLedger mobileViewReport">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <h2>Balance Sheet Report</h2>
+                    <hr />
+                    <div class="inputBlocks">
+                        @using (Html.BeginForm("BalanceSheetFilter", "Accounting", FormMethod.Post))
+                        {
+                            if (TempData["UserId"] != null)
+                            {
+                                string userid = TempData["UserId"].ToString();
+                                <input type="hidden" id="selectedUserId" name="selectedUserId" value="@userid">
+                            }
+                            <input id="txtStartDate" required name="txtStartDate" value="@ViewBag.Startdate" type="text" placeholder="Start Date" />
+                            <input id="txtEndDate" required name="txtEndDate" value="@ViewBag.Enddate" type="text" placeholder="End Date" />
+                            <br />
+                            <div class="inputBlocks">
+
+                                <input id="txtSecondStartDate" value="@ViewBag.StartSeconddate" name="txtSecondStartDate" type="text" placeholder="Start Date" />
+                                <input id="txtSecondEndDate" value="@ViewBag.EndSeconddate" name="txtSecondEndDate" type="text" placeholder="End Date" />
+                                <input type="submit" value="Search" />
+                                <button id="btnPrintBalanceReport" type="button" class="btn btn-primary">Print</button>
+                            </div>
+                            <div class="inputBlocks row filter">
+                                <div class="col-sm-12">
+
+                                    <div class="filter-buttons">
+                                        <label for="checkbox_id" class="btn btn-primary" data-group-cls="btn-group-justified">Sub Accounts(A)</label>
+                                        <input id="chkA" type="checkbox" class="chk" />
+                                    </div>
+                                    <div class="filter-buttons">
+                                        <label for="checkbox_id" class="btn btn-primary">Accounts(G)</label>
+                                        <input id="chkG" type="checkbox" class="chk" />
+                                    </div>
+                                    <div class="filter-buttons">
+                                        <label for="checkbox_id" class="btn btn-primary">Sub Accounts Total(S)</label>
+                                        <input id="chkS" type="checkbox" class="chk" />
+                                    </div>
+                                    <div class="filter-buttons">
+                                        <label for="checkbox_id" class="btn btn-primary">Group Accounts Total(T)</label>
+                                        <input id="chkT" type="checkbox" class="chk" checked="checked" />
+                                    </div>
+                                </div>
+                            </div>
+                            <style>
+                                .filter-buttons {
+                                    display: inline-block;
+                                    margin-bottom: 15px;
+                                    margin-right: 20px;
+                                }
+
+                                .inputBlocks.filter label {
+                                    margin-top: -10px;
+                                    width: 180px;
+                                }
+
+                                .inputBlocks.filter input[type="checkbox"] {
+                                    margin: 10px 5px 0 !important;
+                                    width: auto !important;
+                                }
+                            </style>
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+            @{
+                if (ViewBag.ReportHeader == "success" && ViewBag.Startdate == null)
+                {
+
+                    int userId = Convert.ToInt32(TempData["UserId"]);
+                    var userdata = KF.Web.Models.UserData.GetUserData(userId);
+                    string datetime = userdata.TaxStartMonthId + "/" + userdata.TaxationStartDay + "/" + userdata.TaxStartYear;
+                    if (datetime == "//")
+                    {
+                        datetime = DateTime.Now.ToShortDateString();
+                    }
+                    DateTime dt = Convert.ToDateTime(datetime);
+                    DateTime enddt = dt.AddYears(1).AddDays(-1);
+                    string endDate = enddt.ToShortDateString();
+                    <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @datetime to @endDate.</p></div>
+
+                }
+
+            }
+            <div id="printBalanceDiv" class="row" style="margin:0px">
+
+                <div class="col-lg-6 border_section">
+                    <!--First Report Header-->
+                    @{
+                        if (ViewBag.Startdate != null)
+                        {
+
+                            <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.Startdate to @ViewBag.Enddate.</p></div>
+                        }
+                        ViewBag.isdate = 0;
+                    }
+
+                    <!--Asset Report Data -->
+                    @Html.Partial("_AssetReport", Model.objAssetList)
+                    <!--Liability Report Data-->
+                    @Html.Partial("_LiabilityReport", Model.objLiablityList)
+                    @{
+                        decimal AssetTotal = Model.objAssetList.Select(s => s.GrossTotal).ToList().Sum();
+                        decimal LiabilityTotal = Model.objLiablityList.Select(s => s.GrossTotal).ToList().Sum();
+
+                        decimal Networth = Decimal.Subtract(AssetTotal, LiabilityTotal);
+    //Net Worth Calculation
+                          <!--Net Worth-->
+
+                        <div class="col-lg-12" style="margin-top:10px;">
+                            <table class="expense-table">
+                                <tr class="T">
+                                    <td><strong>Net Worth :</strong></td>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td class="doubleborder currencyFormat" id="NetWorth" style="border-bottom:2px solid #333">@Networth</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    }
+                    <!--Equity Report Data-->
+                    @Html.Partial("_EquityReport", Model.objEquityList)
+                </div>
+                <div class="col-lg-6 border_section">
+                    <!--First Report Header-->
+                    @{
+                        if (ViewBag.StartSeconddate != null && ViewBag.EndSeconddate != null)
+                        {
+
+                            <div id="Update-alert" class="alert alert-success col-sm-12 text-center text-capitalize"><p>Showing data between @ViewBag.StartSeconddate to @ViewBag.EndSeconddate.</p></div>
+                        }
+                        ViewBag.isdate = 1;
+                    }
+
+                    <!--Asset Report Data -->
+                    @Html.Partial("_AssetReport", Model.objSecondAssetList)
+                    <!--Liability Report Data-->
+                    @Html.Partial("_LiabilityReport", Model.objSecondLiablityList)
+                    @{
+                        if (Model.objSecondAssetList.Count > 0 || Model.objSecondEquityList.Count > 0)
+                        {
+                            decimal AssetTotal2 = Model.objSecondAssetList.Select(s => s.GrossTotal).ToList().Sum();
+                            decimal LiabilityTotal2 = Model.objSecondLiablityList.Select(s => s.GrossTotal).ToList().Sum();
+
+                            decimal Networth2 = Decimal.Subtract(AssetTotal2, LiabilityTotal2);
+                            //Net Worth Calculation
+                          <!--Net Worth-->
+
+                            <div class="col-lg-12" style="margin-top:10px;">
+                                <table class="expense-table">
+                                    <tr class="T">
+                                        <td><strong>Net Worth :</strong></td>
+                                        <td>&nbsp;&nbsp;</td>
+                                        <td class="doubleborder currencyFormat" id="NetWorth" style="border-bottom:2px solid #333">@Networth2</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        }
+
+                    }
+                    <!--Equity Report Data-->
+                    @Html.Partial("_EquityReport", Model.objSecondEquityList)
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Main Content End-->

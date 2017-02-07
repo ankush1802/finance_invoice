@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="~/ThemeAssets/Images/favicon.png" type="image/png">
+    <title>::INVOICE::</title>
+    <script src="~/ThemeAssets/js/bootstrap.min.js"></script>
+    <link href="~/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/bootstrap-override.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/weather-icons.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/jquery-ui-1.10.3.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/animate.min.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/toggles.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/animate.delay.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/select2.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/lato.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/roboto.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/style.default.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/sb_23Feb.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/form-layout.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+
+        TABLE.gj-grid-table {
+            table-layout: auto !important;
+        }
+
+        .headermenu li:first-child .dropdown-menu {
+            margin-right: 0 !important;
+        }
+    </style> 
+
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
+    <section>
+        @{
+            var currentUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+            if (currentUser.Username == null)
+            {
+                Response.Redirect(Url.Action("Login", "Account"));
+            }
+            int SelectedActiveUser = 0;
+            if (Request.Cookies["SelectedActiveUser"] != null)
+            {
+                if (Request.Cookies["SelectedActiveUser"].Value != null)
+                {
+                    int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                }
+
+            }
+              <!-- leftpanel -->
+            <div class="leftpanel">
+                <div class="logopanel">
+                    <h1><span>[</span>INVOICE<span>]</span></h1>
+                </div><!-- logopanel -->
+                <div class="leftpanelinner">
+                    <!-- This is only visible to small devices -->
+                    <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                        <div class="media userlogged">
+                            <img src="~/ThemeAssets/Images/icon-user.png" class="media-object" />
+                            <div class="media-body">
+                                <h4>@HttpContext.Current.User.Identity.Name</h4>
+                            </div>
+                        </div>
+                        <h5 class="sidebartitle actitle">Account</h5>
+                        <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+                            <li><a href="@Url.Action("Logout", "Account")"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+                        </ul>
+                    </div>
+                    <h5 class="sidebartitle">Navigation</h5>
+                    <ul class="nav nav-pills nav-stacked nav-bracket">
+                        @{
+                            <li class="nav-parent">
+                                <a href="#" id="open-submenu"><i class="fa fa-money"></i> <span>Invoice</span></a>
+                                <ul class="children" id="ulsubitems">
+                                    <li>
+                                        <a data-toggle="modal" data-target="#createinvoice1" href="javascript:void(0)" id="createinvoice"><i class="fa fa-cloud"></i> <span>Create Invoice</span></a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="modal" data-target="#createproforma1" href="javascript:void(0)" id="createproforma"><i class="fa fa-cloud"></i> <span>Create Proforma</span></a>
+                                    </li>
+                                    <li class="plus">
+                                        <a href="javascript:void(0)" id="mains"><i class="fa fa-money"></i> <span>Received Invoice/Proforma</span></a>
+                                        <ul class="children" id="mains2">
+
+                                            <li>
+                                                <a href="@Url.Action("InvoiceReceivedInvoice", "Invoice", new { Id = 0 })" id="receivedinvoice"><i class="fa fa-caret-right"></i>Received Invoice</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("InvoiceReceivedPerforma", "Invoice", new { Id = 0 })" id="receivedproforma"><i class="fa fa-caret-right"></i>Received Proforma</a>
+
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="plus">
+                                        <a href="javascript:void(0)" id="mainsrecinvpro"><i class="fa fa-money"></i> <span>Sent Invoice/Proforma</span></a>
+                                        <ul class="children" id="mains2recinvpro">
+
+                                            <li>
+                                                <a href="@Url.Action("InvoiceSentInvoice", "Invoice", new { Id = 0 })" id="sentinvoice"><i class="fa fa-caret-right"></i>Sent Invoice</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("InvoiceSentPerforma", "Invoice", new { Id = 0 })" id="rsentproforma"><i class="fa fa-caret-right"></i>Sent Proforma</a>
+
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+
+                                    <li>
+                                        <a href="@Url.Action("InvoiceReportInvoice", "Invoice")" id="invoicereport"><i class="fa fa-cloud"></i><span>Invoice Report</span> </a>
+                                    </li>
+                                    @*<li>
+                                        <a href="@Url.Action("InvoiceSupplierCustomerDashboard", "Invoice")" id="suppliercustomer"><i class=" fa fa-cloud"></i> <span>Supplier/Customer List</span></a>
+                                    </li>*@
+                                    <li class="plus">
+                                        <a href="javascript:void(0)" id="mainssupcust"><i class="fa fa-money"></i> <span>Supplier/Customer List</span></a>
+                                        <ul class="children" id="mains2supcust">
+
+                                            <li>
+                                                <a data-toggle="modal" data-target="#btncustomer1" href="javascript:void(0)" id="btnCustomer"><i class="fa fa-caret-right"></i>Customer</a>
+                                                @*<a href="@Url.Action("InvoiceReceivedInvoice", "Invoice", new { Id = 0 })" id="receivedinvoice"><i class="fa fa-caret-right"></i>Received Invoice</a>*@
+                                            </li>
+                                            <li>
+                                                <a data-toggle="modal" data-target="#btnsupplier1" href="javascript:void(0)" id="btnSupplier"><i class="fa fa-caret-right"></i>Supplier</a>
+                                                @*<a href="@Url.Action("InvoiceReceivedPerforma", "Invoice", new { Id = 0 })" id="receivedproforma"><i class="fa fa-caret-right"></i>Received Proforma</a>*@
+
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("InvoicestripeDetail", "Invoice", new { Email = currentUser.EmailTo })" id="stripedetails"><i class=" fa fa-cloud"></i> <span>Stripe Details</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        }
+
+                    </ul>
+
+                </div><!-- leftpanelinner -->
+            </div>
+
+            <div class="mainpanel">
+                <div class="headerbar">
+                    <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+                    <div class="header-right">
+                        <ul class="headermenu">
+                            <li>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <img src="~/ThemeAssets/Images/icon-user.png" />
+                                        @currentUser.Username
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                        <li><a href="@Url.Action("InvoiceChangePassword", "Account")"><i class="fa fa-child"></i> <span>Change Password</span></a></li>
+                                          <li><a href="@Url.Action("InvoiceLogout", "Account")"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                                      
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- header-right -->
+                </div><!-- headerbar -->
+                @RenderBody()
+            </div>
+        <!-- mainpanel -->
+        }
+
+    </section>
+    <script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
+    <script src="~/ThemeAssets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/ThemeAssets/js/jquery-ui-1.10.3.min.js"></script>
+    <script src="~/ThemeAssets/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+    $(document).ready(function () {
+
+        $("#mains").click(function () {
+
+            if ($('#mains2').css('display') == 'none') {
+                $("#mains2").css("display", "block");
+            }
+            else {
+                $("#mains2").css("display", "none");
+            }
+        });
+        $("#mainsrecinvpro").click(function () {
+
+            if ($('#mains2recinvpro').css('display') == 'none') {
+                $("#mains2recinvpro").css("display", "block");
+            }
+            else {
+                $("#mains2recinvpro").css("display", "none");
+            }
+        });
+        $("#mainssupcust").click(function () {
+
+            if ($('#mains2supcust').css('display') == 'none') {
+                $("#mains2supcust").css("display", "block");
+            }
+            else {
+                $("#mains2supcust").css("display", "none");
+            }
+        });
+
+    });
+    $(window).load(function () {
+        $("#load").fadeOut("slow");
+    })
+    </script>
+    <script>
+    $(document).ready(function () {
+
+
+        $('#lnkcreateinvoiceYes').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceCustomerRegister";
+        });
+        $('#lnkcreateinvoiceNo').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceCustomerListInvoiceNew/0";
+        });
+
+        $('#lnkcreateproformaYes').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceCustomerRegister";
+        });
+        $('#lnkcreateproformaNo').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceCustomerListProformaNew/0";
+        });
+    });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+
+
+        $('#lnkcustomerNo').click(function () {
+            $('#btncustomer1').modal('toggle');
+        });
+        $('#lnkcustomerYes').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceCustomerList";
+        });
+
+        $('#lnksupplierNo').click(function () {
+            $('#btnsupplier1').modal('toggle');
+        });
+        $('#lnksupplierYes').click(function () {
+            window.location = "/Kippin/Finance/Invoice/InvoiceSupplierList";
+        });
+        if (window.location.href.indexOf("InvoiceSupplierCustomerDashboard") > -1) {
+            $("#ulsubitems").css("display", "block");
+            $("#litopinvoice").addClass("nav-active");
+            $("#suppliercustomer").addClass("active");
+            $("#suppliercustomer").css("color", "#1CAF9A");
+        }
+
+    });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoicestripeDetail") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#stripedetails").addClass("active");
+                $("#stripedetails").css("color", "#1CAF9A");
+            }
+
+
+            $('.active').removeClass('active');
+            var currurl = window.location.pathname;
+            var val = $('li:has(a[href="' + currurl + '"])').addClass('active');
+        });
+
+    </script>
+    <script src="~/ThemeAssets/js/modernizr.min.js"></script>
+    <script src="~/ThemeAssets/js/jquery.sparkline.min.js"></script>
+    <script src="~/ThemeAssets/js/toggles.min.js"></script>
+    <script src="~/ThemeAssets/js/retina.min.js"></script>
+    <script src="~/ThemeAssets/js/jquery.cookies.js"></script>
+    <script src="~/ThemeAssets/js/custom.js"></script>
+    <script src="~/ThemeAssets/js/dashboard.js"></script>
+    <script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+
+   
+    <script type="text/javascript">
+        var idleTime = 0;
+        $(document).ready(function () {
+
+            //Increment the idle time counter every minute.
+            var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+
+            //Zero the idle timer on mouse movement.
+            $(this).mousemove(function (e) {
+                idleTime = 0;
+            });
+            $(this).keypress(function (e) {
+                idleTime = 0;
+            });
+        });
+
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+            if (idleTime > 29) { // 30 minutes
+                var url = "/Finance/Account/LogOff";
+                window.location.href = url;
+            }
+        }
+    </script>
+
+    
+    <div class="modal fade" id="createinvoice1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content custom-height">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Invoice</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-info">
+                        Is this for a new Customer?
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-danger" href="Javascript:;" id="lnkcreateinvoiceNo">No</a>
+                    <a class="btn btn-success" href="Javascript:;" id="lnkcreateinvoiceYes">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createproforma1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content custom-height">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Proforma</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-info">
+                        Is this for a new Customer?
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-danger" href="Javascript:;" id="lnkcreateproformaNo">No</a>
+                    <a class="btn btn-success" href="Javascript:;" id="lnkcreateproformaYes">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="btncustomer1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content custom-height">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Customer</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-info">
+                        Do you want to Create/Update Customer list?
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-danger" href="Javascript:;" id="lnkcustomerNo">No</a>
+                    <a class="btn btn-success" href="Javascript:;" id="lnkcustomerYes">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="btnsupplier1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content custom-height">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Supplier</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-info">
+                        Do you want to Create/Update Supplier list?
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-danger" href="Javascript:;" id="lnksupplierNo">No</a>
+                    <a class="btn btn-success" href="Javascript:;" id="lnksupplierYes">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+
+
+
+
+
+
+</html>

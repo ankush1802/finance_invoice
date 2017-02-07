@@ -1,0 +1,12 @@
+﻿@model KF.Web.Models.InternalPageHeaderViewModel
+
+<div class="pageheader">
+    <h2><i class="fa @Model.HeaderFontAwsomeIcon"></i> @Model.HeaderTitle <span>@Model.HeaderSubtitle</span></h2>
+    <div class="breadcrumb-wrapper">
+        <span class="label">You are here:</span>
+        <ol class="breadcrumb">
+            <li>@Model.HeaderParentPageName</li>
+            <li class="active">@Model.HeaderChildPageName</li>
+        </ol>
+    </div>
+</div>

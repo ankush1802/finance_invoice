@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "MannualClassification";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+    var currentUserData = KF.Web.Models.UserData.GetCurrentUserData();
+    int SelectedActiveUser = 0;
+    if (currentUserData.RoleId == 4 || currentUserData.RoleId == 1)
+    {
+
+        if (Request.Cookies["SelectedActiveUser"] != null)
+        {
+            if (Request.Cookies["SelectedActiveUser"].Value != null)
+            {
+                int.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+            }
+
+        }
+    }
+    else
+    {
+        SelectedActiveUser = currentUserData.Id;
+    }
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Manage Classification",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Manage Classification",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Shared/_InternalPageHeader.cshtml", Tuple.Create(currentUserData, SelectedActiveUser))
+        </div>
+        @if (ViewBag.status != null)
+        {
+            <div class="alert alert-success col-sm-12 text-center">
+                <p> Classification successfully deleted. </p>
+            </div>
+        }
+        <div class="clearfix"></div>
+        <div class="col-md-12 table-responsive">
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Name of Account</td>
+                        <td>Classification Description</td>
+                        <td>Classification Number</td>
+                        <td>Classification Type</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var db = new KF.Entity.KFentities();
+                        var classificationList = new List<KF.Entity.Classification>();
+
+                        if (SelectedActiveUser > 0)
+                        {
+                            classificationList = db.Classifications.Where(s => s.UserId == SelectedActiveUser && !s.ChartAccountDisplayNumber.Equals("1050-1060") &&
+                            !s.ChartAccountDisplayNumber.Equals("1050-1061") && !s.ChartAccountDisplayNumber.Equals("1050-1062") &&
+                            !s.ChartAccountDisplayNumber.Equals("1050-1063") && !s.ChartAccountDisplayNumber.Equals("1100-1080") &&
+                            !s.ChartAccountDisplayNumber.Equals("1100-1081") && !s.ChartAccountDisplayNumber.Equals("1100-1082") &&
+                            !s.ChartAccountDisplayNumber.Equals("1100-1083") && !s.ChartAccountDisplayNumber.Equals("1100-1084") &&
+                            !s.ChartAccountDisplayNumber.Equals("1100-1087") && !s.ChartAccountDisplayNumber.Equals("1100-1088") &&
+                            !s.ChartAccountDisplayNumber.Equals("1100-1089") && !s.ChartAccountDisplayNumber.Equals("1050-1030") &&
+                            !s.ChartAccountDisplayNumber.Equals("1050-1064") && !s.ChartAccountDisplayNumber.Equals("1050-1073")).ToList();
+                        }
+
+
+                        if (classificationList.Count > 0)
+                        {
+                            foreach (var item in classificationList)
+                            {
+                                Dictionary<String, String> encryptedQueryString = new Dictionary<String, String>();
+                                encryptedQueryString = new Dictionary<String, String> { { "classificationId", item.Id.ToString() } };
+                                String args = KF.Utilities.Common.Security.ToEncryptedQueryString(encryptedQueryString);
+                                <tr>
+                                    <td>@item.ClassificationType</td>
+                                    <td>@item.Desc</td>
+                                    <td>@item.ChartAccountDisplayNumber</td>
+                                    <td>@item.Type</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateClassification", "Accounting", new { args = args })" class="btn btn-primary">Update</a>
+                                        @if (db.BankExpenses.Where(d => d.ClassificationId == item.Id).Any())
+                                        {
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMessage">
+                                                Delete
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            if (item.Type == "S")
+                                            {
+                                                if (db.BankExpenses.Where(d => d.Classification.ReportingSubTotalDisplayNumber == item.ChartAccountDisplayNumber && d.UserId == SelectedActiveUser).Any())
+                                                {
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMessage">
+                                                        Delete
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("DeleteClassification", "Accounting", new { classificationId = item.Id })" class="btn btn-primary" onclick="return confirm_click();">Delete</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("DeleteClassification", "Accounting", new { classificationId = item.Id })" class="btn btn-primary" onclick="return confirm_click();">Delete</a>
+                                            }
+
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">No record found.</td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+            <script type="text/javascript">
+                function confirm_click() {
+                    return confirm("Are you sure to delete this record?");
+                }
+
+            </script>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <a class="btn btn-primary" style="margin-top:10px" href="@Url.Action("CreateClassification", "Accounting")">Back</a>
+        </div>
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->
+
+
+<div class="modal fade bs-example-modal-lg" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-content custom-height">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="myModalLabel">Warning Message</h4>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">This classification has data linked/posted to it. Please unlink data prior to deleting classification.</h4>
+            </div>
+
+        </div>
+    </div>
+</div>

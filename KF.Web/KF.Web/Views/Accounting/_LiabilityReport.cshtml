@@ -1,0 +1,798 @@
+﻿@model List<KF.Dto.Modules.FinanceReport.CategoryReportDto>
+
+@{
+    decimal TotalAccruals = 0;
+    decimal TotalShortTermLoans = 0;
+    decimal TotalCreditCardPayables = 0;
+    decimal TotalCorporateTaxes = 0;
+    decimal TotalCreditorsPayable = 0;
+    decimal TotalSalesTax = 0;
+    decimal TotalCurrentLiabilities = 0;
+    decimal TotalLongTermLiabilities = 0;
+    decimal TotalLiabilities = 0;
+}
+
+<style>
+    .expense-table {
+        width: 100%;
+    }
+
+        .expense-table tr td:first-child {
+            width: 60%;
+        }
+
+        .expense-table tr td:nth-child(2),
+        .expense-table tr td:nth-child(3) {
+            text-align: right;
+            width: 20%;
+        }
+
+        .expense-table tr:nth-last-child(2) td:nth-child(2) {
+            border-bottom: 1px solid #333;
+        }
+
+    .sTypeBottomBorder {
+        border-bottom: 1px #333 solid;
+    }
+</style>
+
+<div class="col-lg-12">
+    <h3 class="H">LIABILITIES</h3>
+    @if (Model.Count() > 0)
+    {
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 20010000 && a.ClassificationChartAccountNumber < 26009999).Any())
+        {
+            <h4 class="H">Current Liabilities</h4>
+        }
+
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 20020000 && a.ClassificationChartAccountNumber < 20495000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 20020000 && a.ClassificationChartAccountNumber < 20495000)
+                .OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Accruals-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 20495000 && a.ClassificationChartAccountNumber < 20505000).Any())
+        {
+            var TotalAccrualsList = Model.Where(a => a.ClassificationChartAccountNumber > 20495000 && a.ClassificationChartAccountNumber <= 20505000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalAccrualsList)
+                {
+                    TotalAccruals = Decimal.Add(TotalAccruals, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Accrual</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalAccruals</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalAccruals); }
+            </table>
+        }
+
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 20510000 && a.ClassificationChartAccountNumber < 20995000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 20510000 && a.ClassificationChartAccountNumber < 20995000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Short Term Loans-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 20995000 && a.ClassificationChartAccountNumber < 21005000).Any())
+        {
+            var TotalShortTermLoansList = Model.Where(a => a.ClassificationChartAccountNumber > 20505000 && a.ClassificationChartAccountNumber <= 21005000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalShortTermLoansList)
+                {
+                    TotalShortTermLoans = Decimal.Add(TotalShortTermLoans, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Short Term Loans</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalShortTermLoans</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalShortTermLoans); }
+            </table>
+        }
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 21010000 && a.ClassificationChartAccountNumber < 21495000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 21010000 && a.ClassificationChartAccountNumber < 21495000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Credit Card Payables-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 21495000 && a.ClassificationChartAccountNumber < 21505000).Any())
+        {
+            var TotalCreditCardPayablesList = Model.Where(a => a.ClassificationChartAccountNumber > 21495000 && a.ClassificationChartAccountNumber <= 21505000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalCreditCardPayablesList)
+                {
+                    TotalCreditCardPayables = Decimal.Add(TotalCreditCardPayables, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Credit Card Payables</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalCreditCardPayables</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalCreditCardPayables); }
+            </table>
+        }
+
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 21510000 && a.ClassificationChartAccountNumber < 21995000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 21510000 && a.ClassificationChartAccountNumber < 21995000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Corporate Taxes-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 21995000 && a.ClassificationChartAccountNumber < 22005000).Any())
+        {
+            var TotalCorporateTaxesList = Model.Where(a => a.ClassificationChartAccountNumber > 21995000 && a.ClassificationChartAccountNumber <= 22005000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalCorporateTaxesList)
+                {
+                    TotalCorporateTaxes = Decimal.Add(TotalCorporateTaxes, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Corporate Taxes</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalCorporateTaxes</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalCorporateTaxes); }
+            </table>
+        }
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 22010000 && a.ClassificationChartAccountNumber < 22495000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 22010000 && a.ClassificationChartAccountNumber < 22495000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Creditors Payable-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 22495000 && a.ClassificationChartAccountNumber < 22505000).Any())
+        {
+            var TotalCreditorsPayableList = Model.Where(a => a.ClassificationChartAccountNumber > 22005000 && a.ClassificationChartAccountNumber <= 22505000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalCreditorsPayableList)
+                {
+                    TotalCreditorsPayable = Decimal.Add(TotalCreditorsPayable, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Creditors Payable</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalCreditorsPayable</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalCreditorsPayable); }
+            </table>
+        }
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 22510000 && a.ClassificationChartAccountNumber < 22995000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 22510000 && a.ClassificationChartAccountNumber < 22995000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Sales Tax-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 22995000 && a.ClassificationChartAccountNumber < 23005000).Any())
+        {
+            var TotalSalesTaxList = Model.Where(a => a.ClassificationChartAccountNumber > 22505000 && a.ClassificationChartAccountNumber <= 23005000).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalSalesTaxList)
+                {
+                    TotalSalesTax = Decimal.Add(TotalSalesTax, data.GrossTotal);
+                    <tr class="@data.ClassificationType">
+                        <td>@data.ClassificationName</td>
+                        @if (data.ClassificationType == "A")
+                        {
+                            <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                        else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                        {
+                            if (Math.Abs(data.GrossTotal) > 0)
+                            {
+                                if (data.ClassificationType == "S")
+                                {
+                                    <td class="topBorder"></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                        }
+                    </tr>
+                }
+
+                <tr class="S">
+                    <td><strong>Total Sales Tax</strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalSalesTax</strong></td>
+                </tr>
+                @{  TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalSalesTax); }
+            </table>
+        }
+
+
+        <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 23010000 && a.ClassificationChartAccountNumber < 23595000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 23010000 && a.ClassificationChartAccountNumber < 23595000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                foreach (var row in dynamicClassificationList)
+                {
+                    DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                    <tr class="@row.ClassificationType">
+                        <td>@row.ClassificationName</td>
+                        @if (row.ClassificationType == "A")
+                        {
+                            DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                    }
+
+                    @{TotalCurrentLiabilities = Decimal.Add(TotalCurrentLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+        <!--Dynamic Range End-->
+        <!--Total Current Liabilities-->
+        <table class="expense-table">
+            <tr class="T">
+                <td><strong>Total Current Liabilities</strong></td>
+                <td>&nbsp;&nbsp;</td>
+                <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalCurrentLiabilities</strong></td>
+            </tr>
+        </table>
+
+        <!--Long Term Liabilities-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 28000000 && a.ClassificationChartAccountNumber < 28509999).Any())
+        {<h4 class="H">Long Term Liabilities</h4> }
+
+               <!--Dynamic Range Start-->
+        if (Model.Where(a => a.ClassificationChartAccountNumber >= 28010000 && a.ClassificationChartAccountNumber < 28495000).Any())
+        {
+
+            var DynamicList = Model.Where(a => a.ClassificationChartAccountNumber >= 28010000 && a.ClassificationChartAccountNumber < 28495000).OrderBy(d => d.ClassificationChartAccountNumber).GroupBy(f => f.ReportingTotalNumber).ToList();
+            foreach (var dynamicRow in DynamicList)
+            {
+                decimal DynamicTotal = 0;
+                decimal DynamicSubTotal = 0;
+                <table class="expense-table">
+
+                    @{
+                var dynamicClassificationList = dynamicRow.ToList();
+                    foreach (var row in dynamicClassificationList)
+                    {
+                        DynamicTotal = Decimal.Add(DynamicTotal, row.GrossTotal);
+                        <tr class="@row.ClassificationType">
+                            <td>@row.ClassificationName</td>
+                            @if (row.ClassificationType == "A")
+                            {
+                                DynamicSubTotal = Decimal.Add(DynamicSubTotal, row.GrossTotal);
+                            <td class="creditExpense currencyFormat">@decimal.Round(row.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                            <td></td>
+                            }
+                        </tr>
+                    }
+                    }
+
+                    @{TotalLongTermLiabilities = Decimal.Add(TotalLongTermLiabilities, DynamicTotal); }
+
+                    <tr class="S">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingSubTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat">@DynamicSubTotal</td>
+                    </tr>
+                    @*<tr class="T">
+                        <td><strong>@Model.Where(f => f.ReportingTotalNumber == dynamicRow.Key).Select(s => s.ReportingTotalClassification).FirstOrDefault()</strong> </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td class="topBorder currencyFormat sTypeBottomBorder">@DynamicTotal</td>
+                    </tr>*@
+                </table>
+            }
+        }
+            <!--Dynamic Range End-->
+
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 28495000 && a.ClassificationChartAccountNumber < 28509999).Any())
+        {
+            var TotalLongTermLiabilitiesList = Model.Where(a => a.ClassificationChartAccountNumber > 28495000 && a.ClassificationChartAccountNumber <= 28509999).OrderBy(d => d.ClassificationChartAccountNumber).ToList();
+            <table class="expense-table">
+                @foreach (var data in TotalLongTermLiabilitiesList)
+            {
+            TotalLongTermLiabilities = Decimal.Add(TotalLongTermLiabilities, data.GrossTotal);
+            <tr class="@data.ClassificationType">
+                <td>@data.ClassificationName</td>
+                @if (data.ClassificationType == "A")
+                {
+                <td class="creditExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                <td></td>
+                }
+                else if (data.ClassificationType == "T" || data.ClassificationType == "G" || data.ClassificationType == "S")
+                {
+                if (Math.Abs(data.GrossTotal) > 0)
+                {
+                if (data.ClassificationType == "S")
+                {
+                <td class="topBorder"></td>
+                }
+                else
+                {
+                <td></td>
+                }
+                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                }
+                else
+                {
+                <td></td>
+                <td></td>
+                }
+                }
+                else
+                {
+                <td></td>
+                <td class="debitExpense currencyFormat">@decimal.Round(data.GrossTotal, 2, @MidpointRounding.AwayFromZero)</td>
+                }
+            </tr>
+            }
+
+            </table>
+
+        }
+        if (Model.Where(a => a.ClassificationChartAccountNumber > 28000000 && a.ClassificationChartAccountNumber < 28509999).Any())
+        {
+            <table class="expense-table">
+                <tr class="T">
+                    <td><strong>Total Long Term Liabilities </strong></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalLongTermLiabilities</strong></td>
+                </tr>
+            </table>
+        }
+
+        TotalLiabilities = Decimal.Add(TotalCurrentLiabilities, TotalLongTermLiabilities);
+        <!--Total Liabilities-->
+        <table class="expense-table">
+            <tr class="Z">
+                <td><strong>Total Liabilities </strong></td>
+                <td>&nbsp;&nbsp;</td>
+                <td class="topBorder currencyFormat sTypeBottomBorder" style="border-bottom:1px solid #333"><strong>@TotalLiabilities</strong></td>
+            </tr>
+        </table>
+
+
+
+    }
+    else
+    {
+        <h3>No Records</h3>
+    }
+</div>

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<KF.Web.Models.FolderViewModel>
+
+
+<div class="col-lg-12">
+
+    <div class="proceed-form">
+
+
+        <div class="box-area">
+            @{
+                if (Model.Count() > 0)
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @foreach (var data in Model)
+                            {
+                                if (!data.Name.Contains(".pdf") && (data.Name.ToLower().Contains(".jpg") || data.Name.ToLower().Contains(".png") || data.Name.ToLower().Contains(".jpeg")))
+                                {
+                                    string imgName = string.Empty;
+                                    if (data.Name.Contains('-'))
+                                    {
+                                        imgName = data.Name.Split('.')[0].Split('-')[7];
+                                    }
+                                    else
+                                    {
+                                        imgName = data.Name;
+                                    }
+                                    string imgPath = ".." + data.Path;
+                                    <input id="FolderUserId" type="hidden" name="FolderUserId" value="@data.UserId">
+                                    <input id="FolderMonthId" type="hidden" name="FolderMonthId" value="@data.Month">
+                                    <input id="FolderYearId" type="hidden" name="FolderYearId" value="@data.Year">
+
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="custom-picContainer">
+                                            <a href="javascript:void(0)" class="OpenKippinCloudImage" data-imagesource="@data.Path">
+                                                <img class="img-responsive" alt="@data.Name" src="@imgPath" />
+                                            </a>
+
+
+                                            <div class="picTitle">
+
+                                                <h3 style="font-size:16px;" class="headingTitle">@imgName</h3>
+                                                @*<a class="downloadIcon" href="@Url.Action("ImageDownload", "Kippinstore", new { fileName=@data.Name,filePath=@data.Path })"></a>*@
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input id="FolderUserId" type="hidden" name="FolderUserId" value="@ViewBag.userid">
+                    <input id="FolderMonthId" type="hidden" name="FolderMonthId" value="@DateTime.Now.Month">
+                    <input id="FolderYearId" type="hidden" name="FolderYearId" value="@DateTime.Now.Year">
+
+                    <p class="text-center text-info">No Image available.</p>
+                }
+                <a class="btn btn-primary btnImageBack" data-year="@ViewBag.year" data-userid="@ViewBag.UserId" href="javascript:void(0)">Back</a>
+            }
+        </div>
+
+
+    </div>
+</div>
+
+

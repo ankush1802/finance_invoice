@@ -1,0 +1,99 @@
+﻿@model KF.Web.Models.TermsAndCondition
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Payment Successfull</title>
+
+    <!-- Bootstrap -->
+    <link href="~/ThemeAssets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .logo-Area {
+            margin-top: 50px;
+            float: left;
+            width: 100%;
+        }
+
+        .thankyouBlock {
+            margin: 50px auto 10px auto;
+            float: left;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #0676c5;
+            background: #fafafa;
+        }
+
+            .thankyouBlock h2 {
+                color: #0676C5;
+                margin: 10px 0;
+                text-transform: uppercase;
+            }
+
+            .thankyouBlock p {
+                font-size: 16px;
+            }
+
+        .thankyou-container .col-sm-2 {
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 180px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thankyou-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="logo-Area">
+                        <img class="img-responsive" src="~/ThemeAssets/Images/kippin_logo.png" alt="kippin-logo" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="jumbotron thankyouBlock">
+                        <h2 class="thankyou" style="color:#428bca">THANK YOU!!</h2>
+                        <strong>Your KIPPIN account has been successfully activated.</strong>
+                        <br />
+                        @{
+                            using (Html.BeginForm("PaymentSucess", "Account", FormMethod.Post, new { @class = "", role = "form", id = "frmPaymentSuccess" }))
+                            {
+                                @Html.HiddenFor(s => s.UserId)
+                                <div class="form-group">
+                                    <label>
+                                        @Html.CheckBoxFor(m => m.TermAndCondition)
+                                        <a href="@Url.Action("AccountantAgreement", "Account")" target="_blank"> I accept terms and condition</a>
+                                    </label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.TermAndCondition)
+                                </div>
+
+                                <p> <button type="submit" class="btn btn-primary" value="Click Here">Click Here</button> to login to your KIPPIN account.</p>
+
+                            }
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

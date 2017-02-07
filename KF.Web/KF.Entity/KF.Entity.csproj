@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB456A1E-820C-4C59-A4B0-17C79DDC34B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KF.Entity</RootNamespace>
+    <AssemblyName>KF.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArchiveBankExpense.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveDirectorLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Bank.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankExpense.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CardDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Category.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classification.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClassificationType.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CloudImagesRecord.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Currency.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DirectorAccount.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DirectorAccountLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Finance.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Finance.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Finance.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Finance.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Finance.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="FiscalYearPosting.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Industry.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndustryClassification.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoicetblColumnDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceUserRegistration.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KippinStoreImage.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KI_getIndustryID_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KI_GetInvoiceDataforpdf_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_BlockAccNoList_forUserIdNull_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_BlockAccNoList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_GetSupplierDataforUserID_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="kl_Invoicedata_email_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_ReceivedInvoiceList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="kl_ReceivedProformaList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="kl_ReportingListwithoutDraft_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_ReportingList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_SendInvoiceList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Kl_SendProformaList_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="License.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MasterClassification.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ownership.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Province.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="public partial class Kl_ReportingList_Result.cs" />
+    <Compile Include="ReconcilationMethodTypename.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportRange.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetainedEarning.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RetainedEarningLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShadowEntryRecord.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetSupplierLists_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GType_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_SType_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TType_Result.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Status.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StripeKeyDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StripePayCardDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StripePaymnt.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubAccountantUserPermission.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubIndustry.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCurrency.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCustomerOrSupplier.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblExpens.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblFlowStatu.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInvoiceDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInvoiceType.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblItemDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblMonth.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSTypeCategory.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblT1TypeCategories.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblT2TypeCategories.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTemplateClassification.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTypeOfInvoice.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblYear.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblZTypeCategory.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnlinkRecordLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLincensePayment.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserPrice.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRegistration.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserUpdateProfileLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="YodleeAccountDetail.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="YodleeErrorLog.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="YodleeUserRegistration.cs">
+      <DependentUpon>Finance.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Finance.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Finance.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Finance.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Finance.edmx</DependentUpon>
+      <LastGenOutput>Finance.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Finance.edmx.diagram">
+      <DependentUpon>Finance.edmx</DependentUpon>
+    </None>
+    <None Include="Finance.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Finance.edmx</DependentUpon>
+      <LastGenOutput>Finance.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

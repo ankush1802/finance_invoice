@@ -1,0 +1,290 @@
+﻿@{
+
+    <style>
+        .ztp {
+            background-color: #bfbfbf !important;
+        }
+
+        #H {
+            font-family: Calibri;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #8db4e2;
+        }
+
+        #Z {
+            font-family: Calibri;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #D3D3D3;
+        }
+
+        #S {
+            font-family: Calibri;
+            font-size: 12px;
+            font-weight: bold;
+            background-color: #fcd5b4;
+        }
+
+        #T {
+            font-family: Calibri;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #c5d9f1;
+        }
+
+        #G, #A {
+            font-family: Calibri;
+            font-size: 10px;
+        }
+    </style>
+    using (var db = new KF.Entity.KFentities())
+    {
+        var currentUser = KF.Web.Models.UserData.GetCurrentUserData();
+        KF.Entity.Classification classificationList = new KF.Entity.Classification();
+        if (currentUser.RoleId != 1)
+        {
+            var dbClassificationData = new List<KF.Entity.Classification>();
+            switch (currentUser.OwnershipId)
+            {
+                case 1:
+                    dbClassificationData = db.Classifications.Where(i => i.IsSole == true && i.IndustryId == null).ToList();
+                    break;
+                case 2:
+                    dbClassificationData = db.Classifications.Where(i => i.IsIncorporated == true && i.IndustryId == null).ToList();
+                    break;
+                case 3:
+                    dbClassificationData = db.Classifications.Where(i => i.IsPartnerShip == true && i.IndustryId == null).ToList();
+                    break;
+                default:
+                    dbClassificationData = db.Classifications.Where(i => i.IsPartnerShip == true && i.IsDeleted == false && i.IndustryId == null).ToList();
+                    break;
+            }
+            var industryClassification = db.Classifications.Where(i => i.IndustryId == currentUser.IndustryId).ToList();
+            if (currentUser.SubIndustryId != null)
+            {
+                dbClassificationData.AddRange(industryClassification.Where(s => s.SubIndustryId == currentUser.SubIndustryId).ToList());
+            }
+            dbClassificationData.AddRange(db.Classifications.Where(i => i.UserId == currentUser.Id).ToList());
+            dbClassificationData = dbClassificationData.Where(s => s.IsDeleted == false).ToList();
+            // dbClassificationData.Add(db.Classification_new.Where(i => i.Id == 95).FirstOrDefault());
+
+
+            var templateClassification = db.tblTemplateClassifications.ToList();
+            var list = templateClassification.Select(s => new KF.Entity.Classification
+            {
+                ChartAccountDisplayNumber = s.ChartAccountNumber,
+                Type = s.Type,
+                ClassificationType = s.ClassifinationName,
+                Desc = s.Description
+            }).ToList();
+            //dbClassificationData.AddRange(list);
+            dbClassificationData = dbClassificationData.Where(a => a.ChartAccountDisplayNumber != "0000-0000").OrderBy(s => s.ChartAccountNumber).ToList();
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Number</td>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Account Class</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+
+            foreach (var data in dbClassificationData)
+            {
+
+                <tr>
+                    <td>@data.ChartAccountDisplayNumber </td>
+                    <td>@data.ClassificationType</td>
+                    <td>@data.Desc</td>
+                    <td>@data.Type</td>
+                </tr>
+            }
+                    }
+                </tbody>
+            </table>
+        }
+
+        else
+        {
+            long SelectedActiveUser = 0;
+            if (Request.Cookies["SelectedActiveUser"] != null)
+            {
+                if (Request.Cookies["SelectedActiveUser"].Value != null)
+                {
+                    long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+                }
+
+            }
+            var selectedUsr = KF.Web.Models.UserData.GetUserData(Convert.ToInt32(SelectedActiveUser));
+            if(selectedUsr== null)
+            { Response.Redirect(Url.Action("ActiveUser", "Accounting", new { Selectuser=false })); }
+
+            var dbClassificationData = new List<KF.Entity.Classification>();
+            switch (selectedUsr.OwnershipId)
+            {
+                case 1:
+                    dbClassificationData = db.Classifications.Where(i => i.IsSole == true && i.IndustryId == null).ToList();
+                    break;
+                case 2:
+                    dbClassificationData = db.Classifications.Where(i => i.IsIncorporated == true && i.IndustryId == null && i.UserId == 79).ToList();
+                    break;
+                case 3:
+                    dbClassificationData = db.Classifications.Where(i => i.IsPartnerShip == true && i.IndustryId == null).ToList();
+                    break;
+                default:
+                    dbClassificationData = db.Classifications.Where(i => i.IsPartnerShip == true && i.IsDeleted == false && i.IndustryId == null).ToList();
+                    break;
+            }
+            var industryClassification = db.Classifications.Where(i => i.IndustryId == selectedUsr.IndustryId).ToList();
+            if (selectedUsr.SubIndustryId != null)
+            {
+                dbClassificationData.AddRange(industryClassification.Where(s => s.SubIndustryId == selectedUsr.SubIndustryId).ToList());
+            }
+            dbClassificationData.AddRange(db.Classifications.Where(i => i.UserId == selectedUsr.Id).ToList());
+
+            dbClassificationData = dbClassificationData.Where(s => s.IsDeleted == false).ToList();
+            
+            
+            //dbClassificationData.Add(db.Classification_new.Where(i => i.Id == 95).FirstOrDefault());
+           // var templateClassification = db.tblTemplateClassifications.ToList();
+            var list = dbClassificationData.Select(s => new KF.Entity.Classification
+            {
+                ChartAccountDisplayNumber = s.ChartAccountDisplayNumber,
+                Type = s.Type,
+                ClassificationType = s.ClassificationType,
+                Desc = s.Desc
+            }).ToList();
+            // dbClassificationData.AddRange(list);
+
+            dbClassificationData = dbClassificationData.Where(a => a.ChartAccountDisplayNumber != "0000-0000").OrderBy(s => s.ChartAccountNumber).ToList();
+
+
+            <table class="table table-bordered" id="test">
+                <thead>
+                    <tr>
+                        <td>Number</td>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Account Class</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+
+
+            foreach (var data in dbClassificationData)
+            {
+
+                string ccddd = "";
+                if (data.ChartAccountDisplayNumber == "2000-0000" || data.ChartAccountDisplayNumber == "1000-0000" || data.ChartAccountDisplayNumber == "2000-0000" || data.ChartAccountDisplayNumber == "3000-0000" || data.ChartAccountDisplayNumber == "4000-0000" || data.ChartAccountDisplayNumber == "5000-0000")
+                {
+
+
+                    ccddd = "ztp";
+
+
+                }
+                if (data.Type != "Z")
+                {
+
+                    <tr id="@data.Type" class="@ccddd">
+
+                        @*<tr id="@(data.Type)1" class="ztp" >*@
+
+                        @if (data.Type.Contains('G') || data.Type.Contains('Z') || data.Type.Contains('H') || data.Type.Contains('S') || data.Type.Contains('T'))
+                        {
+                            // data.ChartAccountNumber = data.ChartAccountNumber + "-0000";
+
+                            if (data.ChartAccountDisplayNumber.Contains('-'))
+                            {
+                                data.ChartAccountNumber = data.ChartAccountNumber;
+                            }
+                            else
+                            {
+                                data.ChartAccountDisplayNumber = data.ChartAccountDisplayNumber + "-0000";
+                            }
+                        }
+
+                        @if (data.Type.Contains('S') || data.Type.Contains('T') || data.Type.Contains('H') || data.Type.Contains('Z'))
+                        {
+                            @*<td>@data.ChartAccountNumber </td>*@
+                            if (data.Type.Contains('H'))
+                            {
+
+                                if (data.ClassificationType.ToUpper() == "LIABILITIES" || data.ClassificationType.ToUpper() == "EQUITY" || data.ClassificationType.ToUpper() == "REVENUE" || data.ClassificationType.ToUpper() == "EXPENSES" || data.ClassificationType.ToUpper() == "ASSETS")
+                                {
+                                    <td style="">@data.ChartAccountDisplayNumber </td>
+                                    <td style="">@data.ClassificationType</td>
+                                }
+                                else
+                                {
+                                    <td style="">@data.ChartAccountDisplayNumber </td>
+                                    <td style="">@data.ClassificationType</td>
+                                }
+                            }
+
+                            if (data.Type.Contains('T'))
+                            {
+                                <td>@data.ChartAccountDisplayNumber </td>
+                                <td>@data.ClassificationType</td>
+                            }
+                            if (data.Type.Contains('Z'))
+                            {
+                                <td style="background-color:#bfbfbf;">@data.ChartAccountDisplayNumber </td>
+                                <td style="background-color:#bfbfbf;">@data.ClassificationType</td>
+                            }
+
+                            if (data.Type.Contains('S'))
+                            {
+                                <td style="background-color:#fcd5b4;">@data.ChartAccountDisplayNumber </td>
+                                <td style="background-color:#fcd5b4;">@data.ClassificationType</td>
+                            }
+
+
+                            <td>@data.Desc</td>
+                            <td style="color:purple;">@data.Type</td>
+
+                        }
+                        else
+                        {
+                            <td>@data.ChartAccountDisplayNumber </td>
+                            <td>@data.ClassificationType</td>
+                            <td>@data.Desc</td>
+                            <td style="color:purple;">@data.Type</td>
+                        }
+
+
+
+                    </tr>
+
+                }
+                else
+                {
+                    <tr id="Z">
+                        <td>@data.ChartAccountDisplayNumber </td>
+                        <td>@data.ClassificationType</td>
+                        <td>@data.Desc</td>
+                        <td style="color:purple;">@data.Type</td>
+                    </tr>
+                        <tr>
+                            <td style="height:35px;border-color: transparent;"></td>
+                            <td style="height:35px;border-color: transparent;"></td>
+                            <td style="height:35px;border-color: transparent;"></td>
+                            <td style="height:35px;border-color: transparent;"></td>
+                                                                </tr>
+                }
+                // }
+            }
+
+                    }
+                </tbody>
+            </table>
+
+        }
+
+
+    }
+}

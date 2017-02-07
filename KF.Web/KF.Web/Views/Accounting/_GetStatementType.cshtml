@@ -1,0 +1,45 @@
+﻿@model int
+@{
+    Layout = null;
+}
+@{
+    using (var db = new KF.Entity.KFentities())
+    {
+        <label for="exampleInputEmail1">Statement Type</label>
+        <select class="form-control" data-val="true" data-val-number="The field selectedBankId must be a number." data-val-required="The Statement Type field is required." id="selectedStatementType" name="selectedStatementType">
+
+            @{
+        if (Model > 6)
+        {
+            var bankChk = db.Banks.Where(s => s.Id == Model).FirstOrDefault();
+            if (bankChk.BankType != null)
+            {
+                if (bankChk.BankType.Equals("credits"))
+                {
+                    <option value="2">Credit Card</option>
+                }
+                else if (bankChk.BankType.Equals("bank"))
+                {
+                    <option value="1">Bank Statement</option>
+                }
+                else
+                {
+                    <option value="">Select Statement</option>
+                    <option value="1">Bank Statement</option>
+                    <option value="2">Credit Card</option>
+                }
+            }
+
+        }
+        else
+        {
+            <option value="">Select Statement</option>
+                <option value="1">Bank Statement</option>
+                <option value="2">Credit Card</option>
+
+        }
+            }
+        </select>
+        <label style="color:red" id="lblerrorSelectStatement"></label>
+    }
+}

@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "UnlinkAccountant";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Unlink Accountant",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Unlink Accountant",
+    HeaderFontAwsomeIcon = "fa-users"
+})
+
+<!--Internal Page Header Section Start-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="row">
+        <!--Panel content goes here-->
+        <div class="col-md-12">
+            <div class="row">
+                <div id="Update-alert" class="alert alert-danger col-sm-12">
+                    <h3 class="admontitle">Warning: </h3>
+                    <ul>
+                        <li>Your account will be deactivated if you proceed.</li>
+                        <li>Your login details will only allow you web access to your KIPPIN store (to download your receipts, etc.)</li>
+                        <li>You will not be able to log into the mobile application as you will need a new key from a new accountant to enable this service.</li>
+                        <li>A notification email will be sent to your accountant post deactivation.</li>
+                        <li>Your accountant can download and send you your reports/data if required.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <a href="@Url.Action("UnlinkWithAccountant","Accounting")" class="btn btn-primary">Unlink Accountant</a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- row -->
+</div>
+<!-- Main Content End-->

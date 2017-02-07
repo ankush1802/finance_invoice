@@ -1,0 +1,249 @@
+﻿@model IEnumerable<KF.Web.Models.FolderViewModel>
+@{
+    ViewBag.Title = "GetUserImages";
+    Layout = "~/Views/Shared/_MasterPageLayout.cshtml";
+}
+
+@section scripts{
+    <link href="~/ThemeAssets/css/cloud.css" rel="stylesheet" />
+    <link href="~/ThemeAssets/css/customlistCss.css" rel="stylesheet" />
+    <script src="~/ThemeAssets/js/BrowserBack.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".deleteImageFromCloud").click(function () {
+                var formData = new FormData();
+                formData.append("FolderUserId", $("#FolderUserId").val());
+                formData.append("FolderMonthId", $("#FolderMonthId").val());
+                formData.append("FolderYearId", $("#FolderYearId").val());
+                formData.append("ImageName", $(this).siblings('h3').html());
+                $.ajax({
+                    type: "POST",
+                     url: '/Kippin/Finance/Accounting/DeleteImageFromCloud',
+                   // url: '/Accounting/DeleteImageFromCloud',
+                    data: formData,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#divLoading1").show();
+                        // sleep(100000);
+                    },
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert('Images successfully deleted from the cloud !!');
+                        location.reload(true);
+                    },
+                    error: function (error) {
+                        alert("error");
+                    }
+                });
+            });
+            $('#btnUpload').click(function () {
+                $('input[type=file]').click();
+            });
+            $("#imageUploadForm").change(function () {
+
+                var formData = new FormData();
+                formData.append("FolderUserId", $("#FolderUserId").val());
+                formData.append("FolderMonthId", $("#FolderMonthId").val());
+                formData.append("FolderYearId", $("#FolderYearId").val());
+                var totalFiles = document.getElementById("imageUploadForm").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("imageUploadForm").files[i];
+
+                    formData.append("imageUploadForm", file);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/Kippin/Finance/Accounting/UploadImagesToCloud',
+                   // url: '/Accounting/UploadImagesToCloud',
+                    data: formData,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#divLoading1").show();
+                        // sleep(100000);
+                    },
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert('Images successfully uploaded to the cloud !!');
+                        location.reload(true);
+                    },
+                    error: function (error) {
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('img.downloadable').each(function () {
+                var $this = $(this);
+                $this.wrap('<a href="' + $this.attr('data-path') + '" download />')
+            });
+        });
+    </script>
+
+    <style>
+        .picTitle h3 {
+            font-size: 13px;
+            width: 100%;
+            word-wrap: break-word;
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .custom-picContainer {
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            position: relative;
+        }
+
+            .custom-picContainer > img {
+                width: 100%;
+                height: 200px;
+            }
+
+        .downloadIcon {
+            width: 25px;
+            height: 25px;
+            background-size: 75%;
+            background-position: center;
+            float: left;
+        }
+
+        .deleteIcon {
+            height: 20px;
+            width: 20px;
+        }
+
+        .astrickDesign {
+            color: #f00;
+            font-size: 20px;
+            position: absolute;
+            right: -14px;
+            top: -5px;
+            z-index: 1111111;
+        }
+    </style>
+
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Finance",
+    HeaderSubtitle = "Kippin Cloud",
+    HeaderParentPageName = "Finance",
+    HeaderChildPageName = "Kippin Cloud",
+    HeaderFontAwsomeIcon = "fa-home"
+})
+
+<!--Internal Page Header Section End-->
+<!-- Main Content Start-->
+
+<div class="contentpanel">
+    <div class="col-md-12">
+        <div class="row">
+            <div id="divLoading1" style="margin: 0px; padding: 0px; position: fixed; right: 0px;
+                top: 0px; width: 100%; height: 100%; background-color: #666666; z-index: 30001;
+                opacity: .8; filter: alpha(opacity=70);display:none">
+                <p style="position: absolute; top: 30%; left: 45%; color: White;">
+                    Loading, please wait...<img src="~/ThemeAssets/Images/ajax-loading.gif">
+                </p>
+            </div>
+            <div class="col-lg-12">
+
+                <div class="proceed-form">
+
+                    <div class="searchBar">
+                        <div class="col-sm-6">
+                            <h3>Kippin Store</h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <input style="display:none" type="file" multiple="multiple" id="imageUploadForm" />
+                            <input type="button" class="btn btn-primary pull-right" id="btnUpload" value="Upload Images to Kippin Store" />
+                        </div>
+                        <div class="col-sm-12"><p class="text-info pull-right">Please upload .png/.jpeg/.jpg/.pdf files.</p></div>
+                    </div>
+                    <div class="box-area">
+                        @{
+                            if (Model.Count() > 0)
+                            {
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @foreach (var data in Model)
+                                        {
+                                            string imgPath = ".." + data.Path;
+                                            <input id="FolderUserId" type="hidden" name="FolderUserId" value="@data.UserId">
+                                            <input id="FolderMonthId" type="hidden" name="FolderMonthId" value="@data.Month">
+                                            <input id="FolderYearId" type="hidden" name="FolderYearId" value="@data.Year">
+
+                                            <div class="col-md-3 col-sm-6">
+                                                <div class="custom-picContainer">
+                                                    @{
+                                            if (imgPath.Contains("pdf"))
+                                            {
+                                                <img class="img-responsive" alt="@data.Name" src="~/Content/adobe.png" />
+                                            }
+                                            else
+                                            {
+                                                <img class="img-responsive" alt="@data.Name" src="@imgPath" />
+                                            }
+                                                    }
+
+
+                                                    <div class="picTitle">
+                                                        <h3 class="headingTitle">@data.Name</h3>
+                                                        <img class="downloadIcon downloadable" data-path="@imgPath" src="~/UI_Assets/images/download.png" />
+                                                        @*<a class="downloadIcon downloadable" href="@Url.Action("ImageDownload", "Kippinstore", new { fileName=@data.Name,filePath=@data.Path })"></a>*@
+
+                                                        @if (data.IsAssociated == false)
+                                                        {
+                                                            var user = KF.Web.Models.UserData.GetCurrentUserData();
+                                                            if (user.RoleId != 1)
+                                                            {
+                                                                <a class="deleteIcon deleteImageFromCloud" href="javascript:void(0)"></a>
+                                                            }
+
+                                                        }
+
+                                                    </div>@if (data.IsAssociated == false)
+                                                    { <div class="astrickDesign">*</div> }
+
+                                                </div>
+
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <input id="FolderUserId" type="hidden" name="FolderUserId" value="@ViewBag.userid">
+                                <input id="FolderMonthId" type="hidden" name="FolderMonthId" value="@DateTime.Now.Month">
+                                <input id="FolderYearId" type="hidden" name="FolderYearId" value="@DateTime.Now.Year">
+
+                                <p class="text-center text-info">No Image available.</p>
+                            }
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    <button class="btn btn-primary btn-block" onclick="goBack()">Back</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<!-- Main Content End-->

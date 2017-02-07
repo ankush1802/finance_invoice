@@ -1,0 +1,162 @@
+﻿@model KF.Web.Models.ReceivedInvoiceListViewModel
+@{
+    ViewBag.Title = "InvoiceReceivedPerforma";
+    Layout = "~/Views/Shared/_InvoiceLayoutPage.cshtml";
+}
+
+
+@{
+    long SelectedActiveUser = 0;
+    int userid = 0;
+    if (Request.Cookies["SelectedActiveUser"] != null)
+    {
+        if (Request.Cookies["SelectedActiveUser"].Value != null)
+        {
+            long.TryParse(Convert.ToString(Request.Cookies["SelectedActiveUser"].Value), out SelectedActiveUser);
+        }
+    }
+}
+
+@section scripts
+{
+@*<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>*@
+<link href="~/ThemeAssets/jquertable/Content/grid-0.4.3.min.css" rel="stylesheet" />
+<script src="~/ThemeAssets/jquertable/Scripts/grid-0.4.3.js"></script>
+<script src="~/ThemeAssets/jquertable/Scripts/newgrid.js"></script>
+<script src="~/ThemeAssets/Gridjs/ActiverInvoiceReceivedPerformaListGrid.js"></script>
+<script src="~/ThemeAssets/JqueryUI/jquery-ui.js"></script>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        function getURL() {
+            var url = window.location.href;
+            if (url.indexOf("Selectuser") >= 0) {
+                var finalURL = url.split("=");
+                var userId = finalURL[1];
+
+                if (userId == 6) {
+                    var shallYesNo = confirm("Customer Does Not exist. Do you want to create a New Customer.");
+                    if (confirm) {
+
+                        window.location = "/Kippin/Finance/Invoice/InvoiceCustomerRegister";
+                    }
+                    else {
+
+                    }
+                }
+
+                else if (userId == 3) {
+                    alert("Already Registered.");
+                }
+                else if (userId == 4) {
+                    alert("You cannot add yourself as a supplier/customer.");
+                }
+                else if (userId == 5) {
+                    alert("Please provide data.");
+                }
+                else if (userId == 2) {
+                    alert("Unable to connect to server, Please try again later.");
+                }
+
+            }
+            else {
+                $('form').submit();
+            }
+
+
+        }
+        $(document).ready(function () {
+            if (window.location.href.indexOf("InvoiceReceivedPerforma/0") > -1) {
+                $("#ulsubitems").css("display", "block");
+                $("#litopinvoice").addClass("nav-active");
+                $("#receivedproforma").addClass("active");
+                $("#receivedproforma").css("color", "#1CAF9A");
+                $("#mains2").css("display", "block")
+            }
+
+            setInterval(function () {
+            }, 10);
+        });
+    </script>
+}
+@{
+    if ((string)TempData["PdfResult"] != null)
+    {
+
+        <script>
+
+            window.open("@TempData["PdfResult"].ToString()", '_blank');
+
+        </script>
+    }
+
+}
+<!--Internal Page Header Section Start-->
+@Html.Partial("~/Views/Accounting/Partials/_InternalPageHeader.cshtml",
+new KF.Web.Models.InternalPageHeaderViewModel
+{
+    HeaderTitle = "Invoice",
+    HeaderSubtitle = "RECEIVED PROFORMA",
+    HeaderParentPageName = "Invoice",
+    HeaderChildPageName = "Received Proforma",
+    HeaderFontAwsomeIcon = "fa-money"
+})
+
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-sm-12">
+
+                <button class="btn btn-primary btn-block top-back-button" onclick="goBack()">Back</button>
+
+
+                @Html.Partial("~/Views/Shared/_PageHeaderInvoice.cshtml")
+            </div>
+        </div>
+
+        <br />
+        <!--User's List-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 class="sub-heading">Received Proforma Details</h5>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="tableScroll-container customer-list-table">
+                                @{
+                                    var selectedUser = KF.Web.Models.UserData.GetCurrentInvoiceUserData();
+                                    using (var db = new KF.Entity.KFentities())
+                                    {
+                                        userid = Convert.ToInt32(db.InvoiceUserRegistrations.Where(s => s.EmailTo == selectedUser.EmailTo).Select(s => s.Id).FirstOrDefault());
+                                    }
+                                    string EmailToo = string.Empty;
+                                    <table id="ActiverInvoiceReceivedPerformaListGrid" class="active-user-table" data-source="@Url.Action("InvoiceReceivedPerformaList", "Invoice", new { Id = userid })"></table>
+                                }
+                            </div>
+                            <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+                            <script>
+
+                                setInterval(function () {
+
+                                    $('#ActiverInvoiceReceivedPerformaListGrid tr').each(function () {
+                                        $(this).find("th").eq(7).hide();
+                                        $(this).find("td").eq(7).hide();
+                                    });
+                                }, 10);
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ThemeAssets/js/jquery-1.11.1.min.js"></script>
